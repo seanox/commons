@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>Seanox Commons</title>
+    <style type="text/css">
+      body                                         {margin:28px 0px 24px 0px; padding:0px; min-width:768px; background-color:#6482D6; cursor:default; overflow:auto; font-family:sans-serif;}
+      *                                            {font-size:12px; line-height:15px; color:#EAF0FF; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; -ms-box-sizing:border-box;}
+
+      a, a:active                                  {color:#EAF0FF; text-decoration:underline;}
+      a:hover                                      {color:#C0D0FF;}
+
+      h1                                           {font-size:24px; line-height:29px; padding:12px 0px; margin:0px;}
+      h2                                           {font-size:22px; line-height:26px; padding:11px 0px; margin:0px;}
+      h3                                           {font-size:19px; line-height:22px; padding:10px 0px; margin:0px;}
+      h4                                           {font-size:17px; line-height:19px; padding:09px 0px; margin:0px;}
+      h5                                           {font-size:14px; line-height:16px; padding:07px 0px; margin:0px;}
+      h6                                           {font-size:12px; line-height:15px; padding:06px 0px; margin:0px;}
+
+      ul                                           {margin:0px;}
+      pre, code                                    {font-family:lucida console,courier; color:#FFFFD0;}
+      pre                                          {margin:0px; padding:0px; line-height:1em;}
+
+      body > div                                   {width:80%; margin-left:10%; margin-right:10%;}
+      body > div > div > div                       {page-break-before:avoid; padding:0em 0em 1.25em 0em;}
+      body > div > div > div:first-child           {border-bottom:1px solid; page-break-before:always; padding:3em 0em 0.25em 0em; margin-bottom:1em;}
+      body > div > div > div:first-child h3        {display:table-cell; padding:0px 0px; width:100%;}
+      body > div > div > div:first-child h3 + h3   {font-family:lucida console,courier; font-weight:normal; color:#C0D0FF;}
+      body > div > div > div > h4:first-child      {padding-top:0px;}
+
+      body > div                                   {display:block;}
+      body > div + div                             {display:none;}
+      body > div + div + div + div                 {display:block;}
+
+      body > div + div + div + div > div:first-child > div + div > div > div + div a       {font-family:lucida console,courier; color:#C0D0FF; text-decoration:none; line-height:12px;}
+      body > div + div + div + div > div:first-child > div + div > div > div + div a:hover {color:#EAF0FF;}
+      body > div + div + div + div > div:first-child > div + div > div > div               {display:inline-block; vertical-align:top;}
+      body > div + div + div + div > div:first-child > div + div > div > div + div         {padding-left:1em;}
+
+      div.box                                      {border:1px solid; padding:10px; color:#C0D0FF; }
+      div.box + div.box                            {margin-top:1em;}
+      div.box.blue                                 {background-color:#738EDA; border-color:#9AADE4;}
+
+      div.two                                      {display:table;}
+      div.two > div                                {display:table-row;}
+      div.two > div + div > div:first-child        {padding-left:0em; font-family:lucida console,courier; color:#FFFFD0;}
+      div.two > div > div                          {display:table-cell; color:#C0D0FF;}
+      div.two > div:first-child > div              {padding:1em 0em 0.5em 0em; border-bottom:1px solid; white-space:nowrap;}
+      div.two > div:first-child > div + div        {padding:0em 0em 0em 1em;}
+      div.two > div + div > div                    {padding:0.5em 0em 0em 1em;}
+      div.two > div + div + div > div              {padding:0.5em 0em 0em 1em;}
+
+      div.three                                    {display:table;}
+      div.three > div                              {display:table-row;}
+      div.three > div + div > div:first-child      {padding-left:0em; font-family:lucida console,courier; color:#FFFFD0;}
+      div.three > div + div > div + div            {font-family:lucida console,courier; color:#FFFFD0;}
+      div.three > div + div > div + div + div      {font-family:sans-serif; color:#C0D0FF;}
+      div.three > div > div                        {display:table-cell; color:#C0D0FF;}
+      div.three > div:first-child > div            {padding:1em 0em 0.5em 0em; border-bottom:1px solid; white-space:nowrap;}
+      div.three > div:first-child > div + div      {padding:0em 0em 0em 1em;}
+      div.three > div + div > div                  {padding:0.5em 0em 0em 1em;}
+      div.three > div + div + div > div            {padding:0.5em 0em 0em 1em;}
+
+      div.four                                     {display:table;}
+      div.four > div                               {display:table-row;}
+      div.four > div + div > div:first-child       {padding-left:0em; font-family:lucida console,courier; color:#FFFFD0;}
+      div.four > div + div > div + div             {font-family:sans-serif; color:#C0D0FF;}
+      div.four > div + div > div + div + div + div {font-family:lucida console,courier; color:#FFFFD0;}
+      div.four > div > div                         {display:table-cell; color:#C0D0FF;}
+      div.four > div:first-child > div             {padding:1em 0em 0.5em 0em; border-bottom:1px solid; white-space:nowrap;}
+      div.four > div:first-child > div + div       {padding:0em 0em 0em 1em;}
+      div.four > div + div > div                   {padding:0.5em 0em 0em 1em;}
+      div.four > div + div + div > div             {padding:0.5em 0em 0em 1em;}
+
+      body > div + div + div + div + div > div + div                      {text-align:right;}
+      body > div + div + div + div + div > div                            {display:table-cell;}
+      body > div + div + div + div + div                                  {display:table; border-top:1px solid #EAF0FF; padding:6px 0px 0px 0px;}
+      body > div + div + div + div + div > div + div > span               {padding-right:3px;}
+      body > div + div + div + div + div > div + div > span + span        {font-size:10px; border:1px solid #EAF0FF; padding:0px 3px 0px 2px; position:relative; top:-1px; margin-left:2px;}
+      body > div + div + div + div + div > div + div > span + span + span {color:#6482D6; background-color:#EAF0FF; padding:0px 3px 0px 1px; margin-left:0px;}
+
+      @media screen and (min-width:0\0) {
+        body                                        {padding-top:1px;}
+        body > div > div:first-child                {padding-top:1px;}
+        body > div + div + div + div + div > div + div > span + span        {top:0px; padding-top:1px; padding-bottom:1px;}
+        body > div + div + div + div + div > div + div > span + span + span {top:0px; padding-top:1px; padding-bottom:1px;}
+      }
+    </style>
+    <style type="text/css" media="print">
+      body                                         {margin:0px 0px 24px 0px; background:none;}
+      *                                            {color:#000000;}
+      a, a:active                                  {color:#707070;}
+      pre, code                                    {color:#707070;}
+      body > div > div > div:first-child h3 + h3   {color:#707070;}
+
+      body > div + div + div + div > div:first-child > div + div > div > div + div a {color:#707070;}
+
+      div.box                                      {color:#707070; }
+      div.box.blue                                 {background-color:#F0F0F0; border-color:#707070;}
+
+      div.two > div + div > div:first-child        {color:#707070;}
+      div.two > div > div                          {color:#000000;}
+
+      div.three > div + div > div:first-child      {color:#707070;}
+      div.three > div + div > div + div + div      {color:#000000;}
+      div.three > div + div > div + div            {color:#707070;}
+      div.three > div > div                        {color:#000000;}
+
+      div.four > div + div > div:first-child       {color:#707070;}
+      div.four > div + div > div + div             {color:#000000;}
+      div.four > div + div > div + div + div + div {color:#707070;}
+      div.four > div > div                         {color:#000000;}
+
+      body > div + div + div + div + div                                  {border-color:#707070; color:#707070;}
+      body > div + div + div + div + div *                                {color:#707070;}
+      body > div + div + div + div + div > div + div > span + span        {border-color:#707070;}
+      body > div + div + div + div + div > div + div > span + span + span {color:#FFFFFF; background-color:#707070;}
+
+      body > div                                   {display:none;}
+      body > div + div                             {display:block; min-height:800px;}
+      body > div + div > div                       {padding-top:700px;}
+      body > div + div + div                       {display:block; min-height:0px;}
+      body > div + div + div + div > div           {padding-top:0px;}
+
+      body > div + div h1                          {padding:0px; font-size:32px; line-height:32px; color:#00000;}
+      body > div + div h1 + h1 + h1                {padding-top:0px; color:#A0A0A0; font-size:32px;}
+
+      img                                          {filter:grayscale(100%); filter:gray();
+                                                    -webkit-filter:grayscale(100%); -moz-filter: grayscale(100%); -ms-filter: grayscale(100%); -o-filter: grayscale(100%); -webkit-filter:grayscale(1);}
+
+      @media print and (min-width:0\0) {
+        body > div + div + div + div + div > div + div > span + span        {top:0px; padding-top:1px; padding-bottom:1px;}
+        body > div + div + div + div + div > div + div > span + span + span {top:0px; padding-top:1px; padding-bottom:1px;}
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h3>
+        Seanox Commons @@@ant-project-version<br>
+        Copyright (C) @@@ant-project-year Seanox Software Solutions<br>
+        Alle Rechte vorbehalten.
+      </h3>
+    </div>
+    <div>
+      <div>
+        <h1>Seanox Software Solutions</h1>
+        <h1>Commons - Advanced Programming Interface</h1>
+        <h1>Dokumentation</h1>
+      </div>
+    </div>
+    <div>
+      <div>
+        Dokumentation zu Seanox Commons<br>
+        Stand @@@ant-project-version<br>
+        <br>
+        <h4>Copyright &copy; @@@ant-project-year Seanox Software Solutions</h4>
+        Alle Rechte vorbehalten.<br>
+        <br>
+        <h4>Wichtiger Hinweis</h4>
+        Die im Buch genannten Software- und Hardwarebezeichnungen sowie die Markennamen
+        der jeweiligen Firmen unterliegen im Allgemeinen warenzeichen-, marken-
+        oder patent-rechtlichem Schutz.
+      </div>
+    </div>
+    <div>
+      <div>
+        <div>
+          <a id="Index"></a>
+          <h3>Inhalt</h3>
+        </div>
+        <div>
+          <div>
+            <div>
+              <a href="#General">Allgemeines</a><br>
+              <a href="#License">Lizenzbedingungen</a><br>
+              <a href="#Features">Merkmale</a><br>
+              <a href="#Requirements">Systemanforderung</a><br>
+              <a href="#Installation">Einrichtung</a><br>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- GENERAL ========================================================= -->
+      <div>
+        <div>
+          <a id="General"></a>
+          <h3>Allgemeines</h3>
+        </div>
+        <div>
+          Seanox Commons stellt allgemeine Funktionen und Komponenten zur Erweiterung
+          der Java-laufzeitumgebung bereit. Diese unterst&uuml;tzen u.a. beim Zugriff
+          auf Java-Objekte via Reflections, inklusive einer Erweiterung speziell
+          f&uuml;r AJAX, Modifizieren Strings, Sortieren String-Arrays, Berechnen
+          phonetische Werte von Strings, Generieren Daten mittels Templates, unterst&uuml;tzen
+          das klassische und ein erweitertes Ini-Dateiformat, Protokollieren Informationen
+          in Datenstr&ouml;me und Dateien und Kodieren und Dekodieren BASE64, UTF8,
+          MIME sowie DOT.<br>
+          <br>
+          Die Bibliothek basiert nur auf Bibliotheken der Java Standard VM und ist
+          damit von anderen Bibliothek unabh&auml;ngig. Somit lassen sich die enthaltenen
+          Funktionalit&auml;ten auch in anderen Java-Anwendungen problemlos einbinden
+          und nutzen.
+          <br>
+          Mit den Paketen <code>com.seanox.module.tcp</code> und <code>com.seanox.module.udp</code>
+          werden zudem eine Erweiterung der Seanox Devwex Server-API bereitgestell,
+          welche die Implementierung von Server-Modulen vereinfachen. So kapseln
+          diese elementare Funktionen wie die Basis-Konfiguration und das Connection-Handling.<br>
+          <br>
+          F&uuml;r die vereinfachte Implementierung von HTTP-Modulen steht zudem
+          mit dem Paket <code>com.seanox.module</code> eine Erweiterung der Seanox
+          Devwex HTTP-Module-API zur Verf&uuml;gung. So kapselt das Paket zu den
+          Modul-Einspr&uuml;ngen und Modultype passende Laufzeitobjekte, b&uuml;ndelt
+          HTTP-Anfragen in Request- und Server-Antworten in Response-Objekte, regelt
+          die Zugriffe auf Ressourcen, unterst&uuml;tzt den Zugriff auf Post-Daten
+          und Multipart-Objekte z.B. beim Upload von Daten, die Kodierung und Dekodierung
+          von Daten und vieles mehr.
+        </div>
+      </div>
+      <!-- LICENSE ========================================================= -->
+      <div>
+        <div>
+          <a id="License"></a>
+          <h3>Lizenzbedingungen</h3>
+        </div>
+        <div>
+          Seanox Software Solutions ist ein Open-Source-Projekt, im Folgenden
+          Seanox Software Solutions oder kurz Seanox genannt.<br>
+          <br>
+          Diese Software unterliegt der Version 2 der GNU General Public License.<br>
+          <br>
+          Copyright (C) @@@ant-project-year Seanox Software Solutions<br>
+          <br>
+          This program is free software; you can redistribute it and/or modify it
+          under the terms of version 2 of the GNU General Public License as published
+          by the Free Software Foundation.<br>
+          <br>
+          This program is distributed in the hope that it will be useful, but WITHOUT
+          ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+          FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+          for more details.<br>
+          <br>
+          You should have received a copy of the GNU General Public License along
+          with this program; if not, write to the Free Software Foundation, Inc.,
+          51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+        </div>
+      </div>
+      <!-- FEATURES ======================================================== -->
+      <div>
+        <div>
+          <a id="Features"></a>
+          <h3>Merkmale</h3>
+        </div>
+        <div>
+          <h4>Common</h4>
+          Seanox Commons stellt allgemeine Funktionen und Komponenten zur Erweiterung
+          der Java-laufzeitumgebung bereit. Diese unterst&uuml;tzen u.a. beim Zugriff
+          auf Java-Objekte via Reflections, inklusive einer Erweiterung speziell
+          f&uuml;r AJAX, Modifizieren Strings, Sortieren String-Arrays, Berechnen
+          phonetische Werte von Strings, Generieren Daten mittels Templates, unterst&uuml;tzen
+          das klassische und ein erweitertes Ini-Dateiformat, Protokollieren Informationen
+          in Datenstr&ouml;me und Dateien, L&auml;dt Daten aus dem Internet und
+          Kodieren und Dekodieren BASE64, UTF8, MIME sowie DOT.<br>
+          <h4>Server</h4>
+          Mit den Paketen <code>com.seanox.module.tcp</code> und <code>com.seanox.module.udp</code>
+          werden zudem eine Erweiterung der Seanox Devwex Server-API bereitgestell,
+          welche die Implementierung von Server-Modulen vereinfachen. So kapseln
+          diese elementare Funktionen wie die Basis-Konfiguration und das Connection-Handling.<br>
+          <h4>Module</h4>
+          F&uuml;r die vereinfachte Implementierung von HTTP-Modulen steht zudem
+          mit dem Paket <code>com.seanox.module</code> eine Erweiterung der Seanox
+          Devwex HTTP-Module-API zur Verf&uuml;gung. So kapselt das Paket zu den
+          Modul-Einspr&uuml;ngen und Modultype passende Laufzeitobjekte, b&uuml;ndelt
+          HTTP-Anfragen in Request- und Server-Antworten in Response-Objekte, regelt
+          die Zugriffe auf Ressourcen, unterst&uuml;tzt den Zugriff auf Post-Daten
+          und Multipart-Objekte z.B. beim Upload von Daten, die Kodierung und Dekodierung
+          von Daten und vieles mehr.
+          <h4>Universell</h4>
+          Die Bibliothek basiert nur auf Bibliotheken der Java Standard VM und ist
+          damit von anderen Bibliothek unabh&auml;ngig. Somit lassen sich die enthaltenen
+          Funktionalit&auml;ten auch in anderen Java-Anwendungen problemlos einbinden
+          und nutzen.
+          <h4>Open Source</h4>
+          Die Quellen und Dokumentation stehen unter der Version 2 der GPL zur Verf&uuml;gung.
+        </div>
+      </div>
+      <!-- REQUIREMENTS ==================================================== -->
+      <div>
+        <div>
+          <a id="Requirements"></a>
+          <h3>Systemanforderung</h3>
+        </div>
+        <div>
+          <h4>Software</h4>
+          Java Runtime 1.4.x oder h&ouml;her<br>
+          Seanox Devwex 1.2010.10xx oder h&ouml;her (optional)
+        </div>
+      </div>
+      <!-- INSTALLATION ==================================================== -->
+      <div>
+        <div>
+          <a id="Installation"></a>
+          <h3>Einrichtung</h3>
+        </div>
+        <div>
+          <div class="box">
+            <b>Hinweis</b> - Die Bibliothek ist konfigurationslos, nachfolgemd wird
+            ausschliesslich der Einsatz als Modul f&uuml;r Seanox Devwex beschrieben.
+          </div>
+          <br>
+          Mit dem Modulkonzept von Devwex kann nach dem Entpacken die enthaltene
+          Verzeichnisstruktur komplett in das Programmverzeichnis <code>./devwex</code>
+          des Servers verschoben werden.<br>
+          <br>
+          F&uuml;r die manuelle Installation, wird die nach dem Entpacken enthaltene
+          Datei <code>seanox-commons.jar</code> an einer beliebigen Stelle im Dateisystem
+          abgelegt. Vorzugsweise sollte f&uuml;r Module das Bibliotheksverzeichnis
+          <code>./devwex/libraries</code> verwendet werden. Die Anbindung an den
+          Server erfolgt als Modul, welches sich im Klassenpfad (Classpath) des
+          Servers befinden muss.<br>
+          <br>
+          Devwex verf&uuml;gt &uuml;ber eine automatische Erweiterung vom Klassenpfad
+          f&uuml;r die mit dem Serverstart angegebenen Bibliotheksverzeichnisse.
+          Somit werden dort abgelegte Module automatisch aufgenommen.<br>
+          <br>
+          Eine Konfiguration ist f&uuml;r das Modul nicht erforderlich.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div>
+        <span>Seanox Software Solutions</span>
+        <span>since 1996</span>
+      </div>
+      <div>
+        <span>Advanced Programming Interface</span>
+        <span>SEANOX</span><span>COMMONS</span>
+      </div>
+    </div>
+  </body>
+</html>

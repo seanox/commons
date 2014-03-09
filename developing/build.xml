@@ -1,0 +1,181 @@
+<?xml version="1.0" ?>
+<project name="commons" default="usage" basedir=".">
+  <target name="usage">
+    <echo>                                                        </echo>
+    <echo> the following targets are available ...                </echo>
+    <echo>                                                        </echo>
+    <echo>   clean    cleans all build and archive files          </echo>
+    <echo>   compile  compile and build classes                   </echo>
+    <echo>   archive  compile, build classes and make archives for</echo>
+    <echo>            distribution and developing                 </echo>
+    <echo>   api      make the source code documentation (javadoc)</echo>
+    <echo>                                                        </echo>
+  </target>
+
+  <property name="project" value="${ant.project.name}"/>
+  <property name="version" value="1.2013.1010"/>
+    
+  <property name="target" value="1.4"/>
+  <property name="source" value="1.4"/>
+  <property name="debug" value="on"/>
+  <property name="optimize" value="on"/>
+  <property name="deprecation" value="on"/>
+
+  <property name="developing" value="developing"/>
+  <property name="manuals" value="manuals"/>
+  <property name="libraries" value="libraries"/>
+  <property name="sources" value="sources"/>
+
+  <property name="workspace" value=".."/>
+  <property name="build" value="./build"/>
+  <property name="classes" value="${workspace}/classes"/>
+  <property name="distribution" value="${build}/devwex"/>
+  <property name="deploy" value="${build}/${project}"/>
+
+  <target name="generate">
+    <replace dir="${build}" includes="**/*.html,**/*.java" token="@@@ant-project-year" value="${year}"/>
+    <replace dir="${build}" includes="**/*.html,**/*.java" token="@@@ant-project-month" value="${month}"/>
+    <replace dir="${build}" includes="**/*.html,**/*.java" token="@@@ant-project-day" value="${day}"/>
+    <replace dir="${build}" includes="**/*.html,**/*.java" token="@@@ant-project-version" value="${version}"/>
+  </target>
+
+  <target name="prepared">
+    <echo file="build.swap" append="false">${version}</echo>
+    <replaceregexp file="build.swap" match="(\d)\.(\d{4})\.(\d{2})(\d{2})" replace="content=release=\1\\\\u000Dyear=\2\\\\u000Dmonth=\3\\\\u000Dday=\4"/>
+    <property file="build.swap"/>
+    <echo file="build.swap" append="false">${content}</echo>
+    <property file="build.swap"/>
+    <property name="timing" value="${year}${month}${day}"/>
+    <delete file="build.swap"/>
+  </target>
+
+  <target name="clean">
+    <delete file="seanox-${project}-${version}-src.zip"/>
+    <delete file="seanox-${project}-${version}-bin.zip"/>
+    <delete file="seanox-${project}-${version}-api.zip"/>
+    <delete file="${workspace}/${libraries}/seanox-${project}.jar"/>
+    <delete dir="${build}"/>
+    <delete dir="${classes}"/>
+  </target>
+
+  <target name="initialize" depends="clean,prepared">
+    <mkdir dir="${classes}"/>
+  </target>
+
+  <target name="compile" depends="initialize">
+    <mkdir dir="${build}"/>
+    <copy todir="${build}/sources">
+      <fileset dir="${workspace}/${sources}"/>
+    </copy>
+    <antcall target="generate"/>
+    <javac srcdir="${build}/${sources}" destdir="${classes}" debug="${debug}" optimize="${optimize}" deprecation="${deprecation}" source="${source}" target="${target}" includeantruntime="false"/>
+    <delete dir="${build}"/>
+    <touch datetime="${timing}" pattern="yyyyMMdd">
+      <fileset dir="${classes}"/>
+    </touch>
+    <zip destfile="${workspace}/${libraries}/seanox-${project}.jar" compress="true" filesonly="true" basedir="${classes}"/>
+  </target>
+
+  <target name="module" depends="initialize,compile">
+    <mkdir dir="${distribution}"/>
+    <copy file="${workspace}/${libraries}/seanox-${project}.jar" todir="${distribution}/libraries"/>
+    <copy file="${workspace}/${manuals}/seanox-${project}_de.html" todir="${distribution}/manuals"/>
+    <copy file="${workspace}/.license" tofile="${distribution}/license.txt"/>
+    <antcall target="generate"/>
+    <touch datetime="${timing}" pattern="yyyyMMdd">
+      <fileset dir="${build}"/>
+    </touch>
+    <zip destfile="seanox-${project}-${version}-bin.zip" compress="true" filesonly="true" basedir="${distribution}/.."/>
+    <delete dir="${build}"/>
+  </target>
+
+  <target name="developing">
+    <mkdir dir="${deploy}"/>
+    <copy file="${workspace}/${manuals}/seanox-${project}_de.html" todir="${deploy}/manuals"/>
+    <copy todir="${deploy}/sources">
+      <fileset dir="${workspace}/${sources}"/>
+    </copy>
+    <copy file="./build.xml" todir="${deploy}/developing"/>
+    <copy file="${workspace}/.classpath" todir="${deploy}"/>
+    <copy file="${workspace}/.license" todir="${deploy}"/>
+    <copy file="${workspace}/.project" todir="${deploy}"/>
+    <touch datetime="${timing}" pattern="yyyyMMdd">
+      <fileset dir="${deploy}"/>
+    </touch>
+    <zip destfile="seanox-${project}-${version}-src.zip" compress="true" filesonly="true" basedir="${deploy}/.."/>
+    <delete dir="${build}"/>
+  </target>
+
+  <target name="api" depends="prepared">
+    <delete dir="api"/>
+    <delete file="seanox-${project}-${version}-api.zip"/>
+    <javadoc packagenames="com.seanox.*"
+      sourcepath="${workspace}/${sources}"
+      access="protected"
+      destdir="api/seanox-${project}-api_de"
+      author="true"
+      version="true"
+      use="true"
+      nodeprecatedlist="true"
+      windowtitle="Seanox Commons ${version}">
+      <link href="http://docs.oracle.com/javase/7/docs/api/"/>
+      <header>
+        <![CDATA[
+        Seanox Commons ${version}<br>
+        Advanced Programming Interface]]>
+      </header>
+      <doctitle>
+        <![CDATA[
+        Seanox Commons ${version}</h1>
+        <p>
+        Seanox Commons stellt allgemeine Funktionen und Komponenten zur Erweiterung
+        der Java-laufzeitumgebung bereit. Diese unterst&uuml;tzen u.a. beim Zugriff
+        auf Java-Objekte via Reflections, inklusive einer Erweiterung speziell
+        f&uuml;r AJAX, Modifizieren Strings, Sortieren String-Arrays, Berechnen
+        phonetische Werte von Strings, Generieren Daten mittels Templates, unterst&uuml;tzen
+        das klassische und ein erweitertes Ini-Dateiformat, Protokollieren Informationen
+        in Datenstr&ouml;me und Dateien, L&auml;auml;dt Daten aus dem Internet und
+        Kodieren und Dekodieren BASE64, UTF8, MIME sowie DOT.<br>
+        <br>
+        Die Bibliothek basiert nur auf Bibliotheken der Java Standard VM und ist
+        damit von anderen Bibliothek unabh&auml;ngig. Somit lassen sich die enthaltenen
+        Funktionalit&auml;ten auch in anderen Java-Anwendungen problemlos einbinden
+        und nutzen.<br>
+        <br>
+        Mit den Paketen <code>com.seanox.module.tcp</code> und <code>com.seanox.module.udp</code>
+        werden zudem eine Erweiterung der Seanox Devwex Server-API bereitgestell,
+        welche die Implementierung von Server-Modulen vereinfachen. So kapseln
+        diese elementare Funktionen wie die Basis-Konfiguration und das Connection-Handling.<br>
+        <br>
+        F&uuml;r die vereinfachte Implementierung von HTTP-Modulen steht zudem
+        mit dem Paket <code>com.seanox.module</code> eine Erweiterung der Seanox
+        Devwex HTTP-Module-API zur Verf&uuml;gung. So kapselt das Paket zu den
+        Modul-Einspr&uuml;ngen und Modultype passende Laufzeitobjekte, b&uuml;ndelt
+        HTTP-Anfragen in Request- und Server-Antworten in Response-Objekte, regelt
+        die Zugriffe auf Ressourcen, unterst&uuml;tzt den Zugriff auf Post-Daten
+        und Multipart-Objekte z.B. beim Upload von Daten, die Kodierung und Dekodierung
+        von Daten und vieles mehr.
+        </p>
+        <h1>]]>
+      </doctitle>
+      <footer>
+        <![CDATA[
+        Seanox Commons ${version}<br>
+        Copyright &copy; ${year} Seanox Software Solutions<br>
+        Alle Rechte vorbehalten.]]>
+      </footer>
+      <group title="Common" packages="com.seanox.common*"/>
+      <group title="Exception" packages="com.seanox.exception*"/>
+      <group title="Module" packages="com.seanox.module*"/>
+      <group title="Network" packages="com.seanox.network*"/>
+      <group title="XML" packages="com.seanox.xml*"/>
+    </javadoc>
+    <touch datetime="${timing}" pattern="yyyyMMdd">
+      <fileset dir="api"/>
+    </touch>
+    <zip destfile="seanox-${project}-${version}-api.zip" compress="true" filesonly="true" basedir="api"/>
+    <delete dir="api/"/>
+  </target>
+
+  <target name="archive" depends="module,developing,api"/>
+</project>

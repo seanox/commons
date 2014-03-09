@@ -1,0 +1,122 @@
+[1.2013.1010]
+  - Common Node::GetPath: Korrektur bei der Ermittlung vom Root-Element
+  - Module-API Connector CGI/Servlet: Korrektur der initialen Einrichtung
+  - Network HTTP-Conntector: Erweiterung um einen anonymen Konstruktor
+  - Common Generator: Abgleich mit dem aktuellen Stand aus Seanox Devwex (keine funktionale Änderung)
+  - Common Paging: Umstellung auf die innere Klasse Meta
+  - Common Resource: Korrektur / Optimierung der Dokumentation
+
+[1.2013.0707]
+  - Module-API: Response::GetHeaderFields, Korrektur bei der Ermittlung der Werte
+  - Module-API: Response::GetHeaderField, Korrektur bei der Ermittlung des Werts
+  - Module-API: Context::FindLibraries, Korrektur bei der Trennung von Pfaden des Dateisystems
+
+[1.2013.0701]
+  - Doku: Anpassung der Druckansicht
+  - Network HTTP-Conntector: Bereinigung der JSSE-Integration (vor Java 1.4)
+  - Module-API: Korrektur beim Auflösen von "extends" in der Konfiguration eines Moduls
+  - Common Node: Korrektur des nicht übernommenen Namens bei Verwendung des Konstruktors
+  - Common Node: Erweiterung um Optionen zur Angabe der Schreibweise von Pfaden/Namen/Attributen (Standard: Kleinschreibung)
+  - Common Node: Änderung von Node::GetNodesByPath in Node::GetNodes
+  - Common Node: Änderung von Node::GetNodeByPath in Node::GetNode
+  - Common Node: Änderung von Node::Reset in Node::Clear        
+  - Common Node: Änderung von Node::GetNodesPaths in Node::GetAllNodesPaths
+  - Common Node: Aktualisierung der Doku
+  - Common Section: Änderung von Section::Reset in Section::Clear
+  - Common Initialize: Änderung von Initialize::Reset in Initialize::Clear
+  - Module-API CGI: Änderung von Environment::Reset in Environment::Clear
+  - Module-API HTTP: Änderung von Environment::Reset in Environment::Clear  
+  - Module-API Servlet: Änderung von Environment::Reset in Environment::Clear
+  - Module-API / Network HTTP: Änderung von Session::Reset in Session::Clear
+  - Module-API / Network HTTP: Änderung von Cookie::Reset in Cookie::Clear
+  - Module-API: Erweiterung um Response::Protocol zur Änderung vom Protokoll
+  - Module-API: Minimierung von redundantem Code durch die Umstellung auf abstrakte Klassen
+  - Module-API: Response::SendStatus delegiert nun die Beantwortung an den Server
+  - Module-API: Erweiterung um Response::GetServerIdentity zur Abfrage der Serverkennung (bei Seanox Devwex), berücksichtig die Server-Option IDENTITY
+  - Module-API: Response, Korrektur des Fehles wenn nach Response::SendStatus/Response::SendRedirect Response::Flush aufgerufen wird
+  - Module-API: Wegfall der Modultypen COMMAND, LOGGING, STATUS, METHOD, LISTING
+  
+[1.2013.0401]
+  - Common Pagging: Allgemeine Optimierung
+  - Common Pagging: Erweiterung um rangeLeft, rangeRight, viewStart, viewEnd, viewCount
+  - Common Pagging: Erweiterung um eine optionale Begrenzung vom Wertebereich
+  - Common Codec: Wegfall vom Prefix CODING bei den Konstanten
+  - Module-API: Optimierung in der Ermittlung der Parameter zu einem Modul
+  - Module-API: Response::Encode, Wegfall der Methode da redundant mit Codec::Encode
+  - Module-API: Request::Decode, Wegfall der Methode da redundant mit Codec::DEcode
+  - XML Stream: Änderung von Stream::WriteXMLHeader in Stream::WriteXmlHeader
+  - Build: Allgemeine Harmonisierung vom Build-Skript
+
+[1.2012.0901]
+  - Module-API: HTTP-Context, ohne Antwort eines HTTP-Moduls per Reponse werden Anfragen nun mit Status 204 (NO_CONTENT) beantwortet (zuvor 500)
+  - Module-API: Response, neuer Status STATUS_PRECONDITION_FAILED
+  - Module-API: Response, neuer Status STATUS_SWITCHING_PROTOCOLS
+
+[1.2012.0815]
+  - Allgemein: Anhebung auf Java Version 1.4, optionales SSE entfällt (sun-jcert.jar, sun-jnet,jar, sun-jsse,jar)
+  - Allgemein: Umstellung auf Standard-Exceptions (Wegfall vom Exception Package)
+  - Allgemein: Umstellung auf die neue Version von Accession
+  - Allgemein: Umstellung auf Codec (Kodierung/Dekodierung)
+  - Dokumentation: allgemeine Überarbeitung
+  - Components: Erweiterung um Loader als ClassLoader
+  - Components: Erweiterung um Codec für Kodierung/Dekodierung BASE65/MIME/UTF8/DOT
+  - Components: Erweiterung um Resource für den vereinfachten Zugriff auf Ressourcen im ClassPath
+  - Components: Umstellung von Accession auf rein statische Methoden
+  - Server-API: Erweiterung um com.seanox.module.udp zur vereinfachten Implementierung von UDP-basierten Server-Modulen
+  - Server-API: Erweiterung um com.seanox.module.tcp zur vereinfachten Implementierung von TCP-basierten Server-Modulen
+  - Module-API: allgemeine Optimierung beim Umgang mit der Konfiguration
+  - Module-API: vereinheitlichte Umstellung der Sichtbarkeit der Konstruktoren auf Paketebene
+  - Module-API: Erweiterung von Context um das Laden von Modulen mit zusätzlichem (Application)ClassLoader
+  - Module-API: Wegfall von Instanz nach der Erweiterung von Context
+  - Network-HTTP: Umstellung von Address auf nur lesbares Objekt (Initiierung erfogt nun über Address::Parse)
+  - Network-HTTP: Wegfall vom Security-Provider mit dem Wegfall vom com.sun.net.ssl.internal.ssl.Provider in Java 7
+
+[1.2010.1010]
+  - Anpassung der Versionsverwaltung, Umstellung auf Mercurial
+  - Anpassung der Modul-API, allgemeine Harmonisierung mit Devwex 1.2010.10xx
+  - Anpassung der Modul-API, Umstellung von Parameters auf Section
+  - Anpassung der HTTP-Modul-API, Umstellung von Modul::Mount auf Modul::Bind
+  - Anpassung der HTTP-Modul-API, Umstellung der Modul-Initiierung von "module_core" auf "module_opts"
+  - Anpassung der HTTP-Modul-API, allgemeine Korrektur/Optimierung beim Zugriff auf die Datenströme
+  - Anpassung der HTTP-Modul-API, allgemeine Korrektur/Optimierung bei der Ermittlung vom Host
+  - Anpassung des HTTP-Connectors, Änderung vom statischen Feld Content::FIELD_HEADER_FIRSTLINE in Content::FIELD_HEADER_REQUEST
+  - Korrektur der HTTP-Modul-API beim automatische Aufruf von Response::Flush
+
+[1.2008.1220]
+  - Anpassung, Umstellung des statischen HTTP Connectors (com.seanox.network.http) auf eine normale instanziierbare Version
+  - Anpassung, komplette Überarbeitung des Generators, komplette Überarbeitung, es fällt weg "var"/"adn"/"adf", es wird nur noch "val"/"ins"/"add" unterstützt
+  - Erweiterung um die Methode Parameters::Export, zur Rückgabe als Hashtable
+  - Anpassung der Methode Context::UseModul, Umstellung auf Service::Call
+  - Erweiterung um die Methode Context::LoadClass zum Laden von Klassen über den servereigenen ClassLoader
+  - Erweiterung um die Methode Enviroment::Export (cgi), zur Rückgabe als Hashtable
+  - Erweiterung um die Methode Enviroment::Export (http), zur Rückgabe als Hashtable
+  - Erweiterung um die Methode Enviroment::Export (servlet), zur Rückgabe als Hashtable
+  - Anpassung der Methode Content::Decode, Umstellung auf die Verwendung der Konstanten
+  - Anpassung der Methode Content::Encode, Umstellung auf die Verwendung der Konstanten
+  - Korrektur der Methode Messenger::Print beim Umgang mit dem Context "null"
+  - Erweiterung um die Methode Parameter::Export, zum Exportieren in eine Hashtable
+  - Erweiterung um die Methode Environment::Export (cgi, http, servlet) zum Exportieren in eine Hashtable
+  - Erweiterung um die Methode Request::GetContentLength (cgi, http, servlet) zur Ermittlung der mit dem Request übergebenen Datenmenge
+  - Erweiterung Stream (XML) zum einfachen Schreiben von XML-Daten
+
+[1.2008.0400]
+  - Anpassung, Verkürzung des DCGI Headers auf CGI
+  - Anpassung, Umstellung der Methode Context::UseModule auf Exception,
+    auftretende Fehler werden als InvocationTargetException zurückgegeben
+  - Erweiterung von Parameters um die Wertzuweisung mit + zum Fortsetzen der
+    Wertzuweisung in der Folgezeile
+  - Anpassung der Methode Parameters::ToString, diese Berücksichtig nun die
+    Option [+] in der Ausgabe
+  - Anpassung der Methode Environment/Parameters/Initilaize::Join, Änderung in
+    Environment/Parameters/Initilaize::Merge
+
+[1.2007.0000]
+  - Erweiterung um die Sessionverwaltung (com.seanox.module.session)
+  - Erweiterung um das statische Feld Response::STATUS_NON_AUTHORITATIVE_INFORMATION
+    (cgi/http/servlet) als Konstante für den entsprechenden Server Status
+  - Erweiterung um das statische Feld Response::STATUS_NO_CONTENT
+    (cgi/http/servlet) als Konstante für den entsprechenden Server Status
+  - Erweiterung um das statische Feld Response::STATUS_RESET_CONTENT
+    (cgi/http/servlet) als Konstante für den entsprechenden Server Status
+  - Anpassung der Methode Context::UseModul (com.seanox.module), Erweiterung um
+    eine Version ohne die Übergabe von Startparametern  
