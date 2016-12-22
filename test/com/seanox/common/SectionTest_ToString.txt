@@ -1,0 +1,58 @@
+#### testEncodingKey_1
+1              = xxx
+2              = xxx
+0x31000041     = xxx
+0x320D0A42     = xxx
+A              = xxx
+B              = xxx
+0x413107074232 = xxx
+A1             = xxx
+B2             = xxx
+0x4137004137   = xxx
+
+#### testEncodingKey_2
+12345        = xxx
+0x31325B355D = xxx
+0x31205B355D = xxx
+0x31325B3334 = xxx
+0x313233345D = xxx
+0x31323D3334 = xxx
+0x31323B3334 = xxx
+0x31203D2032 = xxx
+1 + 2        = xxx
+0x3D203241   = xxx
+0x2B203242   = xxx
+0x3243203D   = xxx
+2D +         = xxx
+
+#### testEncodingKey_3
+A              = xx5
+B              = xx6
+C              = xx3
+0x413107074232 = xxB
+A1             = xx8
+B2             = xx9
+0x4137004137   = xxA
+
+#### testEncodingValue_1
+C1     = xxxx
+C2     = 0x787878780978787878
+C3     = 0x787878780078787878
+C4 [+] = xxxx;xxxx
+C5     = 0x787878783B0078787878
+
+#### testEncodingValue_2
+D1     = 0x2B2078787878
+D2 [+] = ; xxxx
+D3     = 0x3D2078787878
+D4     = ~ xxxx
+D5     = 12345
+
+#### testIndenting_1
+X                   = xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+XXXX                = xxxx xxxx
+XXXX XXXX           = xxxx xxxx xxxx
+XXXX XXXX XXXX XXXX = xxxx xxxx
+XXXX XXXX XXXX  [+] = xxxx;xxxx
+ZZZZ
+ZZZZ ZZZZ           = zzzz zzzz zzzz

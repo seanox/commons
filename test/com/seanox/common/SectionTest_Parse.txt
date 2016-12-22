@@ -1,0 +1,92 @@
+#### testAceptance_1
+PARAm-A        = ValuE-1         ;comment
+PARAm-B    [+] = ValuE-2; ValuE-3
+               + ValuE-4; ValuE-5
+               +                 
+               +     ValuE-6
+PARAm-C [?][+] = ValuE-6; ValuE-7
+PARAm-E [?]                     ;comment
+
+#### testAceptance_1_1
+PARAM-A     = ValuE-1
+PARAM-B [+] = ValuE-2; ValuE-3 ValuE-4; ValuE-5 ValuE-6
+PARAM-C [+] = ValuE-6; ValuE-7
+PARAM-E
+
+#### testAceptance_2
+ PARAM-A                  = 0x574552542D31 ;comment
+   0x504152414D2D42       = ValuE-2        ;comment
+0x504152414D2D43      [+] = 0x574552542D33
+  PARAM-D                 = 0x574552542D34
+                          + 0x0000
+                          +       
+                          + 0x0000 
+                          + 0x574552542D35
+    PARAM-E        [?][+] = 0x574552542D363B20574552542D37
+  0x504152414D2D45 [?]                     ;comment
+  
+#### testAceptance_2_1
+PARAM-A = WERT-1
+PARAM-B = ValuE-2
+PARAM-C = WERT-3
+PARAM-D = WERT-4 WERT-5
+PARAM-E
+
+#### testAceptance_3
+ PARAM-A                  = 0x574552542D31 ;comment
+   0x504152414D2D42       = ValuE-2        ;comment
+0x504152414D2D43      [+] = 0x574552542D33
+  PARAM-D                 = 0x574552542D34
+                          + 0x0000
+                          +       
+                          + 0x0007A4 
+                          + 0x574552542D35
+    PARAM-E        [?][+] = 0x574552542D363B20574552542D37
+  0x504152414D2D45 [?]                     ;comment
+
+#### testAceptance_3_1
+PARAM-A = WERT-1
+PARAM-B = ValuE-2
+PARAM-C = WERT-3
+PARAM-D = WERT-4 ¤ WERT-5
+PARAM-E
+
+#### testOverride_1
+A            = a1
+a            = a2
+a            
+A            = a3
+0x202041     = a4 
+0x2020612020 = a5
+
+B            = b1
+b        [+] = b2;xxx 
+   
+c            = c1
+C        [+] = c2;xxx 
+c        [?]   
+
+#### testOverride_1_1
+A     = a5
+B [+] = b2;xxx
+C
+
+#### testDynamic_1
+SystemDrive     = x1
+SystemDrive [?] = x2
+SystemDrive [?]
+SystemRoot  [?] = x2
+A           [?]
+B           [?] = b
+C           [?] = c;123
+D        [?][+] = d;123
+E        [+][?] = e;123
+
+#### testDynamic_1_1
+SYSTEMDRIVE = C:
+SYSTEMROOT  = C:\Windows
+A
+B           = b
+C           = c
+D       [+] = d;123
+E       [+] = e;123
