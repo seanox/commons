@@ -52,7 +52,8 @@ public class ResourceUtils {
     
     /**
      *  Determines the context content for the called class and method name.
-     *  @return context content for the current call, otherwise {@code null}
+     *  @return content to the called class and method name,
+     *          otherwise {@code null}
      */
     public static String getContextContent() {
         return ResourceUtils.getContextContent(true);
@@ -61,7 +62,8 @@ public class ResourceUtils {
     /**
      *  Determines the context content for the called class and method name.
      *  @param  normalize converts line breaks into the system standard
-     *  @return context content for the current call, otherwise {@code null}
+     *  @return content to the called class and method name,
+     *          otherwise {@code null}
      */
     public static String getContextContent(boolean normalize) {
 
@@ -72,7 +74,8 @@ public class ResourceUtils {
     /**
      *  Determines the context content for the called class and specified name.
      *  @param  name name of content
-     *  @return context content for the current call, otherwise {@code null}
+     *  @return content to the called class and specified name,
+     *          otherwise {@code null}
      */
     public static String getContextContent(String name) {
         
@@ -83,7 +86,8 @@ public class ResourceUtils {
      *  Determines the context content for the called class and specified name.
      *  @param  name      name of content
      *  @param  normalize converts line breaks into the system standard
-     *  @return context content for the current call, otherwise {@code null}
+     *  @return content to the called class and specified name,
+     *          otherwise {@code null}
      */
     public static String getContextContent(String name, boolean normalize) {
 
