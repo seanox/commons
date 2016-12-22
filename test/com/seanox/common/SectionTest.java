@@ -24,6 +24,9 @@ package com.seanox.common;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+/**
+ *  TestSuite for {@link com.seanox.common.Section}
+ */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     SectionTest_Parse.class,

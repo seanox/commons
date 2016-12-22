@@ -25,15 +25,20 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ *  TestCases for {@link com.seanox.common.Section#set(String, String)}.
+ */
 public class SectionTest_Set {
     
+    /** TestCase for a invalid key. */
     @Test(expected=Exception.class)
     public void testKeyInvalid_1() {
         
         Section section = new Section();
         section.set("", null);
     }
-
+    
+    /** TestCase for a invalid key. */
     @Test(expected=IllegalArgumentException.class)
     public void testKeyInvalid_2() {
         
@@ -41,6 +46,7 @@ public class SectionTest_Set {
         section.set(" ", null);
     }
 
+    /** TestCase for a invalid key. */
     @Test(expected=IllegalArgumentException.class)
     public void testKeyInvalid_3() {
         
@@ -48,6 +54,7 @@ public class SectionTest_Set {
         section.set("   ", null);
     }
 
+    /** TestCase for a invalid key. */
     @Test(expected=IllegalArgumentException.class)
     public void testKeyInvalid_5() {
         
@@ -55,6 +62,7 @@ public class SectionTest_Set {
         section.set(null, null);
     }
 
+    /** TestCase for a invalid key. */
     @Test(expected=IllegalArgumentException.class)
     public void testKeyInvalid_6() {
         
@@ -62,6 +70,7 @@ public class SectionTest_Set {
         section.set(" \0\0 ", null);
     }
 
+    /** TestCase for a invalid key. */
     @Test(expected=IllegalArgumentException.class)
     public void testKeyInvalid_7() {
         
@@ -69,6 +78,7 @@ public class SectionTest_Set {
         section.set(" \r\n ", null);
     }
     
+    /** TestCase for a invalid key. */
     @Test(expected=IllegalArgumentException.class)
     public void testKeyInvalid_8() {
         
@@ -76,6 +86,7 @@ public class SectionTest_Set {
         section.set(" \07\07 ", null);
     }
 
+    /** TestCase for a invalid key. */
     @Test(expected=IllegalArgumentException.class)
     public void testKeyInvalid_9() {
         
@@ -83,6 +94,7 @@ public class SectionTest_Set {
         section.set(" \20\20 ", null);
     }
 
+    /** TestCase for a invalid key. */
     @Test(expected=IllegalArgumentException.class)
     public void testKeyInvalid_A() {
         
@@ -90,8 +102,9 @@ public class SectionTest_Set {
         section.set(" \17\17 ", null);
     }
     
+    /** TestCase for key tolerance. */
     @Test
-    public void testKeyTolerance() {
+    public void testKeyTolerance_1() {
         
         Section section = new Section();
         section.set("A", "a1");
@@ -115,8 +128,9 @@ public class SectionTest_Set {
         assertEquals(section.get("a"), "a5");
     }
     
+    /** TestCase for overwrite a key. */
     @Test
-    public void testKeyOverwrite() {
+    public void testKeyOverwrite_1() {
         
         Section section = new Section();
         section.set("A", "a1");
