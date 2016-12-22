@@ -1,10 +1,10 @@
 /**
  *  LIZENZBEDINGUNGEN - Seanox Software Solutions ist ein Open-Source-Projekt,
- *  im Folgenden Seanox Software Solutions oder kurz Seanox genannt. Diese
- *  Software unterliegt der Version 2 der GNU General Public License.
+ *  im Folgenden Seanox Software Solutions oder kurz Seanox genannt.
+ *  Diese Software unterliegt der Version 2 der GNU General Public License.
  *
- *  Seanox Commons, Advanced Programming Interface
- *  Copyright (C) 2013 Seanox Software Solutions
+ *  Devwex, Advanced Server Development
+ *  Copyright (C) 2016 Seanox Software Solutions
  *
  *  This program is free software; you can redistribute it and/or modify it
  *  under the terms of version 2 of the GNU General Public License as published
@@ -21,21 +21,23 @@
  */
 package com.seanox.common;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.math.BigInteger;
+import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 /**
- *  Section , stellt eine Schnittstelle zu den in den Sektionen von Initialize
+ *  Section stellt eine Schnittstelle zu den in den Sektionen von Initialize
  *  enthaltenen Werten zur Verf&uuml;gung.<br>
  *  <br>
- *  <b>Hinweis</b> - F&uuml;r eine optimale Verarbeitung von
- *  Initialisierungsdateien sollte Initialize immer in Kombination mit Section
- *  verwendet werden. Womit die nachfolgende Beschreibung auf der Kombination
- *  beider Komponenten basiert.<br>
+ *      <dir>Hinweis</dir>
+ *  F&uuml;r eine optimale Verarbeitung von INI-Dateien sollte immer die 
+ *  Kombination von Initialize mit Section verwendet werden. So basiert die
+ *  nachfolgende Beschreibung auf der Kombination beider Komponenten.<br>
  *  <br>
  *  Das verarbeitete INI-Format wurde zur klassischen Form erweitert. Die
  *  Unterteilung erfolgt auch hier in Sektionen, in denen zeilenweise
@@ -47,491 +49,506 @@ import java.util.Vector;
  *  &Uuml;bersichtlichkeit aber meist erschwert.<br>
  *  <br>
  *  Als Erweiterung zum Orginalformat lassen sich Sektionen vererben. Dazu wird
- *  einer Sektion das Sch&uuml;sselwort <code>EXTENDS</code> gefolgt vom Namen
- *  der referenzierenden Sektion nachgestellt. Damit &uuml;bernimmt die so
- *  abgeleitete Sektion alle Schl&uuml;ssel und Werte der referenzierten Sektion
- *  und kann diese erweitern oder &uuml;berschreiben.<br>
+ *  einer Sektion das Sch&uuml;sselwort <code>EXTENDS</code> gefolgt von Namen
+ *  referenzierter Sektionen nachgestellt. Damit &uuml;bernimmt die abgeleitete
+ *  Sektion alle Schl&uuml;ssel und Werte der referenzierten Sektionen und kann
+ *  diese erweitern oder &uuml;berschreiben.<br>
  *  <br>
- *  Das Zuweisen eines Wertes zu einem Schl&uuml;ssel erfolgt &uuml;ber das
- *  Gleichheitszeichen. Abweichend vom Orginalformat, kann die Zuweisung in der
- *  Folgezeile ohne erneute Angabe des Schl&uuml;ssels und durch die Verwendung
- *  des Pluszeichens fortgesetzt werden. Werte lassen sich zudem fest, variabel
- *  und optional zuweisen. Durch die zus&auml;tzliche Option <code>[?]</code> am
- *  Ende eines Schl&uuml;ssels, wird versucht f&uuml;r diesen einen Wert
- *  &uuml;ber die System-Properties der Java-Laufzeitumgebung zu ermitteln. Kann
- *  kein Wert ermittelt werden, wird der optional eingetragene zugewiesen. Ohne
- *  Wert gilt ein Schl&uuml;ssel mit der Option <code>[?]</code> als nicht
- *  angegeben und wird damit ignoriert.<br>
+ *  Das Zuweisen eines Wertes zu einem Schl&uuml;ssel in einer Sektion erfolgt
+ *  &uuml;ber das Gleichheitszeichen. Abweichend vom Orginalformat, kann die
+ *  Zuweisung in der Folgezeile ohne erneute Angabe des Schl&uuml;ssels und
+ *  durch die Verwendung des Pluszeichens fortgesetzt werden. Werte lassen sich
+ *  zudem fest, variabel und optional zuweisen. Durch die zus&auml;tzliche
+ *  Option <code>[?]</code> am Ende eines Schl&uuml;ssels, wird f&uuml;r diesen
+ *  Schl&uuml;ssel den Wert &uuml;ber die System-Properties der
+ *  Java-Laufzeitumgebung zu ermitteln. Kann kein Wert ermittelt werden, wird
+ *  der optional eingetragene zugewiesen. Ohne Wert gilt ein Schl&uuml;ssel als
+ *  nicht angegeben und wird dann ignoriert.<br>
  *  <br>
- *  F&uuml;r Kommentare wird Semikolon verwendet. Wiederum Abweichend vom
- *  Orginalformat kann ein Kommentar an einer beliebiger Stelle in einer Zeile
- *  verwendet werden. Die nachfolgenden Zeichen sind somit kein Bestandteil von
- *  Sektion, Schl&uuml;ssel oder Wert. Zus&auml;tzlich zum Orginalformat,
- *  l&auml;sst sich die Kommentarfunktion f&uuml;r eine Zeile mit der Option
- *  <code>[+]</code> am Ende von Schl&uuml;ssel oder Wert abgeschalten. Somit
- *  kann auch das Semikolon als Zeichen verwendet werden.<br>
+ *  Kommentare beginnen mit einem Semikolon und sind optional. Wiederum
+ *  Abweichend vom Orginalformat kann ein Kommentar an jeder beliebigen Stelle
+ *  in einer Zeile verwendet werden. Die nachfolgenden Zeichen sind somit kein
+ *  Bestandteil von Sektion, Schl&uuml;ssel oder Wert.<br>
  *  <br>
+ *  F&uuml;r Sektionen, Schl&uuml;ssel und Werte wird auch eine hexadezimale
+ *  Schreibweise unterst&uuml;tzt. Diese beginnt mit <code>0x...</code>, gefolgt
+ *  von der hexadezimalen Zeichenfolge. Diese Schreibweise kann immer nur auf
+ *  das komplette Element anwenden. Die Kombination oder Unterbrechung ist nicht
+ *  m&ouml;glich.<br>
+ *  <br>
+ *      <dir>Beispiel</dir>
  *  <pre>
- *     Bsp. 001 [SECTION] EXTENDS SECTION-A           ;Kommentar
- *          002   PARAM-A         = WERT-1            ;Kommentar
- *          003   PARAM-B         = WERT-2; WERT-3 [+]
- *          004                   + WERT-4; WERT-5 [+]
- *          005   PARAM-C     [+] = WERT-6; WERT-7
- *          006   PARAM-D  [?][+] = WERT-8; WERT-9
- *          007   PARAM-E  [?]    = WERT-0            ;Kommentar
- *          008   PARAM-F  [?]                        ;Kommentar
+ *     001 [SECTION] EXTENDS SECTION-A SECTION-B      ;Kommentar
+ *     002   PARAM-A                 = WERT-1         ;Kommentar
+ *     003   PARAM-B             [+] = WERT-2; WERT-3
+ *     004                           + WERT-4; WERT-5
+ *     005   PARAM-C          [?][+] = WERT-6; WERT-7
+ *     006   PARAM-E          [?]                     ;Kommentar
+ *     007
+ *     008 [0x53454354494F4E2D41]
+ *     009   PARAM-A                 = 0x574552542D31 ;Kommentar
+ *     010   0x504152414D2D42        = WERT-2         ;Kommentar 
+ *     011   0x504152414D2D43    [+] = 0x574552542D33
+ *     012   PARAM-D                 = 0x574552542D34
+ *     013                           + 0x574552542D35
+ *     014   PARAM-E          [?][+] = 0x574552542D363B20574552542D37
+ *     015   0x504152414D2D45 [?]                     ;Kommentar
  *  </pre>
- *  Zeile 001 - Die Sektion mit dem Namen <code>"SECTION"</code> wird definiert.
- *  Die Option <code>EXTENDS</code> verweist auf die Ableitung von der Sektion
- *  <code>"SECTION-A"</code>. Somit werden bei der Anforderung der Sektion
- *  <code>"SECTION"</code> alle &uuml;ber <code>EXTENDS</code> direkt und/oder
- *  indirekt angegebenen Sektionen einbezogen. Ab dem Semikolon werden die
- *  nachfolgenden Zeichen als Kommentar interpretiert.<br>
+ *      <dir>Zeile 001</dir>
+ *  Die Sektion mit dem Namen <code>SECTION</code> wird definiert. Die Option
+ *  <code>EXTENDS</code> verweist auf die Ableitung von den Sektionen
+ *  <code>SECTION-A</code> und <code>SECTION-B</code>. Somit basiert die
+ *  <code>SECTION</code> auf den Schl&uuml;sseln und Werten der Sektionen
+ *  <code>SECTION-A</code> und <code>SECTION-B</code>. Ab dem Semikolon werden
+ *  die nachfolgenden Zeichen als Kommentar interpretiert.<br>
  *  <br>
- *  Zeile 002 - Dem Schl&uuml;ssel <code>"PARAM-A"</code> wird der Wert
- *  <code>"WERT-1"</code> zugewiesen. Die nachfolgenden Zeichen werden ab dem
- *  Semikolon als Kommentar interpretiert.<br>
+ *      <dir>Zeile 002</dir>
+ *  Dem Schl&uuml;ssel <code>PARAM-A</code> wird der Wert <code>WERT-1</code>
+ *  zugewiesen. Die nachfolgenden Zeichen werden ab dem Semikolon als Kommentar
+ *  interpretiert.<br>
  *  <br>
- *  Zeile 003 - Dem Schl&uuml;ssel <code>"PARAM-B"</code> wird der Wert
- *  <code>"WERT-2; WERT-3"</code> zugewiesen. Durch die Option <code>[+]</code>
- *  am Ende des Werts wird der Zeilenkommentar abgeschaltet und alle Zeichen
+ *      <dir>Zeile 003</dir>
+ *  Dem Schl&uuml;ssel <code>PARAM-B</code> wird <code>WERT-2; WERT-3</code> als
+ *  Wert zugewiesen. Durch die Option <code>[+]</code> am Ende vom
+ *  Schl&uuml;ssel, wird der Zeilenkommentar abgeschaltet und alle Zeichen
  *  f&uuml;r die Wertzuweisung verwendet. Die Eingabe eines Kommentars ist in
  *  dieser Zeile nicht m&ouml;glich.<br>
  *  <br>
- *  Zeile 004 - Die Wertzuweisung von Zeile 003 wird fortgesetzt und der Wert
- *  <code>"WERT-4; WERT-5"</code> dem bestehenden Wert vom Schl&uuml;ssel
- *  <code>"PARAM-B"</code> hinzugef&uuml;gt. Durch die Option <code>[+]</code>
- *  am Ende der Wertzuweisung wird der Zeilenkommentar abgeschaltet und alle
- *  Zeichen f&uuml;r die Wertzuweisung verwendet. Die Eingabe eines Kommentars
- *  ist in dieser Zeile nicht m&ouml;glich. Weitere vorangestellte Optionen
- *  werden nicht unterst&uuml;tzt.<br>
- *  <br>
- *  Zeile 005 - &Auml;hnlich der Zeile 003 wird dem Schl&uuml;ssel
- *  <code>"PARAM-C"</code> der Wert <code>"WERT-2; WERT-3"</code> zugewiesen.
- *  Durch die Option <code>[+]</code> am Ende des Schl&uuml;ssels wird der
- *  Zeilenkommentar abgeschaltet, womit alle Zeichen f&uuml;r die Wertzuweisung
+ *      <dir>Zeile 004</dir>
+ *  Die Wertzuweisung von Zeile 003 wird fortgesetzt und der Wert
+ *  <code>WERT-4; WERT-5</code> dem bestehenden Wert vom Schl&uuml;ssel
+ *  <code>PARAM-B</code> hinzugef&uuml;gt. Die Option <code>[+]</code> aus
+ *  Zeile 003 wird ebenfalls in Zeile 004 &uuml;bernommen, womit auch hier
+ *  der Zeilenkommentar abgeschaltet ist und alle Zeichen als Wertzuweisung
  *  verwendet werden. Die Eingabe eines Kommentars ist in dieser Zeile nicht
- *  m&ouml;glich.<br>
+ *  m&ouml;glich. Weitere vorangestellte Optionen sind nicht m&ouml;glich.<br>
  *  <br>
- *  Zeile 006 - Die Wertzuweisung f&uuml;r den Schl&uuml;ssel
- *  <code>"PARAM-D"</code> erfolgt dynamisch. Dabei wird versucht, zu diesem ein
- *  Wert &uuml;ber die System-Properties der Java-Laufzeitumgebung zu ermitteln.
- *  Dazu muss dieser Schl&uuml;ssel ein Bestandteile der Laufzeitumgebung sein
- *  oder kann mit dem Programmstart in der Form <code>-Dname=wert</code>
- *  &uuml;bergeben werden. Die Gross- und Kleinschreibung vom Namen kann dabei
- *  unbeachtet bleiben. So &uuml;bergebene Werte werden komplett zugewiesen.
- *  Kommentare werden hierbei nicht unterst&uuml;tzt. Kann f&uuml;r den
- *  Schl&uuml;ssel kein Wert &uuml;ber die System-Properties ermittelt werden,
- *  wird die eingetragene Wertzuweisung <code>"WERT-8; WERT-9"</code> verwendet.
- *  Ein Kommentar ist durch Verwendung der Option <code>[+]</code> nicht
- *  m&ouml;glich.<br>
+ *      <dir>Zeile 005</dir>
+ *  Die Wertzuweisung f&uuml;r den Schl&uuml;ssel <code>PARAM-C</code> erfolgt
+ *  dynamisch. In den System-Properties der Java-Laufzeitumgebung wird dazu nach
+ *  einem Wert f&uuml;r zum Schl&uuml;ssel <code>PARAM-C</code> gesucht, wobei
+ *  die Gross- und Kleinschreibung ignoriert wird. Dazu muss der Schl&uuml;ssel
+ *  Bestandteile der Laufzeitumgebung sein oder kann beim Programmstart in der
+ *  Form <code>-Dschluessel=wert</code> gesetzt werden.<br>
+ *  Wird in den System-Properties der Java-Laufzeitumgebung kein entsprechender
+ *  Schl&uuml;ssel ermnittelt, wird alternativ <code>WERT-6; WERT-7</code> als
+ *  Wert verwendet.<br>
+ *  Durch die Kombination mit der Option <code>[+]</code> am Ende vom
+ *  Schl&uuml;ssel, wird der Zeilenkommentar abgeschaltet und alle Zeichen
+ *  f&uuml;r die Wertzuweisung verwendet. Die Eingabe eines Kommentars ist in
+ *  dieser Zeile nicht m&ouml;glich.<br>
  *  <br>
- *  Zeile 007 - &Auml;hnlich der Zeile 006 wird auch hier der Wert f&uuml;r den
- *  Schl&uuml;ssel <code>"PARAM-E"</code> dynamisch &uuml;ber die
- *  System-Properties der Java-Laufzeitumgebung aufgel&ouml;st. Ist dies nicht
- *  m&ouml;glich, wird die eingetragene Wertzuweisung verwendet. Ohne die Option
- *  <code>[+]</code> ist in dieser Zeile auch ein Kommentar anwendbar.<br>
+ *      <dir>Zeile 006</dir>
+ *  Die Wertzuweisung f&uuml;r den Schl&uuml;ssel <code>PARAM-E</code> erfolgt
+ *  dynamisch. In den System-Properties der Java-Laufzeitumgebung wird dazu nach
+ *  einem Wert f&uuml;r zum Schl&uuml;ssel <code>PARAM-E</code> gesucht, wobei
+ *  die Gross- und Kleinschreibung ignoriert wird. Dazu muss der Schl&uuml;ssel
+ *  Bestandteile der Laufzeitumgebung sein oder kann beim Programmstart in der
+ *  Form <code>-Dschluessel=wert</code> gesetzt werden.<br>
+ *  Wird in den System-Properties der Java-Laufzeitumgebung kein entsprechender
+ *  Schl&uuml;ssel ermnittelt, wird dieser Schl&uuml;ssel ignoriert, da auch
+ *  kein alternativer Wert angegeben wurde.<br>
+ *  Kommentare werden in dieser Zeile unterst&uuml;tzt.<br>
  *  <br>
- *  Zeile 008 - Wie in den Zeilen 006 und 007 erfolgt auch hier die Zuweisung
- *  vom Wert f&uuml;r den Schl&uuml;ssel <code>"PARAM-F"</code> dynamisch
- *  &uuml;ber die System-Properties der Java-Laufzeitumgebung. Ist dies nicht
- *  m&ouml;glich, wird der Schl&uuml;ssel nicht &uuml;bernommen.<br>
+ *      <dir>Zeile 008 - 015</dir>
+ *  Analog den Beispielen aus Zeile 001 - 006 wird für Sektionen, Schl&uuml;ssel
+ *  und Werte die hexadezimale Schreibweise unterst&uuml;tzt.<br>
  *  <br>
- *  Section (Essential) 1.2013.0420<br>
- *  Copyright (C) 2012 Seanox Software Solutions<br>
+ *  Section 5.0 20161222<br>
+ *  Copyright (C) 2016 Seanox Software Solutions<br>
  *  Alle Rechte vorbehalten.
  *
  *  @author  Seanox Software Solutions
- *  @version 1.2013.0420
+ *  @version 5.0 20161222
  */
 public class Section implements Cloneable {
 
     /** Hashtable mit den Sch&uuml;sseln */
-    private volatile Hashtable entries;
-
-    /** lineare Liste der Sch&uuml;ssel als FIFO */
-    private volatile Vector list;
+    private volatile LinkedHashMap<String, String> entries;
+    
+    /** Option zum automatische Anlegen nicht existierender Schl&uuml;ssel */
+    private volatile boolean smart;
 
     /** Konstruktor, richtet Section ein. */
     public Section() {
-
-        this.entries = new Hashtable();
-        this.list    = new Vector();
+        this(false);
+    }
+    
+    /** 
+     *  Konstruktor, richtet Section ein.
+     *  Mit der Option <code>smart</code> kann ein smartes Verhalten aktiviert
+     *  werden, bei dem nicht existierende Schl&uuml;ssel automatisch mit der
+     *  ersten Anfrage angelegt werden. Die Methoden {@link #get(String)} und
+     *  {@link #get(String, String)} liefern dann nie <code>null</code> sondern
+     *  immer einen Wert, ggf. ist dieser dann leer.
+     *  @param smart automatisches Anlegen nicht existierender Schl&uuml;ssel
+     */
+    public Section(boolean smart) {
+        
+        this.entries = new LinkedHashMap<>();
+        this.smart   = smart;
     }
 
     /**
-     *  Entfernt die Steuerzeichen zur Textausrichtung aus dem String.
-     *  @param  string zu optimierender String
-     *  @return der optimierte und getrimmte String
-     */
-    private static String optimize(String string) {
+     *  Dekodiert ggf. hexadezimale Werte in einen String.
+     *  @param  string zu dekodierender String
+     *  @return der dekodierte und getrimmte String
+     */                    
+    private static String decode(String string) {
 
-        if (string == null) return "";
-
-        string = string.replace('\b', ' ');
-        string = string.replace('\f', ' ');
-        string = string.replace('\n', ' ');
-        string = string.replace('\r', ' ');
-        string = string.replace('\t', ' ');
-
-        return string.trim();
+        string = string == null ? "" : string.trim();
+        if (string.length() > 0
+                && string.length() % 2 == 0
+                && string.matches("^0x[0-9A-Fa-f]+$")) {
+            string = new String(new BigInteger(string.substring(2), 16).toByteArray()).trim();
+        }
+    
+        return string;
     }
-
+    
     /**
      *  Erstellt ein Section-Objekt aus dem &uuml;bergebenen String.
-     *  @param  string zu parsender String
+     *  Das Parsen ignoriert ung&uuml;ltige Schl&uuml;ssel und Werte.
+     *  @param  text zu parsende Section
      *  @return das erstellte Section-Objekt
      */
-    public static Section parse(String string) {
+    public static Section parse(String text) {
+        return Section.parse(text, false);
+    }
 
-        Enumeration     elements;
-        Section         options;
-        StringTokenizer tokenizer;
-        String          buffer;
-        String          entry;
-        String          shadow;
-        String          stream;
+    /**
+     *  Erstellt ein Section-Objekt aus dem &uuml;bergebenen Text.
+     *  Das Parsen ignoriert ung&uuml;ltige Schl&uuml;ssel und Werte.
+     *  Mit der Option <code>smart</code> kann ein smartes Verhalten aktiviert
+     *  werden, bei dem nicht existierende Schl&uuml;ssel automatisch mit der
+     *  ersten Anfrage angelegt werden. Die Methoden {@link #get(String)} und
+     *  {@link #get(String, String)} liefern dann nie <code>null</code> sondern
+     *  immer einen Wert, ggf. ist dieser dann leer.
+     *  @param  text  zu parsende Sektion
+     *  @param  smart automatisches Anlegen nicht existierender Schl&uuml;ssel
+     *  @return das erstellte Section-Objekt
+     */
+    public static Section parse(String text, boolean smart) {
+        
+        Map<String, StringBuffer> entries;
+        Section                   section;
+        String                    line;
+        String                    label;
+        String                    value;
+        StringBuffer              buffer;
+        StringTokenizer           tokenizer;
+        
+        int                       option;
+        
+        entries = new LinkedHashMap<>();
 
-        int             cursor;
-        int             option;
+        section = new Section(smart);
 
-        options = new Section();
+        if (text == null) return section;
+        
+        buffer = null;
+        option = 0;
 
-        if (string == null) return options;
-
-        //Steuerzeichen zur Textausgabe werden entfernt
-        string = string.replace('\b', ' ');
-        string = string.replace('\f', ' ');
-        string = string.replace('\t', ' ');
-
-        //die Zeilen der Schuesselinformation werden ermittelt
-        tokenizer = new StringTokenizer(string.trim(), "\r\n");
-
-        for (shadow = ""; tokenizer.hasMoreTokens();) {
-
+        tokenizer = new StringTokenizer(text, "\r\n");
+        while (tokenizer.hasMoreTokens()) {
+            
             //die naechste Zeile wird ermittelt
-            stream = tokenizer.nextToken().trim();
-
-            //der Kommentarteil wird ermittelt
-            cursor = stream.indexOf(';');
-            cursor = (cursor < 0) ? stream.length() : cursor;
-            buffer = stream.substring(0, cursor).trim();
-
-            if (buffer.startsWith("+")) {
-
-                stream = stream.substring(1).trim();
-                buffer = shadow;
-
-                option = 4;
-
-            } else {
-
-                //der Schuessel und der Inhalt werden ermittelt
-                cursor = buffer.indexOf('=');
-                buffer = (cursor >= 0) ? buffer.substring(0, cursor).trim() : buffer;
-                stream = (cursor >= 0) ? stream.substring(cursor +1).trim() : "";
-
+            line = tokenizer.nextToken().trim();
+            
+            if (!line.startsWith("+")) {
+                
                 option = 0;
-            }
+                if (line.matches("^[^;=]+\\[\\s*\\+\\s*\\].*$"))
+                    option |= 1;
+                if (line.matches("^[^;=]+\\[\\s*\\?\\s*\\].*$"))
+                    option |= 2;
+                
+                //der Kommentarteil wird ggf. entfernt
+                if ((option & 1) == 0 && line.contains(";"))
+                    line = line.substring(0, line.indexOf(';')).trim();
+                
+                buffer = null;
 
-            //die Zeilenoptionen werden im Schuessel ermittelt und entfernt
-            while (buffer.endsWith("[+]") || buffer.endsWith("[?]")) {
-
-                if (buffer.endsWith("[+]")) option |= 1;
-                if (buffer.endsWith("[?]")) option |= 2;
-
-                buffer = buffer.substring(0, buffer.length() -3).trim();
-            }
-
-            if (stream.endsWith("[+]")) option |= 1;
-
-            shadow = ((option & 2) == 2) ? buffer.concat("[?]") : buffer;
-            shadow = ((option & 1) == 1) ? shadow.concat("[+]") : shadow;
-
-            //leere Schuessel werden ignoriert
-            if (buffer.length() == 0) continue;
-
-            //Schuesselnamen mit beginnenden Sektionszeichen werden ignoriert
-            if (buffer.startsWith("[") || buffer.startsWith("]")) {shadow = ""; continue;}
-
-            //die Zeilenoptionen werden im Wert ermittelt und entfernt
-            while (stream.endsWith("[+]")) stream = stream.substring(0, stream.length() -3).trim();
-
-            //ohne die Zeilenoption [+] zur Unterdrueckung des Zeilenkommentars
-            //wird der Kommentarteil aus dem Wert zum Schuessel entfernt
-            if ((option & 1) != 1 && ((cursor = stream.indexOf(';')) >= 0)) stream = stream.substring(0, cursor).trim();
-
-            //die Zeilenoption [?] loest den Schuessel ueber Systemproperties
-            //auf, sonst wird der gesetzt Standardwert verwendet
-            if ((option & 2) == 2) {
-
-                //es wird versucht den Wert direkt zur ermitteln
-                entry = System.getProperty(buffer, "").trim();
-
-                //alle Systemproperties werden ermittelt
-                elements = System.getProperties().keys();
-
-                while (elements.hasMoreElements() && (entry.length() == 0)) {
-
-                    //die Systemproperties werden unabhaengig von der
+                //der Schluessel wird ermittelt, ggf. dekodiert und optimiert 
+                label = line.replaceAll("^([^;=]*?)((?:\\[\\s*.{0,1}\\s*\\]\\s*)*)(?:\\s*=\\s*(.+?)\\s*)*$", "$1");
+                label = Section.decode(label).toUpperCase();
+                
+                //nur gueltige Schluessel werden geladen
+                if (label.length() <= 0) continue;
+                
+                if ((option & 2) != 0) {
+                    
+                    //der Wert wird direkt in Systemproperties gesucht
+                    value = System.getProperty(label);
+                    
+                    //die System-Properties werden unabhaengig von der
                     //Gross- / Kleinschreibung nach dem Schuessel durchsucht
-                    entry = (String)elements.nextElement();
-                    entry = buffer.equalsIgnoreCase(entry.trim()) ? System.getProperty(entry, "").trim() : "";
+                    if (value == null) {
+                        for (Object key : System.getProperties().keySet()) {
+                            if (!label.equalsIgnoreCase(((String)key).trim()))
+                                continue;
+                            value = System.getProperty((String)key, "").trim();
+                            break;    
+                        }
+                    }
+                    
+                    //die System-Umgebungsvariablen werden unabhaengig von der
+                    //Gross- / Kleinschreibung nach dem Schuessel durchsucht
+                    if (value == null) {
+                        for (Object key : System.getenv().keySet()) {
+                            if (!label.equalsIgnoreCase(((String)key).trim()))
+                                continue;
+                            value = System.getenv((String)key);
+                            value = value == null ? "" : value.trim();
+                            break;    
+                        }
+                    }
+                    
+                    if (value != null) {
+                        entries.put(label, new StringBuffer(value));
+                        continue;
+                    }
                 }
+                
+                //der Wert wird ermittelt, ggf. dekodiert und optimiert
+                value = line.trim();
+                value = value.replaceAll("^([^;=]*?)((?:\\[\\s*.{0,1}\\s*\\]\\s*)*)(?:\\s*=\\s*(.+?)\\s*)*$", "$3");
+                value = Section.decode(value);
+                
+                buffer = new StringBuffer(value);
+                entries.put(label, buffer);
+                
+            } else if (buffer != null) {
+                
+                //Inhalt wird nur mit gueltigem Schluessel verarbeitet
 
-                //der Wert wird uebernommen, wenn dieser vorliegt
-                if (entry.length() > 0) stream = entry;
-            }
+                //der Kommentarteil wird ggf. entfernt
+                if ((option & 1) == 0 && line.contains(";"))
+                    line = line.substring(0, Math.max(0, line.indexOf(';'))).trim();
 
-            //der Schuessel wird uebernommen wenn dieser aufgeloest werden kann
-            if ((option & 2) != 2 || stream.length() > 0) {
-
-                buffer = buffer.toUpperCase();
-
-                string = (option & 4) == 4 ? (String)options.entries.get(buffer) : null;
-
-                options.entries.put(buffer, (string == null ? stream : string.concat(" ").concat(stream)).trim());
-
-                if (!options.list.contains(buffer)) options.list.add(buffer);
+                line = line.substring(1).trim();
+                if (!line.isEmpty())
+                    line = Section.decode(line);
+                if (!line.isEmpty())
+                    buffer.append(" ").append(Section.decode(line));
             }
         }
+        
+        for (String key : entries.keySet())
+            section.entries.put(key, entries.get(key).toString());
 
-        return options;
-    }
-
-    /**
-     *  R&uuml;ckgabe einer Kopie von Section.
-     *  @return eine Kopie von Section
-     */
-    public Object clone() {
-
-        Section options;
-
-        //Section wird eingerichtet
-        options = new Section();
-
-        //die Schuessel werden als Kopie uebernommen
-        options.entries = (Hashtable)this.entries.clone();
-
-        //die Schuesselliste wird als Kopie uebernommen
-        options.list = (Vector)this.list.clone();
-
-        return options;
-    }
-
-    /**
-     *  R&uuml;ckgabe <code>true</code> wenn der Sch&uuml;ssel ist.
-     *  @param  name Name des Sch&uuml;ssels
-     *  @return <code>true</code> wenn der Sch&uuml;ssel enthalten ist
-     */
-    public boolean contains(String name) {
-
-        name = Section.optimize(name).toUpperCase();
-
-        return this.entries.containsKey(name);
+        return section;
     }
 
     /**
      *  R&uuml;ckgabe aller Sch&uuml;ssel als Enumeration.
      *  @return alle Sch&uuml;ssel als Enumeration
      */
-    public Enumeration elements() {
-
-        return this.list.elements();
+    public Enumeration<String> elements() {
+        return Collections.enumeration(this.entries.keySet());
     }
-
+    
     /**
-     *  R&uuml;ckgabe der vorgehaltenen Eintr&auml;ge als Hashtable Kopie.
-     *  @return die vorgehaltenen Eintr&auml;ge als Hashtable Kopie
+     *  R&uuml;ckgabe <code>true</code> wenn der Sch&uuml;ssel ist.
+     *  @param  key Name des Sch&uuml;ssels
+     *  @return <code>true</code> wenn der Sch&uuml;ssel enthalten ist
      */
-    public Hashtable export() {
+    public boolean contains(String key) {
 
-        return (Hashtable)this.entries.clone();
+        key = key == null ? "" : key.trim().toUpperCase();
+        return this.entries.containsKey(key);
     }
 
     /**
      *  R&uuml;ckgabe des Wert zum Sch&uuml;ssel. Ist dieser nicht enthalten
-     *  bzw. kann nicht ermittelt werden, wird ein leerer String
-     *  zur&uuml;ckgegeben.
-     *  @param  name Name des Sch&uuml;ssels
-     *  @return der Wert des Sch&uuml;ssels, sonst ein leerer String
+     *  bzw. kann nicht ermittelt werden, liefert die Methode <code>null</code>
+     *  und im Smart-Modus einen leeren Wert.
+     *  mit einem leerer Wert erstellt. 
+     *  @param  key Name des Sch&uuml;ssels
+     *  @return der Wert des Sch&uuml;ssels, sonst <code>null</code> und im
+     *          Smart-Modus einen leeren Wert
      */
-    public String get(String name) {
-
-        name = (String)this.entries.get(Section.optimize(name).toUpperCase());
-
-        return (name == null) ? "" : name;
+    public String get(String key) {
+        return this.get(key, null);
     }
 
     /**
-     *  F&uuml;hrt die Sch&uuml;ssel dieser und der &uuml;bergebenen Sektion
-     *  zusammen. Bereits vorhandene Eintr&auml;ge werden &uuml;berschrieben,
-     *  neue werden hinzugef&uuml;gt.
-     *  @param section zu &uuml;bernehmende Sektion
+     *  R&uuml;ckgabe des Wert zum Schl&uuml;ssel. Ist dieser nicht enthalten
+     *  bzw. kann nicht ermittelt werden, liefert die Methode den alternativen
+     *  Wert, sonst <code>null</code>. Im Smart-Modus wird ein nicht
+     *  existierender Schl&uuml;ssel mit einem leeren oder dem alternativen
+     *  Wert angelegt. Die Methode gibt dann einen leeren bzw. den alternativen
+     *  Wert zur&uuml;ck.
+     *  @param  key       Name des Sch&uuml;ssels
+     *  @param  alternate alternativer Wert, bei unbekanntem Sch&uuml;ssel
+     *  @return der Wert des Sch&uuml;ssels, sonst <code>null</code> und im
+     *          Smart-Modus einen leeren bzw. den alternativen Wert
      */
-    public void merge(Section section) {
+    public String get(String key, String alternate) {
 
-        Enumeration enumeration;
-        String      string;
-
-        if (section == null) return;
-
-        //die Schuessel werden ermittelt
-        enumeration = section.elements();
-
-        //die Eintraege werden einzeln uebernommen um ungueltige Eintraege
-        //auszuschliessen und um die Schuessel optimieren zu koennen
-        while (enumeration.hasMoreElements()) {
-
-            string = (String)enumeration.nextElement();
-
-            this.set(string, section.get(string));
+        String value;
+        
+        key   = key == null ? "" : key.trim().toUpperCase();
+        value = this.entries.get(key);
+        if (value == null) {
+            value = alternate != null ? alternate : this.smart ? "" : null;
+            if (value != null)
+                this.entries.put(key, value);
         }
+        
+        return value;
     }
 
     /**
-     *  F&uuml;hrt die Sch&uuml;ssel dieser Sektion und der &uuml;bergebenen Map
-     *  zusammen. Bereits vorhandene Eintr&auml;ge werden &uuml;berschrieben,
-     *  neue werden hinzugef&uuml;gt.
-     *  @param map zu &uuml;bernehmende Schl&uuml;ssel
+     *  Setzt den Sch&uuml;ssel mit dem entsprechenden Wert. Sch&uuml;ssel und
+     *  Werte werden dabei gel&auml;ttet. Leere Sch&uuml;ssel sind nicht
+     *  zul&auml;ssig und f&uuml;hren zur {@link IllegalArgumentException}.
+     *  @param  key   Name des Sch&uuml;ssels
+     *  @param  value Wert des Sch&uuml;ssels
+     *  @return ggf. zuvor zugeordneter Wert, sonst <code>null</code>
      */
-    public void merge(Map map) {
-
-        Iterator iterator;
-        Object   object;
-        String   string;
-
-        if (map == null) return;
-
-        //die Schluessel werden ermittelt
-        iterator = map.keySet().iterator();
-
-        //die Eintraege werden einzeln uebernommen um ungueltige Eintraege
-        //auszuschliessen und um die Schluessel optimieren zu koennen
-        while (iterator.hasNext()) {
-
-            string = (String)iterator.next();
-            object = map.get(string);
-
-            if (!(object instanceof String)) continue;
-
-            this.set(string, (String)object);
-        }
+     public String set(String key, String value) {
+         
+         key = key == null ? "" : key.trim().toUpperCase();
+         if (key.length() <= 0)
+             throw new IllegalArgumentException("Invalid key specified");
+         return this.entries.put(key, value == null ? "" : value.trim());
     }
 
-    /**
-     *  Entfernt den angegebenen Sch&uuml;ssel.
-     *  @param name Name des zu entfernenden Sch&uuml;ssels
-     */
-    public void remove(String name) {
+     /**
+      *  Entfernt den angegebenen Sch&uuml;ssel.
+      *  @param  key Name des zu entfernenden Sch&uuml;ssels
+      *  @return ggf. zuvor zugeordneter Wert, sonst <code>null</code>
+      */
+     public String remove(String key) {
 
-        name = Section.optimize(name).toUpperCase();
+         key = key == null ? "" : key.trim().toUpperCase();
+         return this.entries.remove(key);
+     }
+     
+     /**
+      *  F&uuml;hrt die Sch&uuml;ssel dieser und der &uuml;bergebenen Sektion
+      *  zusammen. Bereits vorhandene Eintr&auml;ge werden &uuml;berschrieben,
+      *  neue werden hinzugef&uuml;gt. Leere Sch&uuml;ssel sind dabei nicht
+      *  zul&auml;ssig und f&uuml;hren zur {@link IllegalArgumentException}.
+      *  @param  section zu &uuml;bernehmende Sektion
+      *  @return die aktuelle Instanz mit den zusammgef&uuml;hrten Sektionen
+      */
+     public Section merge(Section section) {
+         
+         if (section == null) return this;
 
-        this.entries.remove(name);
-
-        this.list.remove(name);
+         //die Sektionen werden zusammengefasst oder ggf. neu angelegt
+         for (String key : section.entries.keySet())
+             this.set(key, section.get(key));
+         
+         return this;
     }
-
-    /** Setzt Section komplett zur&uuml;ck. */
-    public void clear() {
-
-        this.entries.clear();
-        this.list.clear();
-    }
-
-    /**
-     *  Erweitert Section um einen leeren Sch&uuml;ssel.
-     *  @param name Name des anzulegenden Sch&uuml;ssel
-     */
-    public void set(String name) {
-
-        this.set(name, null);
-    }
-
-    /**
-     *  Setzt den Sch&uuml;ssel mit dem entsprechenden Wert.
-     *  @param name  Name des Sch&uuml;ssels
-     *  @param entry Wert des Sch&uuml;ssels
-     */
-     public void set(String name, String entry) {
-
-         //der Name wird optimiert
-         name = Section.optimize(name).toUpperCase();
-
-         //leere oder Schuessel mit beginnenden Sektions- bzw. enthaltenen
-         //Wert-/Kommentar- Trennzeichen []=; werden ignoriert
-         if (name.length() == 0 || name.startsWith("[") || name.startsWith("]") || name.indexOf(';') >= 0 || name.indexOf('=') >= 0) return;
-
-         this.entries.put(name, Section.optimize(entry));
-
-         if (!this.list.contains(name)) this.list.add(name);
-    }
-
+     
     /**
      *  R&uuml;ckgabe der Anzahl von Eintr&auml;gen.
      *  @return die Anzahl der Eintr&auml;ge
      */
     public int size() {
-
         return this.entries.size();
     }
 
+    /** Setzt Section komplett zur&uuml;ck. */
+    public void clear() {
+        this.entries.clear();
+    }
+
+    /**
+     *  R&uuml;ckgabe einer Kopie von Section.
+     *  @return eine Kopie von Section
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public Section clone() {
+
+        Section section;
+
+        //Section wird eingerichtet
+        section = new Section(this.smart);
+
+        //die Schuessel werden als Kopie uebernommen
+        section.entries = (LinkedHashMap<String, String>)this.entries.clone();
+
+        return section;
+    }
+    
     /**
      *  R&uuml;ckgabe der formatierten Struktur als String.
      *  Der Zeilenumbruch erfolgt abh&auml;ngig vom aktuellen Betriebssystem.
      *  @return die formatierte Struktur als String
      */
+    @Override
     public String toString() {
+        
+        ByteArrayOutputStream buffer;
+        Map<String, String>   entries;
+        PrintStream           writer;
+        String                value;
+        String                space;
 
-        Enumeration elements;
-        String      buffer;
-        String      result;
-        String      stream;
-        String      string;
+        int                   indent;
 
-        int         offset;
-        int         size;
+        entries = new LinkedHashMap<>();
+        buffer  = new ByteArrayOutputStream();
+        writer  = new PrintStream(buffer);
+        
+        indent = 0;
+        
+        for (String key : this.entries.keySet()) {
+            
+            //leere Schluessek werden ignoriert
+            if (key.trim().isEmpty())
+                continue;
 
-        //der Zeilenumbruch wird entsprechend dem System ermittelt
-        buffer = System.getProperty("line.separator", "\r\n");
-
-        //alle Schluessel werden ermittelt
-        elements = this.list.elements();
-
-        for (size = 0; elements.hasMoreElements();) {
-
-            //die Maximale Zeichenlaenge der Schluessel wird ermittelt
-            string = (String)elements.nextElement();
-            stream = (String)this.entries.get(string);
-            offset = (stream == null || stream.indexOf(';') < 0) ? 1 : 5;
-
-            if (size < string.length() +offset) size = string.length() +offset;
+            //der Wert wird kodiert wenn:
+            //  - beginnt mit +=   
+            //  - enthaelt < 0x1F 
+            value = this.entries.get(key).trim();
+            if (value.matches("^(?s)\\s*(?:(?:[\\+=])|(?:.*[\\x00-\\x1F])).*$"))
+                value = String.format("0x%X", new BigInteger(1, value.getBytes()));
+            
+            //der Schluessel wird kodiert wenn:
+            //  - beginnt mit +=   
+            //  - enthaelt ;=[] < 0x1F
+            if (key.matches("^(?s)\\s*(?:(?:[\\+=])|(?:.*[\\x00-\\x1F\\[\\];=])).*$"))
+                key = String.format("0x%X", new BigInteger(1, key.getBytes()));
+            
+            //der Schluessel wird erweitert wenn:
+            //  - der Wert ein Semikolon (Kommentarzeichen) enthaelt
+            indent = Math.max(indent, key.length() +(value.contains(";") ? 4 : 0));
+            
+            entries.put(key, value);
         }
+        
+        //die Einrueckung wird als Platzhalter aufgebaut
+        space = " ";
+        while (space.length() < indent)
+            space = space.concat(space);
+        space = space.substring(0, indent);
+        
+        for (String key : entries.keySet()) {
+            
+            value = entries.get(key);
+            
+            if (!value.isEmpty()) {
 
-        //alle Schluessel werden ermittelt
-        elements = this.list.elements();
+                //der Schluessel wird ausgeglichen
+                //der Schluessel wird erweitert wenn:
+                //   - der Wert ein Semikolon (Kommentarzeichen) enthaelt
+                if (value.contains(";"))
+                    key = key.concat(space.substring(key.length(), indent -4)).concat(" [+]");
+                else key = key.concat(space.substring(key.length(), indent));
 
-        for (result = ""; elements.hasMoreElements();) {
-
-            string = (String)elements.nextElement();
-            stream = (String)this.entries.get(string);
-
-            if (stream == null) stream = "";
-
-            offset = (stream.indexOf(';') < 0) ? 0 : 4;
-
-            //der Schluessel wird ausgeglichen
-            while (string.length() < size -offset) string = string.concat(" ");
-
-            if (offset > 0) string = string.concat("[+] ");
-
-            result = result.concat(string);
-
-            if (stream.length() > 0) result = result.concat("= ").concat(stream);
-
-            result = result.concat(buffer);
+                writer.println(key.concat(" = ").concat(value));
+                
+            } else writer.println(key);
         }
-
-        return result;
+        
+        return buffer.toString();
     }
 }
