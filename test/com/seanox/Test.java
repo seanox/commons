@@ -24,6 +24,9 @@ package com.seanox;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+/**
+ *  TestSuite for com.seanox.
+ */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     com.seanox.common.Test.class

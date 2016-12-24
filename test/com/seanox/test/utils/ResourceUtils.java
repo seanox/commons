@@ -99,7 +99,7 @@ public class ResourceUtils {
             InputStream inputStream = context.getClassLoader().getResourceAsStream(contextName);
             String content = new String(StreamUtils.read(inputStream)); 
             String filter = "^(?s)(?:.*?" + Pattern.LINE_BREAK + "){0,1}#{4,}" + Pattern.LINE_SPACE + "*" + name + Pattern.LINE_SPACE + "*" + Pattern.LINE_BREAK
-                    + "(.*?)" + "(?:" + Pattern.LINE_BREAK + "#{4,}" + Pattern.LINE_SPACE + "*[a-zA-Z0-9_]+" + Pattern.LINE_SPACE + "*" + Pattern.LINE_BREAK + ".*){0,1}$";
+                    + "(.*?)" + "(?:" + Pattern.LINE_BREAK + "{0,1}#{4,}" + Pattern.LINE_SPACE + "*[a-zA-Z0-9_]+" + Pattern.LINE_SPACE + "*" + Pattern.LINE_BREAK + ".*){0,1}$";
             if (!content.matches(filter))
                 return null;
             content = content.replaceAll(filter, "$1");
