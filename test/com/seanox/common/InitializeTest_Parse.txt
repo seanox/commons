@@ -1,0 +1,146 @@
+#### testAceptance_1
+#### testAceptance_1_1
+#### testAceptance_2
+
+#### testAceptance_2_1
+#### testAceptance_3
+
+ [sec-A]     ; comment
+a = 1
+  [sec-B]    ;  comment
+b = 2
+   [sec-C]   ;   comment
+c = 3
+     [sec-D] ;    comment
+d = 4
+
+[sec-D] extends SEC-B SEC-X SEC-D SEC-C SEC-E
+d = 5
+[sec-E] extends sec-E
+e = 6
+
+#### testAceptance_3_1
+[SEC-A]
+A = 1
+
+[SEC-B]
+B = 2
+
+[SEC-C]
+C = 3
+
+[SEC-D]
+B = 2
+C = 3
+D = 5
+
+[SEC-E]
+E = 6
+
+#### testAceptance_4
+
+ [a0[
+aa0 = 1 
+
+ [a1]
+aa1 = 2
+
+ [b[0]
+bb0 = 3 
+
+ [b1]
+bb1 = 4
+ 
+ [c=0]
+cc0 = 5 
+
+ [c1]
+cc1 = 6
+
+ [d;0]
+dd0 = 7 
+
+ [d1]
+dd1 = 8
+
+#### testAceptance_4_1
+[A1]
+AA1 = 2
+
+[B1]
+BB1 = 4
+
+[C=0]
+CC0 = 5
+
+[C1]
+CC1 = 6
+
+[D1]
+DD1 = 8
+
+#### testAceptance_5
+[a0[
+aa0 = 1 
+[a1]
+aa1 = 2
+[b[0]
+bb0 = 3 
+[b1]
+bb1 = 4
+[c=0]
+cc0 = 5 
+[c1]
+cc1 = 6
+[d;0]
+dd0 = 7 
+[d1]
+dd1 = 8
+#### testAceptance_5_1
+[A1]
+AA1 = 2
+
+[B1]
+BB1 = 4
+
+[C=0]
+CC0 = 5
+
+[C1]
+CC1 = 6
+
+[D1]
+DD1 = 8
+
+#### testAceptance_6
+[0x53454354494F4E2D41]
+[0x4142435B305D]
+[0x4142435B315D]
+[0x4142433B5858]
+[0x53454354494F4E2D4]
+[0x4142435B305X]
+[0x4142435B315Y]
+#### testAceptance_6_1
+[SECTION-A]
+[0x4142435B305D]
+[0x4142435B315D]
+[0x4142433B5858]
+[0X53454354494F4E2D4]
+[0X4142435B305X]
+[0X4142435B315Y]
+
+#### testAceptance_7
+[A]
+a = 1
+b = 2
+[B]
+b = 3
+[A]
+b = 4
+
+#### testAceptance_7_1
+[A]
+B = 4
+
+[B]
+B = 3

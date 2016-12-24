@@ -1,0 +1,54 @@
+#### testAceptance_1
+#### testAceptance_1_1
+#### testAceptance_2
+
+#### testAceptance_2_1
+#### testAceptance_3
+
+ [sec-A]     ; comment
+a = 1
+  [sec-B]    ;  comment
+b = 2
+   [sec-C]   ;   comment
+c = 3
+     [sec-D] ;    comment
+d = 4
+
+[sec-D] extends SEC-B SEC-X SEC-D SEC-C SEC-E
+d = 5
+[sec-E] extends sec-E
+e = 6
+
+#### testAceptance_3_1
+[SEC-A]
+A = 1
+
+[SEC-B]
+B = 2
+
+[SEC-C]
+C = 3
+
+[SEC-D]
+B = 2
+C = 3
+D = 5
+
+[SEC-E]
+E = 6
+
+#### testAceptance_4
+ 
+ [aaa]
+
+   [bbb]
+     [ccc]
+   [ddd]
+   
+     
+ 
+#### testAceptance_4_1
+[AAA]
+[BBB]
+[CCC]
+[DDD]
