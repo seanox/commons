@@ -43,10 +43,8 @@ import java.util.StringTokenizer;
  *  Unterteilung erfolgt auch hier in Sektionen, in denen zeilenweise
  *  Schl&uuml;ssel mit zugeh&ouml;rigen Werten abgelegt sind. Beim Namen von
  *  Sektion und Schl&uuml;ssel wird die Gross- und Kleinschreibung nicht
- *  ber&uuml;cksichtig. Mehrfache Deklarationen werden zusammengef&uuml;hrt,
- *  bereits vorhandene Schl&uuml;ssel &uuml;berschrieben und neue
- *  hinzugef&uuml;gt. Dadurch k&ouml;nnen Sektionen auch geteilt werden, was die
- *  &Uuml;bersichtlichkeit aber meist erschwert.<br>
+ *  ber&uuml;cksichtig. Gleichnamige Deklarationen f&uuml;hren zum
+ *  &Uuml;berschreiben von Sektionen und Werten.<br>
  *  <br>
  *  Als Erweiterung zum Orginalformat lassen sich Sektionen vererben. Dazu wird
  *  einer Sektion das Sch&uuml;sselwort <code>EXTENDS</code> gefolgt von Namen
@@ -154,12 +152,12 @@ import java.util.StringTokenizer;
  *  Analog den Beispielen aus Zeile 001 - 006 wird für Sektionen, Schl&uuml;ssel
  *  und Werte die hexadezimale Schreibweise unterst&uuml;tzt.<br>
  *  <br>
- *  Section 5.0 20161222<br>
+ *  Section 5.0 20161224<br>
  *  Copyright (C) 2016 Seanox Software Solutions<br>
  *  Alle Rechte vorbehalten.
  *
  *  @author  Seanox Software Solutions
- *  @version 5.0 20161222
+ *  @version 5.0 20161224
  */
 public class Section implements Cloneable {
 
