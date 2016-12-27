@@ -3,7 +3,7 @@
  *  im Folgenden Seanox Software Solutions oder kurz Seanox genannt.
  *  Diese Software unterliegt der Version 2 der GNU General Public License.
  *
- *  Devwex, Advanced Server Development
+ *  Seanox Commons, Advanced Programming Interface
  *  Copyright (C) 2016 Seanox Software Solutions
  *
  *  This program is free software; you can redistribute it and/or modify it
@@ -29,7 +29,6 @@ import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 /**
  *  Initialize, verarbeitet Initialisierungsdaten im INI-Format und stellt diese
@@ -163,10 +162,10 @@ import java.util.Vector;
 public class Initialize implements Cloneable {
 
     /** Hashtable der Sektionen */
-    private volatile LinkedHashMap<String, Section> entries;
+    private LinkedHashMap<String, Section> entries;
     
     /** Option zum automatischen Anlegen nicht existierender Sektionen */
-    private volatile boolean smart;
+    private boolean smart;
 
     /** Konstruktor, richtet Initialize ein.*/
     public Initialize() {
@@ -202,8 +201,9 @@ public class Initialize implements Cloneable {
 
     /**
      *  Ermittelt aus dem String die enthaltenen Sektionen.
+     *  Das Parsen ignoriert ung&uuml;ltige Sektionen, Schl&uuml;ssel und Werte.
      *  R&uuml;ckgabe die ermittelten Sektionen als Initialize.
-     *  @param  text zu parsender String
+     *  @param  text zu parsende Sektionen
      *  @return die ermittelten Sektionen als Initialize
      */
     public static Initialize parse(String text) {
@@ -212,6 +212,7 @@ public class Initialize implements Cloneable {
     
     /**
      *  Ermittelt aus dem String die enthaltenen Sektionen.
+     *  Das Parsen ignoriert ung&uuml;ltige Sektionen, Schl&uuml;ssel und Werte.
      *  R&uuml;ckgabe die ermittelten Sektionen als Initialize.
      *  @param  text  zu parsender String
      *  @param  smart automatisches Anlegen nicht existierender Sektionen
