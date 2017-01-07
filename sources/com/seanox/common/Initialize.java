@@ -4,7 +4,7 @@
  *  Diese Software unterliegt der Version 2 der GNU General Public License.
  *
  *  Seanox Commons, Advanced Programming Interface
- *  Copyright (C) 2016 Seanox Software Solutions
+ *  Copyright (C) 2017 Seanox Software Solutions
  *
  *  This program is free software; you can redistribute it and/or modify it
  *  under the terms of version 2 of the GNU General Public License as published
@@ -42,9 +42,9 @@ import java.util.StringTokenizer;
  *  Das verarbeitete INI-Format wurde zur klassischen Form erweitert. Die
  *  Unterteilung erfolgt auch hier in Sektionen, in denen zeilenweise
  *  Schl&uuml;ssel mit zugeh&ouml;rigen Werten abgelegt sind. Beim Namen von
- *  Sektion und Schl&uuml;ssel wird die Gross- und Kleinschreibung nicht
- *  ber&uuml;cksichtig. Gleichnamige Deklarationen f&uuml;hren zum
- *  &Uuml;berschreiben von Sektionen und Werten.<br>
+ *  Sektion und Schl&uuml;ssel wird die Gross- und Kleinschreibung ignoriert.
+ *  Gleichnamige Deklarationen f&uuml;hren zum &Uuml;berschreiben von Sektionen
+ *  und Werten.<br>
  *  <br>
  *  Als Erweiterung zum Orginalformat lassen sich Sektionen vererben. Dazu wird
  *  einer Sektion das Sch&uuml;sselwort <code>EXTENDS</code> gefolgt von Namen
@@ -152,20 +152,20 @@ import java.util.StringTokenizer;
  *  Analog den Beispielen aus Zeile 001 - 006 wird für Sektionen, Schl&uuml;ssel
  *  und Werte die hexadezimale Schreibweise unterst&uuml;tzt.<br>
  *  <br>
- *  Initialize 5.0 20161224<br>
- *  Copyright (C) 2016 Seanox Software Solutions<br>
+ *  Initialize 5.0 20170107<br>
+ *  Copyright (C) 2017 Seanox Software Solutions<br>
  *  Alle Rechte vorbehalten.
  *
  *  @author  Seanox Software Solutions
- *  @version 5.0 20161224
+ *  @version 5.0 20170107
  */
 public class Initialize implements Cloneable {
 
     /** Hashtable der Sektionen */
-    private LinkedHashMap<String, Section> entries;
+    private volatile LinkedHashMap<String, Section> entries;
     
     /** Option zum automatischen Anlegen nicht existierender Sektionen */
-    private boolean smart;
+    private volatile boolean smart;
 
     /** Konstruktor, richtet Initialize ein.*/
     public Initialize() {
@@ -189,14 +189,10 @@ public class Initialize implements Cloneable {
      */                   
     private static String decode(String string) {
 
-        string = string == null ? "" : string.trim();
-        if (string.length() > 0
-                && string.length() % 2 == 0
-                && string.matches("^0x[0-9A-Fa-f]+$")) {
-            string = new String(new BigInteger(string.substring(2), 16).toByteArray()).trim();
-        }
-    
-        return string.toUpperCase();
+        string = string == null ? "" : string.toUpperCase().trim();
+        if (string.matches("^(?i)0x([0-9a-f]{2})+$"))
+            return new String(new BigInteger(string.substring(2), 16).toByteArray()).toUpperCase().trim();
+        return string;
     }
 
     /**
@@ -235,7 +231,8 @@ public class Initialize implements Cloneable {
         
         initialize = new Initialize(smart);
 
-        if (text == null) return initialize;
+        if (text == null)
+            return initialize;
 
         buffer = null;
 
@@ -259,7 +256,8 @@ public class Initialize implements Cloneable {
                 section = Initialize.decode(strings[0]);
                 
                 //nur gueltige Sektionen werden geladen
-                if (section.length() == 0) continue;
+                if (section.isEmpty())
+                    continue;
 
                 buffer = new StringBuffer();
                 entries.put(section, buffer);
@@ -289,7 +287,7 @@ public class Initialize implements Cloneable {
      *  R&uuml;ckgabe aller Sektionen als Enumeration.
      *  @return alle Sektionen als Enumeration
      */
-    public Enumeration<String> elements() {
+    public synchronized Enumeration<String> elements() {
         return Collections.enumeration(this.entries.keySet());
     }
 
@@ -298,9 +296,12 @@ public class Initialize implements Cloneable {
      *  @param  key Name der Sektion
      *  @return <code>true</code> wenn die Sektion enthalten ist
      */
-    public boolean contains(String key) {
-
-        key = key == null ? "" : key.trim().toUpperCase();
+    public synchronized boolean contains(String key) {
+        
+        if (key != null)
+            key = key.toUpperCase().trim();
+        if (key == null || key.isEmpty())
+            return false;
         return this.entries.containsKey(key);
     }
 
@@ -309,13 +310,15 @@ public class Initialize implements Cloneable {
      *  @param  key Name der Section
      *  @return die ermittelte Section, sonst <code>null</code> 
      */
-    public Section get(String key) {
+    public synchronized Section get(String key) {
         
         Section section;
         
-        key = key == null ? "" : key.trim().toUpperCase();
-        if (key.length() <= 0)
+        if (key != null)
+            key = key.toUpperCase().trim();
+        if (key == null || key.isEmpty())
             return null;
+        
         section = this.entries.get(key);
         if (section == null && this.smart) {
             section = new Section(true);
@@ -332,16 +335,15 @@ public class Initialize implements Cloneable {
      *  @param  section Sektion
      *  @return ggf. zuvor zugeordnete Sektion, sonst <code>null</code>
      */
-    public Section set(String key, Section section) {
+    public synchronized Section set(String key, Section section) {
         
-        key = key == null ? "" : key.trim().toUpperCase();
-        if (key.length() <= 0)
+        if (key != null)
+            key = key.toUpperCase().trim();
+        if (key == null || key.isEmpty())
             throw new IllegalArgumentException("Invalid key specified");
         if (section == null)
             section = new Section(this.smart);
-        this.entries.put(key, section);
-        
-        return section;
+        return this.entries.put(key, section);
     }
 
     /**
@@ -349,9 +351,12 @@ public class Initialize implements Cloneable {
      *  @param  key Name der zu entfernenden Sektion
      *  @return ggf. zuvor zugeordnete Sektion, sonst <code>null</code>
      */
-    public Section remove(String key) {
-
-        key = key == null ? "" : key.trim().toUpperCase();
+    public synchronized Section remove(String key) {
+  
+        if (key != null)
+            key = key.toUpperCase().trim();
+        if (key == null || key.isEmpty())
+            return null;
         return this.entries.remove(key);
     }
 
@@ -361,9 +366,10 @@ public class Initialize implements Cloneable {
      *  @param  initialize zu &uuml;bernehmende Sektionen
      *  @return die aktuelle Instanz mit den zusammgef&uuml;hrten Sektionen
      */
-    public Initialize merge(Initialize initialize) {
+    public synchronized Initialize merge(Initialize initialize) {
         
-        if (initialize == null) return this;
+        if (initialize == null)
+            return this;
 
         //die Sektionen werden zusammengefasst oder ggf. neu angelegt
         for (String key : initialize.entries.keySet())
@@ -376,12 +382,12 @@ public class Initialize implements Cloneable {
      *  R&uuml;ckgabe der Anzahl von Sektionen.
      *  @return die Anzahl von Sektionen
      */
-    public int size() {
+    public synchronized int size() {
         return this.entries.size();
     }
 
     /** Setzt Initialize komplett zur&uuml;ck und verwirft alle Sektionen. */
-    public void clear() {
+    public synchronized void clear() {
         this.entries.clear();
     }
 
@@ -390,17 +396,17 @@ public class Initialize implements Cloneable {
      *  @return eine Kopie von Initialize
      */
     @Override
-    public Initialize clone() {
+    public synchronized Initialize clone() {
 
         Initialize initialize;
 
         //Initialize wird eingerichtet
         initialize = new Initialize(this.smart);
-
+        
         //die Sektionen werden kopiert
         for (String key : this.entries.keySet())
             initialize.entries.put(key, this.entries.get(key).clone());
-
+        
         return initialize;
     }
 
@@ -410,16 +416,16 @@ public class Initialize implements Cloneable {
      *  @return die formatierte Sektion als String
      */
     @Override
-    public String toString() {
+    public synchronized String toString() {
         
         ByteArrayOutputStream buffer;
         PrintStream           writer;
         String                section;
         String                shadow;
 
-        buffer  = new ByteArrayOutputStream();
-        writer  = new PrintStream(buffer);
-        shadow  = new String();
+        buffer = new ByteArrayOutputStream();
+        writer = new PrintStream(buffer);
+        shadow = new String();
         
         for (String key : this.entries.keySet()) {
             

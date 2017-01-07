@@ -4,7 +4,7 @@
  *  Diese Software unterliegt der Version 2 der GNU General Public License.
  *
  *  Seanox Commons, Advanced Programming Interface
- *  Copyright (C) 2016 Seanox Software Solutions
+ *  Copyright (C) 2017 Seanox Software Solutions
  *
  *  This program is free software; you can redistribute it and/or modify it
  *  under the terms of version 2 of the GNU General Public License as published
@@ -42,9 +42,9 @@ import java.util.StringTokenizer;
  *  Das verarbeitete INI-Format wurde zur klassischen Form erweitert. Die
  *  Unterteilung erfolgt auch hier in Sektionen, in denen zeilenweise
  *  Schl&uuml;ssel mit zugeh&ouml;rigen Werten abgelegt sind. Beim Namen von
- *  Sektion und Schl&uuml;ssel wird die Gross- und Kleinschreibung nicht
- *  ber&uuml;cksichtig. Gleichnamige Deklarationen f&uuml;hren zum
- *  &Uuml;berschreiben von Sektionen und Werten.<br>
+ *  Sektion und Schl&uuml;ssel wird die Gross- und Kleinschreibung ignoriert.
+ *  Gleichnamige Deklarationen f&uuml;hren zum &Uuml;berschreiben von Sektionen
+ *  und Werten.<br>
  *  <br>
  *  Als Erweiterung zum Orginalformat lassen sich Sektionen vererben. Dazu wird
  *  einer Sektion das Sch&uuml;sselwort <code>EXTENDS</code> gefolgt von Namen
@@ -152,12 +152,12 @@ import java.util.StringTokenizer;
  *  Analog den Beispielen aus Zeile 001 - 006 wird für Sektionen, Schl&uuml;ssel
  *  und Werte die hexadezimale Schreibweise unterst&uuml;tzt.<br>
  *  <br>
- *  Section 5.0 20161224<br>
- *  Copyright (C) 2016 Seanox Software Solutions<br>
+ *  Section 5.0 20170107<br>
+ *  Copyright (C) 2017 Seanox Software Solutions<br>
  *  Alle Rechte vorbehalten.
  *
  *  @author  Seanox Software Solutions
- *  @version 5.0 20161224
+ *  @version 5.0 20170107
  */
 public class Section implements Cloneable {
 
@@ -195,12 +195,8 @@ public class Section implements Cloneable {
     private static String decode(String string) {
 
         string = string == null ? "" : string.trim();
-        if (string.length() > 0
-                && string.length() % 2 == 0
-                && string.matches("^0x[0-9A-Fa-f]+$")) {
-            string = new String(new BigInteger(string.substring(2), 16).toByteArray()).trim();
-        }
-    
+        if (string.matches("^(?i)0x([0-9a-f]{2})+$"))
+            return new String(new BigInteger(string.substring(2), 16).toByteArray()).trim();
         return string;
     }
     
@@ -272,7 +268,8 @@ public class Section implements Cloneable {
                 label = Section.decode(label).toUpperCase();
                 
                 //nur gueltige Schluessel werden geladen
-                if (label.length() <= 0) continue;
+                if (label.isEmpty())
+                    continue;
                 
                 if ((option & 2) != 0) {
                     
@@ -342,7 +339,7 @@ public class Section implements Cloneable {
      *  R&uuml;ckgabe aller Sch&uuml;ssel als Enumeration.
      *  @return alle Sch&uuml;ssel als Enumeration
      */
-    public Enumeration<String> elements() {
+    public synchronized Enumeration<String> elements() {
         return Collections.enumeration(this.entries.keySet());
     }
     
@@ -351,9 +348,12 @@ public class Section implements Cloneable {
      *  @param  key Name des Sch&uuml;ssels
      *  @return <code>true</code> wenn der Sch&uuml;ssel enthalten ist
      */
-    public boolean contains(String key) {
+    public synchronized boolean contains(String key) {
 
-        key = key == null ? "" : key.trim().toUpperCase();
+        if (key != null)
+            key = key.toUpperCase().trim();
+        if (key == null || key.isEmpty())
+            return false;
         return this.entries.containsKey(key);
     }
 
@@ -366,7 +366,7 @@ public class Section implements Cloneable {
      *  @return der Wert des Sch&uuml;ssels, sonst <code>null</code> und im
      *          Smart-Modus einen leeren Wert
      */
-    public String get(String key) {
+    public synchronized String get(String key) {
         return this.get(key, null);
     }
 
@@ -382,11 +382,15 @@ public class Section implements Cloneable {
      *  @return der Wert des Sch&uuml;ssels, sonst <code>null</code> und im
      *          Smart-Modus einen leeren bzw. den alternativen Wert
      */
-    public String get(String key, String alternate) {
+    public synchronized String get(String key, String alternate) {
 
         String value;
         
-        key   = key == null ? "" : key.trim().toUpperCase();
+        if (key != null)
+            key = key.toUpperCase().trim();
+        if (key == null || key.isEmpty())
+            return alternate;
+        
         value = this.entries.get(key);
         if (value == null) {
             value = alternate != null ? alternate : this.smart ? "" : null;
@@ -405,10 +409,11 @@ public class Section implements Cloneable {
      *  @param  value Wert des Sch&uuml;ssels
      *  @return ggf. zuvor zugeordneter Wert, sonst <code>null</code>
      */
-     public String set(String key, String value) {
+     public synchronized String set(String key, String value) {
          
-         key = key == null ? "" : key.trim().toUpperCase();
-         if (key.length() <= 0)
+         if (key != null)
+             key = key.toUpperCase().trim();
+         if (key == null || key.isEmpty())
              throw new IllegalArgumentException("Invalid key specified");
          return this.entries.put(key, value == null ? "" : value.trim());
     }
@@ -418,9 +423,12 @@ public class Section implements Cloneable {
       *  @param  key Name des zu entfernenden Sch&uuml;ssels
       *  @return ggf. zuvor zugeordneter Wert, sonst <code>null</code>
       */
-     public String remove(String key) {
+     public synchronized String remove(String key) {
 
-         key = key == null ? "" : key.trim().toUpperCase();
+         if (key != null)
+             key = key.toUpperCase().trim();
+         if (key == null || key.isEmpty())
+             return null;
          return this.entries.remove(key);
      }
      
@@ -432,10 +440,11 @@ public class Section implements Cloneable {
       *  @param  section zu &uuml;bernehmende Sektion
       *  @return die aktuelle Instanz mit den zusammgef&uuml;hrten Sektionen
       */
-     public Section merge(Section section) {
+     public synchronized Section merge(Section section) {
          
-         if (section == null) return this;
-
+         if (section == null)
+             return this;
+         
          //die Sektionen werden zusammengefasst oder ggf. neu angelegt
          for (String key : section.entries.keySet())
              this.set(key, section.get(key));
@@ -447,12 +456,12 @@ public class Section implements Cloneable {
      *  R&uuml;ckgabe der Anzahl von Eintr&auml;gen.
      *  @return die Anzahl der Eintr&auml;ge
      */
-    public int size() {
+    public synchronized int size() {
         return this.entries.size();
     }
 
     /** Setzt Section komplett zur&uuml;ck. */
-    public void clear() {
+    public synchronized void clear() {
         this.entries.clear();
     }
 
@@ -462,7 +471,7 @@ public class Section implements Cloneable {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Section clone() {
+    public synchronized Section clone() {
 
         Section section;
 
@@ -481,7 +490,7 @@ public class Section implements Cloneable {
      *  @return die formatierte Struktur als String
      */
     @Override
-    public String toString() {
+    public synchronized String toString() {
         
         ByteArrayOutputStream buffer;
         Map<String, String>   entries;
