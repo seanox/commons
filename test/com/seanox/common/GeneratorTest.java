@@ -328,7 +328,6 @@ public class GeneratorTest {
         generator.set("c", values);
         generator.set("b", values);
         generator.set("a", values);
-        System.out.println("[INF] " + new String(generator.extract()));
         assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
     }     
 }
