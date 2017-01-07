@@ -3,8 +3,8 @@
  *  im Folgenden Seanox Software Solutions oder kurz Seanox genannt.
  *  Diese Software unterliegt der Version 2 der GNU General Public License.
  *
- *  Devwex, Advanced Server Developing
- *  Copyright (C) 2013 Seanox Software Solutions
+ *  Seanox Commons, Advanced Programming Interface
+ *  Copyright (C) 2017 Seanox Software Solutions
  *
  *  This program is free software; you can redistribute it and/or modify it
  *  under the terms of version 2 of the GNU General Public License as published
@@ -21,471 +21,491 @@
  */
 package com.seanox.common;
 
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.StringTokenizer;
 
 /**
- *  Generator, generiert Daten durch das Bef&uuml;llen von Platzhaltern (Tags).
- *  Platzhalter k&ouml;nnen dabei einzelne Elemente oder auch komplexe und in
- *  sich verschachtelte Strukturen sein. Elemente und Strukturen lassen sich
- *  dazu klassifizieren. Dabei werden diese namentlich einem Segment zugewiesen,
- *  womit ein gezieltes Bef&uuml;llen der Platzhalter m&ouml;glich ist. Zum
- *  Bef&uuml;llen werden die Werte als Wertetabelle &uuml;bergeben und dann auf
- *  ein Segment angewandt. Das generieren der Daten l&auml;sst sich dabei auf
- *  die gesamte Vorlage oder auch nur auf Teilstrukturen anwenden.<br>
- *  <br>
- *  <b>Beschreibung der Syntax</b><br>
- *  <br>
+ *  Generator, generiert Daten durch das Bef&uuml;llen von Platzhaltern (Tags) 
+ *  in einer Vorlage (Template). Platzhaltern k&ouml;nnen Schl&uuml;ssel, 
+ *  Schl&uuml;ssel mit Namensr&auml;umen und Segmente sein.<br>
+ *  Schl&uuml;ssel sind die einfachste Form und werden mit einem gleichnamigen
+ *  Wert gef&uuml;llt.<br> 
+ *  Schl&uuml;ssel mit Namensraum (Scope) werden ebenfalls mit einem 
+ *  gleichnamigen Wert gef&uuml;llt, aber nur, wenn beim Generieren der passende 
+ *  Namensraum angegeben wird. Schl&uuml;ssel mit abweichendem Namensraum
+ *  werden beim Generieren ignoriert und die Platzhalter bleiben f&uuml;r die 
+ *  nachfolgende Generierung erhalten.<br>
+ *  Segmente sind Strukturen innerhalb einer Vorlage und k&ouml;nnen
+ *  verschiedene Platzhalter und Namensr&auml;ume sowie weitere Segmente
+ *  enthalten. Sie lassen sich als Teilvorlage beschreiben und verwenden.<br>
+ *  <dir>
+ *    <b>Beschreibung der Syntax</b>
+ *  </dir>
+ *  Die Syntax der Platzhalter ignoriert die Gross- und Kleinschreibung und ist
+ *  auf folgende Zeichen begrenzt:
+ *      <dir>{@code a-z A-Z 0-9 _-}</dir>
+ *  <dir>
+ *    <b>Struktur und Beschreibung der Platzhalter</b>
+ *  </dir>
  *  <table>
  *    <tr>
  *      <td valign="top" nowrap="nowrap">
- *        <code>&lt;set:segment:field&gt;</code>
+ *        <code>#[value]</code>
  *      </td>
  *      <td valign="top">
- *        Setzt an dieser Stelle den Wert f&uuml;r ein bestimmtes Feld aus dem
- *        angegebenen Segment und entfernt den Platzhalter.
+ *        Setzt an dieser Stelle den Wert f&uuml;r &lt;value&gt; ein und
+ *        entfernt den Platzhalter.
  *      </td>
  *    </tr>
  *    <tr>
  *      <td valign="top" nowrap="nowrap">
- *        <code>
- *          &lt;set:segment:sub&gt;<br>
- *          &nbsp;&nbsp;&lt;set:segment:field&gt;<br>
- *          &nbsp;&nbsp;...<br>
- *          &lt;set:segment:end&gt;<br>
- *        </code>
+ *        <code>#[namespace:value]</code>
  *      </td>
  *      <td valign="top">
- *        Definiert ein Segment als Struktur. Die Verschachtelung weiterer
- *        Definitionen ist m&ouml;glich. Da die Platzhalter zum Einf&uuml;gen
- *        von Segmenten erhalten bleiben, k&ouml;nnen diese zum Aufbau von
- *        Listen verwendet werden.
+ *        Setzt an dieser Stelle den Wert f&uuml;r &lt;value&gt; nur in
+ *        Verbindung mit dem korrespondierenden Namensraum (Scope) ein und
+ *        entfernt den Platzhalter.
  *      </td>
  *    </tr>
  *    <tr>
  *      <td valign="top" nowrap="nowrap">
- *        <code>&lt;set:segment&gt;</code>
+ *        <code>#[segment:[[...]]]</code>
  *      </td>
  *      <td valign="top">
- *        Setzt an dieser Stelle den Inhalt des angegebenen Segments. Der
- *        Platzhalter bleibt erhalten und kann so zum Aufbau von Listen
+ *        Definiert ein Segment. Die Verschachtelung und Verwendung weiterer
+ *        Segmente ist m&ouml;glich. Da die Platzhalter zum Einf&uuml;gen von
+ *        Segmenten erhalten bleiben, k&ouml;nnen diese zum Aufbau von Listen
  *        verwendet werden.
  *      </td>
  *    </tr>
+ *    <tr>
+ *      <td valign="top" nowrap="nowrap">
+ *        <code>#[0x0A]</code><br>
+ *        <code>#[0x4578616D706C6521]</code>
+ *      </td>
+ *      <td valign="top">
+ *        Maskiert ein oder mehr Zeichen. Die Umwandlung erfolgt erst mit
+ *        {@link #extract(String, Hashtable)}, {@link #extract(String)} bzw.
+ *        {@link #extract()} zum Schluss der Generierung.
+ *      </td>
+ *    </tr>
  *  </table>
+ *  <dir>
+ *    <b>Arbeitsweise</b>
+ *  </dir>
+ *  Die Generierung erfolgt dreistufig (Level 0 - 2) auf Byte-Ebene.
+ *  Es gibt einen Parser (Level 0) und einen Prozessor (Level 1) sowie eine
+ *  Finalisierung des Prozessors (Level 2).<br>
+ *  Der Parser ermittelt rekursiv die Namensr&auml;ume und Segmente
+ *  (Teilvorlagen) innerhalb der Vorlage und bereitet die Verwendung der
+ *  Platzhalter zum Bef&uuml;llen durch den Prozessor vor.<br>
+ *  Der Prozessor bef&uuml;llt die Platzhalter in einer Vorlage. Bei der
+ *  Finalisierung dekodiert der Prozessor die kodierten Platzhalter und
+ *  entfernt ggf. nicht aufgel&ouml;ste.<br>
+ *  Parser und Prozessor arbeiten tolerant und ignorieren die Gross- und
+ *  Kleinschreibung sowie fehlerhafte Platzhalter, Strukturen, Namensr&auml;ume
+ *  und Schl&uuml;ssel.<br>
  *  <br>
- *  Generator 1.2011.0329<br>
- *  Copyright (C) 2013 Seanox Software Solutions<br>
+ *  Generator 5.0 20170107<br>
+ *  Copyright (C) 2017 Seanox Software Solutions<br>
  *  Alle Rechte vorbehalten.
  *
  *  @author  Seanox Software Solutions
- *  @version 1.2011.0329
+ *  @version 5.0 20170107
  */
 public class Generator {
 
     /** Segmente der Vorlage */
-    private Hashtable segments;
+    private Hashtable<String, byte[]> segments;
 
     /** Datenbuffer der Vorlage */
-    private byte[] structure;
+    private byte[] model;
 
     /**
      *  Konstruktor, richtet den Generator initial ein.
-     *  @param structure Vorlage als Bytes
+     *  @param model Vorlage als Bytes
      */
-    private Generator(byte[] structure) {
+    private Generator(byte[] model) {
 
-        this.segments = new Hashtable();
-
-        this.structure = this.parse(structure, false);
+        this.segments = new Hashtable<>();
+        this.model    = this.prepare(model, null, null, 0);
     }
 
     /**
      *  Erstellt einen neuen Generator auf Basis der &uuml;bergebenen Vorlage.
-     *  @param  structure Vorlage
+     *  @param  model Vorlage als Bytes
      *  @return der Generator mit der als Bytes &uuml;bergebenen Vorlage
      */
-    public static Generator parse(byte[] structure) {
-
-        return new Generator(structure == null ? new byte[0] : (byte[])structure.clone());
+    public static Generator parse(byte[] model) {
+        return new Generator(model == null ? new byte[0] : (byte[])model.clone());
     }
-
+    
     /**
-     *  R&uuml;ckgabe der aktuell bef&uuml;llten Struktur.
-     *  @param  clean Option <code>true</code> bereinigt alle Marken
-     *  @return die aktuell bef&uuml;llte Struktur
+     *  Ermittelt ab der angegebenen Position in einem Datenfragmet die Position
+     *  des n&auml;chsten Platzhalters oder Segments. Kann keine Position
+     *  ermittelt werden, liefert die Methode einen negativen Wert.
+     *  @param  bytes  Datenfragmet
+     *  @param  cursor Position
+     *  @return die Position des n&auml;chsten Platzhalters oder Segments, sonst
+     *          ein negativer Wert
      */
-    public byte[] extract(boolean clean) {
+    private static int scan(byte[] bytes, int cursor) {
+        
+        int digit;
+        int offset;
+        int size;
+        int colon;
+        
+        offset = cursor;
+        colon  = 0;
 
-        return clean ? this.define(this.structure, null, null, true) : (byte[])this.structure.clone();
+        //Phase 1: Identifizierung eines Platzhalters
+        //  - die unterstuetzen Formate: #[...], #[...:[[...]]]
+        //  - Hauptmerkmal sind die ersten zwei Zeichen
+        //  - alle Platzhalter beginnen mit #[...
+        if (cursor +1 > bytes.length
+                || bytes[cursor] != '#' || bytes[++cursor] != '[')
+            return -1;
+        
+        //Phase 2: Begrenzung des Platzhalters
+        //  - zulaessig sind nur folgende Zeichen: a-z A-Z 0-9 _-
+        //    abweichende Zeichen werden als Platzhalter ignoriert
+        //  - indirekt werden auch : sowie [ und ] unterstuetzt, was aber nur zur
+        //    internen Klassifizierung und Begrenzung verwendet wird
+        while (++cursor < bytes.length) {
+            digit = bytes[cursor];
+            if (digit < 'a' && digit > 'z'
+                    && digit < 'A' && digit > 'Z'
+                    && digit < '0' && digit > '9'
+                    && digit != '_' && digit != '-'
+                    && digit != ':' && digit != '[' && digit != ']')
+                return -1;
+            
+            //nur gueltige Segemente werden gefunden, sonst ignoriert
+            //  - das vorangehende Zeichen muss ein Doppelpunkt sein
+            //  - das folgende zwei Zeichen muss eine oeffende eckige Klammern
+            //    sein, da diese das Segment einschliesst
+            //  - die nachfolgende Datenmenge muss fuer die drei schliessenden
+            //    Klammern ausreichen
+            if (digit == '[' && (bytes[cursor -1] != ':'
+                    || cursor +4 >= bytes.length
+                    || bytes[++cursor] != '['))
+                return -1;
+            
+            //gueltige Segemente werden analysiert
+            //  - Segment koennen weitere Segmente einschliessen, daher muss
+            //    nach weiteren eingeschlossenen Segmenten und nach dem Schluss
+            //    des aktuellen Segments gesucht werden
+            //  - zur Suche nach den Segmenten wird die Methode rekursive
+            //    verwendet
+            //  - die Bewertung der gefundenen Platzhalter erfolgt ueber die
+            //    letzten frei Zeichen, dabei muss es sich um drei schliessenden
+            //    eckige Klammern handeln, sonst ist es kein Segment 
+            //  - werden weitere Segmente gefunden, wird der Cursor an das Ende
+            //    des gefundenen Segments gesetzt, was das mehrfache Lesen der
+            //    Daten minimiert
+            if (digit == '[') {
+                while (++cursor < bytes.length) {
+                    if (cursor +2 >= bytes.length)
+                        return -1;
+                    size = Generator.scan(bytes, cursor);
+                    if (size < 0) {
+                        if (bytes[cursor] == ']'
+                                && bytes[++cursor] == ']'
+                                && bytes[++cursor] == ']')
+                            return cursor -offset +1;
+                    } else cursor += size -1;
+                }
+            }
+            
+            //der Doppelpunkt Begrenzt den Namensraum
+            //  - der Doppelpunkt darf nur einmal vorkommen
+            if (digit == ':' && ++colon > 1)
+                return -1;
+            
+            //gueltige Platzhalter werden gefunden
+            //  - das folgende Zeichen muss eine oeffende eckige Klammer sein,
+            //    da diese den Schluessel vom Platzhalter einschliesst
+            //  - fuer den Schluessel sind nur folgende Zeichen zulaessig:
+            //    a-z A-Z 0-9 _-
+            //    abweichende Zeichen werden als Platzhalter ignoriert
+            //  - dem Schluessel muss die schliessende eckige Klammer folgen,
+            //    da diese den Schluessel vom Platzhalter einschliesst
+            if (digit == ']')
+                return cursor -offset +1;
+        }
+        
+        return -1;
     }
 
     /**
-     *  Extrahiert das angegebene Segment und setzt dort die Daten. Die
-     *  Gesamtstruktur wird davon nicht ber&uuml;hrt.
-     *  @param  segment Name des Segments
-     *  @param  data    Liste der zu setzenden Daten
-     *  @param  clean   Option <code>true</code> bereinigt alle Marken
+     *  R&uuml;ckgabe aller Scopes der Segmente als Enumeration.
+     *  Freie Scopes (ohne Segment) sind nicht enthalten.
+     *  @return alle Scopes der Segmente als Enumeration
+     */
+    public Enumeration<String> scopes() {
+        return this.segments.keys();
+    }
+
+    /**
+     *  R&uuml;ckgabe der aktuell bef&uuml;llten Vorlage.
+     *  @return die aktuell bef&uuml;llte Vorlage
+     */
+    public byte[] extract() {
+        return this.prepare(this.model, null, null, 2);
+    }
+    
+    /**
+     *  Extrahiert ein angegebenes Segment und setzt dort die Daten.
+     *  Die Daten der Vorlage werden davon nicht ber&uuml;hrt.
+     *  @param  scope Segment
      *  @return das gef&uuml;llte Segment, kann dieses nicht ermittelt werden,
      *          wird ein leeres Byte-Array zur&uuml;ckgegeben
      */
-    public byte[] extract(String segment, Hashtable data, boolean clean) {
+    public byte[] extract(String scope) {
 
-        byte[] bytes;
-
-        //der Name wird zur Verarbeitung vereinfacht
-        segment = (segment == null) ? "" : segment.trim().toLowerCase();
-
-        //zur Verarbeitung wird die Teilstruktur ermittelt
-        if (segment.length() == 0 || (bytes = (byte[])this.segments.get(segment)) == null) return new byte[0];
-
-        //die Werte in der aktuellen Strutur werden gesetzt
-        bytes = this.define(bytes, segment, data, false);
-
-        //optional werden mit der Option clean von allen Marken entfernt
-        return clean ? this.define(bytes, null, null, true) : bytes;
-    }
-
-    /**
-     *  Setzt die Daten f&uuml;r das angegebene Segment in der Gesamtstruktur.
-     *  Mit <code>null</code>, werden die Daten alle Segmente gesetzt.
-     *  @param segment Name des Segments, alternative <code>null</code>
-     *  @param data    Liste der zu setzenden Daten
-     */
-    public void define(String segment, Hashtable data) {
-
-        this.structure = this.define(this.structure, segment, data, false);
-    }
-
-    /**
-     *  L&ouml;st in der &uuml;bergeben Struktur alle Variablen zum angegebenen
-     *  Name auf oder entfernt diese mit der Option <code>clear</code>.
-     *  R&uuml;ckgabe der ge&auml;nderter Struktur als ByteArray
-     *  @param  structure Generator Struktur
-     *  @param  segment   Name des Definitionsblocks
-     *  @param  data      Liste der zu setzenden Daten
-     *  @param  clear     Option <code>true</code> zum entfernen der Tags
-     *  @return die ge&auml;nderte Struktur als ByteArray
-     */
-    private byte[] define(byte[] structure, String segment, Hashtable data, boolean clear) {
-
-        Enumeration     enumeration;
-        Hashtable       cache;
-        Object          object;
-        String          content;
-        String          stream;
-        String          string;
-        StringTokenizer tokenizer;
-
-        byte[]          bytes;
-        byte[]          entry;
-
-        int             addition;
-        int             correct;
-        int             cursor;
-        int             length;
-        int             offset;
-        int             pointer;
-
-        //inhaltlose Strukturen werden ignoriert
-        if (structure == null) return new byte[0];
-
-        //der Name des Segments wird zur Verarbeitung vereinfacht
-        segment = (segment == null) ? "" : segment.trim().toLowerCase();
-
-        //Hinweis - die Verarbeitung erfolgt in zwei Schritten
-        //1. die Struktur wird gegebenfalls um die Segmente erweitert
-        //2. die Variablen der Struktur werden gesetzt, bzw. bereinigt
-
-        //zur Verarbeitung wird die Struktur in in einen String gewandelt
-        content = new String(structure);
-
-        //das Segment wird ermittelt
-        entry = (byte[])this.segments.get(segment);
-
-        if (entry == null) entry = new byte[0];
-
-        //die Cursor werden initialisiert
-        offset = cursor = 0;
-
-        //die Definitionsbloecke werden eingefuegt
-        while ((offset = content.indexOf("<set:", offset)) >= 0 && entry.length > 0) {
-
-            pointer = content.indexOf('>', offset);
-
-            if (pointer < 0) pointer = content.length();
-
-            tokenizer = new StringTokenizer(content.substring(offset +4, pointer), ":");
-
-            stream = tokenizer.hasMoreTokens() ? tokenizer.nextToken().trim() : "";
-            string = tokenizer.hasMoreTokens() ? tokenizer.nextToken().trim() : "";
-
-            if (!stream.equals(segment)) {offset++; continue;}
-
-            //die Cursor-Korrektur wird ermittelt wenn die End Position
-            //nicht die Laenge des Contents ueberschreitet
-            correct = (pointer < content.length()) ? 1 : 0;
-
-            length = addition = 0;
-
-            if (string.length() != 0) {offset++; continue;}
-
-            stream   = ("<set:").concat(segment).concat(">");
-            addition = stream.length();
-            length   = addition +entry.length;
-
-            //Hinweis - das folgende Kopieren wurde stark optimiert
-            //1. die neue Gesamtgroesse wird ermittelt und eingerichtet
-            //2. die Daten vor dem gefunden Tag werden eingefuegt
-            //3. die Daten fuer den Tag  bei ADD werden eingefuegt
-            //4. die Restdaten werden eingefuegt
-
-            bytes = new byte[offset +length +(content.length() -(pointer +correct)) +cursor];
-            System.arraycopy(structure, 0, bytes, 0, offset +cursor);
-            System.arraycopy(entry, 0, bytes, offset +cursor, entry.length);
-            System.arraycopy(stream.getBytes(), 0, bytes, offset +cursor +entry.length, addition);
-            System.arraycopy(structure, pointer +cursor +correct, bytes, offset +cursor +length, (content.length() -(pointer +correct)));
-
-            structure = bytes;
-
-            cursor += entry.length -(pointer -offset +correct);
-
-            offset = (pointer +correct);
+        byte[] model;
+        
+        if (scope != null) {
+            scope = scope.toLowerCase().trim();
+            if (!scope.isEmpty() && !scope.matches("[a-z0-9_-]+"))
+                return new byte[0];
         }
+        
+        model = this.segments.get(scope);
+        if (model == null)
+            model = new byte[0];
+        return this.prepare(model, null, null, 2);
+    }
+    
+    /**
+     *  Extrahiert ein angegebenes Segment und setzt dort die Daten.
+     *  Die Daten der Vorlage werden davon nicht ber&uuml;hrt.
+     *  @param  scope  Segment
+     *  @param  values Werteliste
+     *  @return das gef&uuml;llte Segment, kann dieses nicht ermittelt werden,
+     *          wird ein leeres Byte-Array zur&uuml;ckgegeben
+     */
+    public byte[] extract(String scope, Hashtable<String, Object> values) {
+        
+        byte[] model;
+        
+        if (scope != null) {
+            scope = scope.toLowerCase().trim();
+            if (!scope.isEmpty() && !scope.matches("[a-z0-9_-]+"))
+                return new byte[0];
+        }
+        
+        model = this.segments.get(scope);
+        if (model == null)
+            model = new byte[0];
+        model = this.prepare(model, scope, values, 1);
+        return this.prepare(model, null, null, 2);
+    }
 
-        //der Datenspeicher wird initial eingerichtet
-        cache = new Hashtable();
+    /**
+     *  Bereitet in der &uuml;bergeben Vorlage alle Plazthalter zum angegebenen
+     *  Scope bzw. Segment vor bzw. auf oder bereinigt diese.
+     *  @param  model  Vorlage
+     *  @param  scope  Scope bzw. Segment
+     *  @param  values Werte
+     *  @param  level  Verarbeitungsschritt
+     *  @return die ge&auml;nderten Daten als ByteArray
+     */
+    private byte[] prepare(byte[] model, String scope, Hashtable<String, Object> values, int level) {
 
-        //die Teilstruktur wird als String verarbeitet
-        content = new String(structure);
+        String   label;
+        String   trace;
+        Object   object;
+        
+        String[] stack;
+        
+        byte[]   cache;
+        byte[]   value;
+        
+        int      cursor;
+        int      offset;
+        int      shift;
+        int      index;
+        
+        if (scope == null)
+            scope = "";
+        trace = scope;
+        stack = scope.trim().split("\\s+");
+        
+        if (values == null || level != 1)
+            values = new Hashtable<>();
 
-        //die Cursor werden initialisiert
-        offset = cursor = 0;
+        //die Werte werden normalisiert, aber nicht in der Rekursion
+        if (stack.length <= 1) {
+            values = new Hashtable<>(values);
+            for (String key : new Hashtable<>(values).keySet())
+                values.put(key.toLowerCase().trim(), values.get(key));
+        }
+        
+        for (cursor = 0; cursor < model.length; cursor++) {
+            
+            offset = Generator.scan(model, cursor);
+            if (offset < 0)
+                continue;
+            
+            shift = 0;
+            value = null;
+            
+            //der Platzhalter wird als Ausschnitt ermittelt, einleitende
+            //und beendende Zeichen werden abgeschnitten, womit Scope,
+            //Trennung und Schluessel verbleiben
+            cache = Arrays.copyOfRange(model, cursor +2, cursor +offset -1);
+            scope = new String(cache);
+            index = scope.indexOf(':'); 
+            scope = scope.toLowerCase().trim();
+            
+            if (scope.matches("^0x(?:[0-9A-Fa-f]{2})+$")) {
 
-        //die Elemente werden eingefuegt
-        for (object = null; (offset = content.indexOf("<set:", offset)) >= 0;) {
+                //Platzhalter mit maskierten Daten werden nur beim Release
+                //aufgeloest und sonst ignoriert
+                if (level > 1)
+                    value = new BigInteger(scope.substring(2), 16).toByteArray();
+                
+            } else if (level > 1) {
 
-            pointer = content.indexOf('>', offset);
+                //ab Level Release werden alle Platzhalter bereinigt
+                //neue Scopes werden in diesem Level ignoriert
+                value = new byte[0];
+                
+            } else if (cache[cache.length -1] == ']') {
+                
+                //es werden immer die letzten drei Bytes betrachtet
+                //eine schliessende Klammer an dieser Stelle kann nur auf 
+                //ein Segment hinweisen
 
-            if (pointer < 0) pointer = content.length();
+                //Scope und Daten vom Segment werden ermittelt
+                scope = scope.substring(0, Math.max(0, index)).trim();
+                cache = Arrays.copyOfRange(cache, index +3, cache.length -2);
+                
+                //rekursiv wird nach weiteren innere Segmente gesucht
+                cache = this.prepare(cache, null, null, 0);
 
-            tokenizer = new StringTokenizer(content.substring(offset +4, pointer), ":");
+                //das Segmente wird registriert
+                this.segments.put(scope, cache);
 
-            stream = tokenizer.hasMoreTokens() ? tokenizer.nextToken().trim() : "";
-            string = tokenizer.hasMoreTokens() ? tokenizer.nextToken().trim() : "";
+                //Segmente werden an der Stelle wo diese verwendet werden durch
+                //einen Platzhalter abgebildet
+                value = ("#[").concat(scope).concat("]").getBytes();
+                
+                //mit dem negativem Offset wird der Cursor vor den Platzhalter
+                //positioniert, damit der normale Prepare-Prozess greift, wenn
+                //ein Segement erst nach dem Parsen ermittelt ermittelt wird
+                shift = -value.length; 
+                
+            } else if (level < 1) {
 
-            if ((!clear && stream.equals(segment) && string.length() > 0)
-                    || (clear && (segment.length() == 0 || stream.equals(segment)))) {
+                //im Level Initialize werden alle Platzhalter ignoriert
+                
+            } else {
+                
+                if (this.segments.containsKey(scope)) {
+                    
+                    if (trace.concat(" ").contains((" ").concat(scope).concat(" "))) {
+                        
+                        //endlose Rekursionen werden unterbunden
+                        //der Scope darf nicht im Trace enthalten sein
+                        value = new byte[0];                        
+                        
+                    } else {
+                        
+                        //Segmente werden nur mit gueltigem Scope/Filter verarbeitet,
+                        //ohne Scope/Filer werden diese ignoriert
+                        if (scope.equals(stack[0])) {
 
-                //die Cursor-Korrektur wird ermittelt wenn die Endposition
-                //nicht die Laenge des Contents ueberschreitet
-                correct = (pointer < content.length()) ? 1 : 0;
-
-                if (!clear && data != null) {
-
-                    object = cache.get(string);
-
-                    if (object == null) {
-
-                        object = data.get(string);
-
-                        if (object == null) {
-
-                            enumeration = data.keys();
-
-                            while (enumeration.hasMoreElements()) {
-
-                                object = enumeration.nextElement();
-                                stream = String.valueOf(object).trim().toLowerCase();
-                                object = stream.equals(string) || stream.replace('_', '-').equals(string) ? data.get(object) : null;
-
-                                if (object == null) continue;
-
-                                break;
+                            //der Inhalt von Segmenten laesst sich ueber
+                            //gleichnamige Werte ueberschreiben, das Verhalten mit
+                            //dem Fortfuehren vom Platzhalter bleibt dabei erhalten
+                            if (values.containsKey(scope)) {
+                                
+                                //der Wert wird ueber den Schluessel ermittelt
+                                object = values.get(scope);
+                                if (object instanceof byte[])
+                                    value = (byte[])object;
+                                else if (object != null)
+                                    value = String.valueOf(object).getBytes();
+                                
+                            } else {
+                                
+                                //das Segement wird rekursiv aufgeloest
+                                value = this.prepare(this.segments.get(scope), scope.concat(" ").concat(trace).trim(), values, 1);
                             }
-                        }
-
-                        if (object != null) {
-
-                            if (object instanceof String) object = ((String)object).getBytes();
-                            else if (!(object instanceof byte[])) object = String.valueOf(object).getBytes();
-
-                            cache.put(string, object);
+                            
+                            //der Platzhalter bleibt erhalten, was durch die
+                            //Verschiebung vom Cursor erreicht wird, die Laenge
+                            //vom Value kann hier ignoriert werden, da diese am
+                            //Ende beruecksichtig wird
+                            shift  = offset +1;
+                            offset = 0;
                         }
                     }
+                    
+                } else {
+
+                    //Schluessel und Scope werden ermittelt
+                    label = scope.substring(index +1).trim();
+                    scope = scope.substring(0, Math.max(0, index)).trim();
+                    
+                    //nur bei uebereinstimmenden Scope wird der Platzhalter
+                    //beruecksichtigt bzw. verarbeitet
+                    if (scope.equals(stack[0]) || scope.isEmpty()) {
+
+                        //der Wert wird ueber den Schluessel ermittelt
+                        object = values.get(label);
+                        if (object instanceof byte[])
+                            value = (byte[])object;
+                        else if (object != null)
+                            value = String.valueOf(object).getBytes();
+                    }
                 }
-
-                entry = (object == null) ? new byte[0] : (byte[])object;
-
-                bytes = new byte[offset +entry.length +(content.length() -(pointer +correct)) +cursor];
-                System.arraycopy(structure, 0, bytes, 0, offset +cursor);
-                System.arraycopy(entry, 0, bytes, offset +cursor, entry.length);
-                System.arraycopy(structure, pointer +cursor +correct, bytes, offset +cursor +entry.length, (content.length() -(pointer +correct)));
-                structure = bytes;
-
-                cursor += entry.length -(pointer -offset +correct);
-
-                offset = (pointer +correct);
-
-            } else offset++;
+            }
+            
+            if (value != null) {
+            
+                //die Daten werden eingefuegt
+                cache = new byte[model.length -offset +value.length];
+                System.arraycopy(model, 0, cache, 0, cursor);
+                System.arraycopy(value, 0, cache, cursor, value.length);
+                System.arraycopy(model, cursor +offset, cache, cursor +value.length, model.length -cursor -offset);
+                model = cache;
+            }
+            
+            //der neue Cursor wird berechnet
+            cursor += value == null ? offset -1 : value.length -1;
+            cursor += shift;
         }
-
-        return structure;
+        
+        return model;
     }
 
     /**
-     *  Analysiert die &uuml;bergebene Datenstruktur, ermittelte enthaltene
-     *  Bl&ouml;cke und erstellt daraus eine optimierte Datenvorlage ohne
-     *  Unterstrukturen.
-     *  @param  bytes   Daten der Vorlage
-     *  @param  extract Option <code>true</code> zur rekursiven Verarbeitung
-     *  @return die optimierte Datenvorlage ohne Unterstrukturen
+     *  Setzt die Daten f&uuml;r einen Scope oder ein Segment.
+     *  @param values Werte
      */
-    private byte[] parse(byte[] bytes, boolean extract) {
-
-        String          content;
-        String          entry;
-        String          stream;
-        String          string;
-        StringTokenizer tokenizer;
-
-        byte[]          array;
-        byte[]          result;
-
-        int             correct;
-        int             count;
-        int             cursor;
-        int             mode;
-        int             offset;
-        int             pointer;
-
-        //zur Verarbeitung wird die Struktur in einen String gewandelt
-        content = new String(bytes);
-
-        //die Cursor werden initialisiert
-        cursor = offset = 0;
-
-        //zur Verarbeitung wird die Struktur vereinfacht
-        if (!extract) {
-
-            content = content.toLowerCase();
-
-            //die Elemente werden allgemein geprueft und ggf. optimiert
-            while ((offset = content.indexOf("<set:", offset)) >= 0) {
-
-                pointer = content.indexOf('>', offset);
-
-                if (pointer < 0) pointer = content.length();
-
-                //die Markenstruktur wird ermittelt
-                tokenizer = new StringTokenizer(content.substring(offset +4, pointer), ":");
-
-                for (string = ""; tokenizer.hasMoreTokens();) {
-
-                    stream = tokenizer.nextToken().trim();
-
-                    if (stream.length() > 0) string = string.concat(":").concat(stream);
-                }
-
-                //nur gueltige Elemente werden verwendnet, ungueltige entfernt
-                if (string.length() > 0) string = ("<set").concat(string).concat(">").toLowerCase();
-
-                //die Cursor-Korrektur wird ermittelt wenn die Endposition
-                //nicht die Laenge des Contents ueberschreitet
-                correct = (pointer < content.length()) ? 1 : 0;
-
-                array = new byte[offset +string.length() +(content.length() -(pointer +correct)) +cursor];
-                System.arraycopy(bytes, 0, array, 0, offset +cursor);
-                System.arraycopy(string.getBytes(), 0, array, offset +cursor, string.length());
-                System.arraycopy(bytes, pointer +cursor +correct, array, offset +cursor +string.length(), (content.length() -(pointer +correct)));
-                bytes = array;
-
-                cursor += string.length() -(pointer -offset +correct);
-
-                offset = pointer +correct;
-            }
-        }
-
-        //zur Verarbeitung wird die Struktur in in einen String gewandelt
-        content = new String(bytes);
-
-        //die Cursor werden zurueckgesetzt
-        count = cursor = offset = 0;
-
-        for (entry = null; (offset = content.indexOf("<set:", offset)) >= 0;) {
-
-            pointer = content.indexOf('>', offset);
-
-            if (pointer < 0) pointer = content.length();
-
-            tokenizer = new StringTokenizer(content.substring(offset +4, pointer), ":");
-
-            stream = tokenizer.hasMoreTokens() ? tokenizer.nextToken().trim() : "";
-            string = tokenizer.hasMoreTokens() ? tokenizer.nextToken().trim() : "";
-
-            mode = string.equals("sub") ? 1 : string.equals("end") ? 2 : 0;
-
-            if (entry == null && mode != 0) {cursor = offset; entry = stream;}
-
-            if (stream.equals(entry) && mode == 1) count++;
-            if (stream.equals(entry) && mode == 2) count--;
-
-            if (count < 0) count = 0;
-
-            if ((count == 0 || pointer == content.length()) && entry != null) {
-
-                //die Cursor-Korrektur wird ermittelt wenn die Endposition
-                //nicht die Laenge des Contents ueberschreitet
-                correct = (pointer < content.length()) ? 1 : 0;
-
-                //die Bytes werden ohne Definitionsblock neu zusammengesetzt
-                array  = new byte[cursor +(content.length() -(pointer +correct))];
-                System.arraycopy(bytes, 0, array, 0, cursor);
-                System.arraycopy(bytes, pointer +correct, array, cursor, content.length() -(pointer +correct));
-                result = new byte[pointer -cursor +correct];
-                System.arraycopy(bytes, cursor, result, 0, result.length);
-                bytes  = array;
-
-                //der Content wird fuer den Definitionsblock eingerichtet
-                string  = new String(result);
-                cursor  = string.indexOf('>') +1;
-                correct = string.lastIndexOf("<set:");
-
-                if (pointer == content.length()) correct = string.length();
-                if (cursor > correct) cursor = correct;
-
-                //die Definitionstags werden aus dem Definitionsblock entfernt
-                array  = new byte[correct -cursor];
-                System.arraycopy(result, cursor, array, 0, array.length);
-                result = array;
-
-                //eventuell enthaltene Unterdefinitionsbloecke werden entfernt
-                //und die Definitionen uebernommen
-                this.segments.put(entry, this.parse(result, true));
-
-                //der Content wird neu eingerichtet
-                content = new String(bytes);
-
-                //der Blockname wird zurueckgesetzt
-                entry = null;
-
-                //die Cursor werden zurueckgesetzt
-                offset = (cursor = 0) -1;
-            }
-
-            offset++;
-        }
-
-        return bytes;
+    public void set(Hashtable<String, Object> values) {
+        this.model = this.prepare(this.model, null, values, 1);
     }
 
     /**
-     *  R&uuml;ckgabe aller Namen der Segmente als Enumeration.
-     *  @return alle Namen der Segmente als Enumeration
+     *  Setzt die Daten f&uuml;r einen Scope oder ein Segment.
+     *  @param scope  Scope bzw. Segment
+     *  @param values Werte
      */
-    public Enumeration segments() {
-
-        return this.segments.keys();
+    public void set(String scope, Hashtable<String, Object> values) {
+        
+        if (scope != null) {
+            scope = scope.toLowerCase().trim();
+            if (!scope.isEmpty() && !scope.matches("[a-z0-9_-]+"))
+                return;
+        }        
+        
+        this.model = this.prepare(this.model, scope, values, 1);
     }
 }
