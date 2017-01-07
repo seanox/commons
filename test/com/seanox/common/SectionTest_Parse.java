@@ -37,7 +37,6 @@ public class SectionTest_Parse {
     public void testAceptance_1() {
 
         Section section = Section.parse(ResourceUtils.getContextContent());
-        System.out.println("[INF] " + section);
         assertEquals(section.toString(), ResourceUtils.getContextContent("testAceptance_1_1"));
     }
 
