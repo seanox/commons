@@ -110,28 +110,28 @@ public class InitializeTest_Set {
 
         Section section1 = new Section();
         initialize.set("A", section1);
-        assertEquals(initialize.get("A"), section1);
-        assertEquals(initialize.get("a"), section1);
+        assertEquals(section1, initialize.get("A"));
+        assertEquals(section1, initialize.get("a"));
         
         Section section2 = new Section();
         initialize.set("a", section2);
-        assertEquals(initialize.get("A"), section2);
-        assertEquals(initialize.get("a"), section2);
+        assertEquals(section2, initialize.get("A"));
+        assertEquals(section2, initialize.get("a"));
         
         Section section3 = new Section();
         initialize.set(" a", section3);
-        assertEquals(initialize.get("A"), section3);
-        assertEquals(initialize.get("a"), section3);
+        assertEquals(section3, initialize.get("A"));
+        assertEquals(section3, initialize.get("a"));
         
         Section section4 = new Section();
         initialize.set(" a ", section4);
-        assertEquals(initialize.get("A"), section4);
-        assertEquals(initialize.get("a"), section4);
+        assertEquals(section4, initialize.get("A"));
+        assertEquals(section4, initialize.get("a"));
 
         Section section5 = new Section();
         initialize.set("a ", section5);
-        assertEquals(initialize.get("A"), section5);
-        assertEquals(initialize.get("a"), section5);
+        assertEquals(section5, initialize.get("A"));
+        assertEquals(section5, initialize.get("a"));
     }
     
     /** TestCase for overwrite a key. */
@@ -147,7 +147,7 @@ public class InitializeTest_Set {
         initialize.set(" A", section3);
         Section section4 = new Section();
         initialize.set(" a   ", section4);
-        assertEquals(initialize.get("A"), section4);
-        assertEquals(initialize.get("a"), section4);
+        assertEquals(section4, initialize.get("A"));
+        assertEquals(section4, initialize.get("a"));
     }
 }

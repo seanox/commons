@@ -40,7 +40,7 @@ public class GeneratorTest {
     public void testAceptance_1() {
         
         Generator generator = Generator.parse(ResourceUtils.getContextContent().getBytes());
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent("testAceptance_1_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_1_1"), new String(generator.extract()));
     }
     
     /** TestCase for aceptance. */
@@ -48,7 +48,7 @@ public class GeneratorTest {
     public void testAceptance_2() {
         
         Generator generator = Generator.parse(ResourceUtils.getContextContent().getBytes());
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent("testAceptance_2_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_2_1"), new String(generator.extract()));
     }
     
     /** TestCase for aceptance. */
@@ -56,7 +56,7 @@ public class GeneratorTest {
     public void testAceptance_3() {
         
         Generator generator = Generator.parse(ResourceUtils.getContextContent("testAceptance_0_0").getBytes());
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }
     
     /** TestCase for aceptance. */
@@ -72,7 +72,7 @@ public class GeneratorTest {
             values.put("name", entry);
             generator.set("path", values);
         }
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }
     
     /** 
@@ -97,7 +97,7 @@ public class GeneratorTest {
         }
         values.put("file", buffer.toByteArray());
         generator.set("file", values);
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }
     
     /** 
@@ -155,7 +155,7 @@ public class GeneratorTest {
             values.put("name", entry);
             generator.set("path", values);
         }
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }
     
     /** TestCase for aceptance. */
@@ -171,7 +171,7 @@ public class GeneratorTest {
             values.put("name", entry);
             generator.set("path", values);
         }
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }
 
     /** TestCase for aceptance. */
@@ -187,7 +187,7 @@ public class GeneratorTest {
             values.put("name", entry);
             generator.set("path", values);
         }
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }
 
     /** TestCase for recursion. */
@@ -198,7 +198,7 @@ public class GeneratorTest {
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("teST", "xx1");
         generator.set("path", values);
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }   
     
     /** TestCase for recursion. */
@@ -211,7 +211,7 @@ public class GeneratorTest {
         generator.set("path", values);
         values.put("teST", "xx2");
         generator.set("path", values);
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }   
     
     /** TestCase for recursion. */
@@ -230,7 +230,7 @@ public class GeneratorTest {
         generator.set("path", values);
         values.put("teST", "xx5");
         generator.set("path", values);
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }    
     
     /** TestCase for recursion. */
@@ -249,7 +249,7 @@ public class GeneratorTest {
         generator.set("path", values);
         values.put("teST", "xx5");
         generator.set("path", values);
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }    
 
     /** TestCase for recursion. */
@@ -263,7 +263,7 @@ public class GeneratorTest {
         values.put("dv", "dv-ok");
         values.put("b1v", "b1v-ok");
         generator.set("a", values);
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     } 
     
     /** TestCase for recursion. */
@@ -278,7 +278,7 @@ public class GeneratorTest {
         values.put("b1v", "b1v-ok");
         generator.set("a", values);
         generator.set("b", values);
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     } 
     
     /** TestCase for recursion. */
@@ -294,7 +294,7 @@ public class GeneratorTest {
         generator.set("a", values);
         generator.set("b", values);
         generator.set("c", values);
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }
     
     /** TestCase for recursion. */
@@ -311,7 +311,7 @@ public class GeneratorTest {
         generator.set("b", values);
         generator.set("c", values);
         generator.set("d", values);
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }     
 
     /** TestCase for recursion. */
@@ -328,6 +328,6 @@ public class GeneratorTest {
         generator.set("c", values);
         generator.set("b", values);
         generator.set("a", values);
-        assertEquals(new String(generator.extract()), ResourceUtils.getContextContent());
+        assertEquals(ResourceUtils.getContextContent(), new String(generator.extract()));
     }     
 }

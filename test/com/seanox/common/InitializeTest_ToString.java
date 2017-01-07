@@ -37,7 +37,7 @@ public class InitializeTest_ToString {
     public void testAceptance_1() {
         
         Initialize initialize = Initialize.parse(ResourceUtils.getContextContent());
-        assertEquals(initialize.toString(), ResourceUtils.getContextContent("testAceptance_1_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_1_1"), initialize.toString());
     }
     
     /** TestCase for aceptance. */
@@ -45,7 +45,7 @@ public class InitializeTest_ToString {
     public void testAceptance_2() {
         
         Initialize initialize = Initialize.parse(ResourceUtils.getContextContent());
-        assertEquals(initialize.toString(), ResourceUtils.getContextContent("testAceptance_2_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_2_1"), initialize.toString());
     }
     
     /** TestCase for aceptance. */
@@ -53,7 +53,7 @@ public class InitializeTest_ToString {
     public void testAceptance_3() {
         
         Initialize initialize = Initialize.parse(ResourceUtils.getContextContent());
-        assertEquals(initialize.toString(), ResourceUtils.getContextContent("testAceptance_3_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_3_1"), initialize.toString());
     }
     
     /** TestCase for aceptance. */
@@ -61,6 +61,6 @@ public class InitializeTest_ToString {
     public void testAceptance_4() {
         
         Initialize initialize = Initialize.parse(ResourceUtils.getContextContent());
-        assertEquals(initialize.toString(), ResourceUtils.getContextContent("testAceptance_4_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_4_1"), initialize.toString());
     }
 }

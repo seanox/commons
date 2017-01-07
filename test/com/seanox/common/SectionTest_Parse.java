@@ -37,7 +37,7 @@ public class SectionTest_Parse {
     public void testAceptance_1() {
 
         Section section = Section.parse(ResourceUtils.getContextContent());
-        assertEquals(section.toString(), ResourceUtils.getContextContent("testAceptance_1_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_1_1"), section.toString());
     }
 
     /** TestCase for aceptance. */
@@ -45,7 +45,7 @@ public class SectionTest_Parse {
     public void testAceptance_2() {
         
         Section section = Section.parse(ResourceUtils.getContextContent());
-        assertEquals(section.toString(), ResourceUtils.getContextContent("testAceptance_2_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_2_1"), section.toString());
     }
     
     /** TestCase for aceptance. */
@@ -53,7 +53,7 @@ public class SectionTest_Parse {
     public void testAceptance_3() {
         
         Section section = Section.parse(ResourceUtils.getContextContent());
-        assertEquals(section.toString(), ResourceUtils.getContextContent("testAceptance_3_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_3_1"), section.toString());
     }    
     
     /** TestCase for aceptance. */
@@ -61,7 +61,7 @@ public class SectionTest_Parse {
     public void testAceptance_4() {
         
         Section section = Section.parse(ResourceUtils.getContextContent());
-        assertEquals(section.toString(), ResourceUtils.getContextContent("testAceptance_4_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_4_1"), section.toString());
     } 
     
     /** TestCase for aceptance. */
@@ -69,7 +69,7 @@ public class SectionTest_Parse {
     public void testAceptance_5() {
         
         Section section = Section.parse(ResourceUtils.getContextContent());
-        assertEquals(section.toString(), ResourceUtils.getContextContent("testAceptance_5_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_5_1"), section.toString());
     }
 
     /** TestCase for aceptance. */
@@ -77,7 +77,7 @@ public class SectionTest_Parse {
     public void testAceptance_6() {
         
         Section section = Section.parse(ResourceUtils.getContextContent());
-        assertEquals(section.toString(), ResourceUtils.getContextContent("testAceptance_6_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_6_1"), section.toString());
     }
 
     /** TestCase for aceptance. */
@@ -85,7 +85,7 @@ public class SectionTest_Parse {
     public void testAceptance_7() {
         
         Section section = Section.parse(ResourceUtils.getContextContent());
-        assertEquals(section.toString(), ResourceUtils.getContextContent("testAceptance_7_1"));
+        assertEquals(ResourceUtils.getContextContent("testAceptance_7_1"), section.toString());
     }
     
     /** TestCase for override keys. */
@@ -93,7 +93,7 @@ public class SectionTest_Parse {
     public void testOverride_1() {
         
         Section section = Section.parse(ResourceUtils.getContextContent());
-        assertEquals(section.toString(), ResourceUtils.getContextContent("testOverride_1_1"));
+        assertEquals(ResourceUtils.getContextContent("testOverride_1_1"), section.toString());
     }
 
     /** TestCase for dynamic keys. */
@@ -101,6 +101,6 @@ public class SectionTest_Parse {
     public void testDynamic_1() {
         
         Section section = Section.parse(ResourceUtils.getContextContent());
-        assertEquals(section.toString(), ResourceUtils.getContextContent("testDynamic_1_1"));
+        assertEquals(ResourceUtils.getContextContent("testDynamic_1_1"), section.toString());
     }
 }

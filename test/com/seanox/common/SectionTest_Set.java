@@ -108,24 +108,24 @@ public class SectionTest_Set {
         
         Section section = new Section();
         section.set("A", "a1");
-        assertEquals(section.get("A"), "a1");
-        assertEquals(section.get("a"), "a1");
+        assertEquals("a1", section.get("A"));
+        assertEquals("a1", section.get("a"));
         
         section.set("a", "a2");
-        assertEquals(section.get("A"), "a2");
-        assertEquals(section.get("a"), "a2");
+        assertEquals("a2", section.get("A"));
+        assertEquals("a2", section.get("a"));
         
         section.set(" a", "a3");
-        assertEquals(section.get("A"), "a3");
-        assertEquals(section.get("a"), "a3");
+        assertEquals("a3", section.get("A"));
+        assertEquals("a3", section.get("a"));
         
         section.set(" a ", "a4");
-        assertEquals(section.get("A"), "a4");
-        assertEquals(section.get("a"), "a4");
+        assertEquals("a4", section.get("A"));
+        assertEquals("a4", section.get("a"));
 
         section.set("a ", "a5");
-        assertEquals(section.get("A"), "a5");
-        assertEquals(section.get("a"), "a5");
+        assertEquals("a5", section.get("A"));
+        assertEquals("a5", section.get("a"));
     }
     
     /** TestCase for overwrite a key. */
@@ -137,7 +137,7 @@ public class SectionTest_Set {
         section.set("a", "a2");
         section.set(" A", "a3");
         section.set(" a   ", "a4");
-        assertEquals(section.get("A"), "a4");
-        assertEquals(section.get("a"), "a4");
+        assertEquals("a4", section.get("A"));
+        assertEquals("a4", section.get("a"));
     }
 }
