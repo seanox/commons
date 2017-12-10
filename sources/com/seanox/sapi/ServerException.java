@@ -44,8 +44,6 @@ public class ServerException extends Exception {
 
     /**
      *  Constructs a new server exception with the specified message.
-     *  The message can be written to the server log and/or displayed for the
-     *  user.
      *  @param message text of the exception message
      */
     public ServerException(String message) {
