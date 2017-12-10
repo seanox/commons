@@ -19,36 +19,36 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.seanox.xapi;
+package com.seanox.sapi;
 
 /**
- *  ModuleException, a general exception a module can throw when it encounters
+ *  ServerException, a general exception a server can throw when it encounters
  *  difficulty.<br>
  *  <br>
- *  ModuleException 1.0 20171210<br>
+ *  ServerException 1.0 20171210<br>
  *  Copyright (C) 2017 Seanox Software Solutions<br>
  *  All rights reserved.
  *
  *  @author  Seanox Software Solutions
  *  @version 1.0 20171210
  */
-public class ModuleException extends Exception {
+public class ServerException extends Exception {
     
     /** version for serialization */
-    private static final long serialVersionUID = 711725054420399289L;
+    private static final long serialVersionUID = -2434861060488241347L;
 
-    /** Constructs a new module exception. */
-    public ModuleException() {
+    /** Constructs a new server exception. */
+    public ServerException() {
         super();
     }
 
     /**
-     *  Constructs a new module exception with the specified message.
+     *  Constructs a new server exception with the specified message.
      *  The message can be written to the server log and/or displayed for the
      *  user.
      *  @param message text of the exception message
      */
-    public ModuleException(String message) {
+    public ServerException(String message) {
         super(message);
     }
 
@@ -59,7 +59,7 @@ public class ModuleException extends Exception {
      *  @param message detail message
      *  @param cause original {@link Throwable} that caused this exception
      */
-    public ModuleException(String message, Throwable cause) {
+    public ServerException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -67,7 +67,7 @@ public class ModuleException extends Exception {
      *  Constructs a new exception with the specified cause.
      *  @param cause original {@link Throwable} that caused this exception
      */
-    public ModuleException(Throwable cause) {
+    public ServerException(Throwable cause) {
         super(cause);
     }
 }
