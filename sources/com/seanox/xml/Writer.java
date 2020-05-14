@@ -41,10 +41,10 @@ import java.io.OutputStream;
  */
 public class Writer implements Closeable {
 
-    /** Datenausgabestrom */
+    /** Output stream */
     private OutputStream output;
 
-    /** zu verwendendes Encoding */
+    /** Encoding to be used */
     private String encoding;
     
     /** Enumeration of element types */

@@ -1,23 +1,23 @@
 /**
- *  LIZENZBEDINGUNGEN - Seanox Software Solutions ist ein Open-Source-Projekt,
- *  im Folgenden Seanox Software Solutions oder kurz Seanox genannt.
- *  Diese Software unterliegt der Version 2 der GNU General Public License.
+ * LIZENZBEDINGUNGEN - Seanox Software Solutions ist ein Open-Source-Projekt,
+ * im Folgenden Seanox Software Solutions oder kurz Seanox genannt.
+ * Diese Software unterliegt der Version 2 der GNU General Public License.
  *
- *  Seanox Commons, Advanced Programming Interface
- *  Copyright (C) 2018 Seanox Software Solutions
+ * Seanox Commons, Advanced Programming Interface
+ * Copyright (C) 2020 Seanox Software Solutions
  *
- *  This program is free software; you can redistribute it and/or modify it
- *  under the terms of version 2 of the GNU General Public License as published
- *  by the Free Software Foundation.
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of version 2 of the GNU General Public License as published
+ * by the Free Software Foundation.
  *
- *  This program is distributed in the hope that it will be useful, but WITHOUT
- *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- *  more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
  *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 package com.seanox.common;
 
@@ -35,16 +35,16 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- *  Accession provides low-level access methods to constructors, fields, and
- *  methods of any Java object, even those that are not public or in a 
- *  superclass. Failed accesses and releases can cause various exceptions.<br>
- *  <br>
- *  Accession 2.0.1 20180107<br>
- *  Copyright (C) 2018 Seanox Software Solutions<br>
- *  All rights reserved.
+ * Accession provides low-level access methods to constructors, fields, and
+ * methods of any Java object, even those that are not public or in a 
+ * superclass. Failed accesses and releases can cause various exceptions.<br>
+ * <br>
+ * Accession 2.0.1 20180107<br>
+ * Copyright (C) 2020 Seanox Software Solutions<br>
+ * All rights reserved.
  *
- *  @author  Seanox Software Solutions
- *  @version 2.0.1 20180107
+ * @author  Seanox Software Solutions
+ * @version 2.0.1 20180107
  */
 public class Accession {
 
@@ -54,9 +54,9 @@ public class Accession {
     }
 
     /**
-     *  Determines the source class for an object.
-     *  @param  object object
-     *  @return the source class for the object
+     * Determines the source class for an object.
+     * @param  object object
+     * @return the source class for the object
      */
     private static Class<?> getSourceClass(Object object) {
         
@@ -68,10 +68,10 @@ public class Accession {
     }
     
     /**
-     *  Determines the data types for an object(array).
-     *  If {@code null} is passed, {@code null} is returned.
-     *  @param  objects object(s)
-     *  @return the determineted the data types for an object(array)
+     * Determines the data types for an object(array).
+     * If {@code null} is passed, {@code null} is returned.
+     * @param  objects object(s)
+     * @return the determineted the data types for an object(array)
      */
     private static Class<?>[] getTypes(Object... objects) {
         
@@ -91,10 +91,10 @@ public class Accession {
     }
     
     /**
-     *  Returns a string without any leading and trailing white spaces.
-     *  The value {@code null} becomes an empty string. 
-     *  @param  string string to be trimemd
-     *  @return string without any leading and trailing white spaces
+     * Returns a string without any leading and trailing white spaces.
+     * The value {@code null} becomes an empty string. 
+     * @param  string string to be trimemd
+     * @return string without any leading and trailing white spaces
      */    
     private static String trim(String string) {
         
@@ -104,13 +104,13 @@ public class Accession {
     }    
     
     /**
-     *  Gets a constructor, even those that are not public, or throws
-     *  {@link NoSuchMethodException} if the constructor does not exist.
-     *  @param  object class or object to be analyzed
-     *  @param  types  data types as an array
-     *  @return the determined constructor
-     *  @throws NoSuchMethodException
-     *      If this constructor cannot be determined.
+     * Gets a constructor, even those that are not public, or throws
+     * {@link NoSuchMethodException} if the constructor does not exist.
+     * @param  object class or object to be analyzed
+     * @param  types  data types as an array
+     * @return the determined constructor
+     * @throws NoSuchMethodException
+     *     If this constructor cannot be determined.
      */    
     public static Constructor<?> getConstructor(Object object, Class<?>[] types) 
             throws NoSuchMethodException {
@@ -127,12 +127,12 @@ public class Accession {
     }
     
     /**
-     *  Determines all constructors, even those that are not public.
-     *  Returns all detected constructors as an array.
-     *  If no constructor can be determined, the array is empty.
-     *  If {@code null} is passed, {@code null} is returned.
-     *  @param  object class or object to be analyzed
-     *  @return all determined constructors as array
+     * Determines all constructors, even those that are not public.
+     * Returns all detected constructors as an array.
+     * If no constructor can be determined, the array is empty.
+     * If {@code null} is passed, {@code null} is returned.
+     * @param  object class or object to be analyzed
+     * @return all determined constructors as array
      */    
     public static Constructor<?>[] getConstructors(Object object) {
 
@@ -152,13 +152,13 @@ public class Accession {
     }
     
     /**
-     *  Gets a field, even those that are not public or in a superclass, or
-     *  throws {@link NoSuchFieldException} if the field does not exist.
-     *  @param  object class or object to be analyzed
-     *  @param  name   name of the field
-     *  @return the determined field
-     *  @throws NoSuchFieldException 
-     *      If this field cannot be determined.
+     * Gets a field, even those that are not public or in a superclass, or
+     * throws {@link NoSuchFieldException} if the field does not exist.
+     * @param  object class or object to be analyzed
+     * @param  name   name of the field
+     * @return the determined field
+     * @throws NoSuchFieldException 
+     *     If this field cannot be determined.
      */
     public static Field getField(Object object, String name)
             throws NoSuchFieldException {
@@ -187,12 +187,12 @@ public class Accession {
     }
     
     /**
-     *  Determines all fields from an object or class, even those that are not
-     *  public or in a superclass. Returns all detected fields as an array.
-     *  If no field can be determined, the array is empty.
-     *  If {@code null} is passed, {@code null} is returned.
-     *  @param  object class or object to be analyzed
-     *  @return all determined fields as array
+     * Determines all fields from an object or class, even those that are not
+     * public or in a superclass. Returns all detected fields as an array.
+     * If no field can be determined, the array is empty.
+     * If {@code null} is passed, {@code null} is returned.
+     * @param  object class or object to be analyzed
+     * @return all determined fields as array
      */
     public static Field[] getFields(Object object) {
 
@@ -215,13 +215,13 @@ public class Accession {
     }
     
     /**
-     *  Gets a method, even those that are not public or in a superclass, or
-     *  throws {@link NoSuchMethodException} if the method does not exist.
-     *  @param  object class or object to be analyzed
-     *  @param  name   name of the method
-     *  @return the determined method
-     *  @throws NoSuchMethodException
-     *      If this method cannot be determined.
+     * Gets a method, even those that are not public or in a superclass, or
+     * throws {@link NoSuchMethodException} if the method does not exist.
+     * @param  object class or object to be analyzed
+     * @param  name   name of the method
+     * @return the determined method
+     * @throws NoSuchMethodException
+     *     If this method cannot be determined.
      */
     public static Method getMethod(Object object, String name)
             throws NoSuchMethodException {
@@ -229,14 +229,14 @@ public class Accession {
     }
     
     /**
-     *  Gets a method, even those that are not public or in a superclass, or
-     *  throws {@link NoSuchMethodException} if the method does not exist.
-     *  @param  object class or object to be analyzed
-     *  @param  name   name of the method
-     *  @param  types  data types as an array
-     *  @return the determined method
-     *  @throws NoSuchMethodException
-     *      If this method cannot be determined.
+     * Gets a method, even those that are not public or in a superclass, or
+     * throws {@link NoSuchMethodException} if the method does not exist.
+     * @param  object class or object to be analyzed
+     * @param  name   name of the method
+     * @param  types  data types as an array
+     * @return the determined method
+     * @throws NoSuchMethodException
+     *     If this method cannot be determined.
      */
     public static Method getMethod(Object object, String name, Class<?>... types)
             throws NoSuchMethodException {
@@ -265,12 +265,12 @@ public class Accession {
     }
 
     /**
-     *  Determines all methods from an object or class, even those that are not
-     *  public or in a superclass. Returns all detected methods as an array.
-     *  If no method can be determined, the array is empty.
-     *  If {@code null} is passed, {@code null} is returned.
-     *  @param  object class or object to be analyzed
-     *  @return all determined methods as array
+     * Determines all methods from an object or class, even those that are not
+     * public or in a superclass. Returns all detected methods as an array.
+     * If no method can be determined, the array is empty.
+     * If {@code null} is passed, {@code null} is returned.
+     * @param  object class or object to be analyzed
+     * @return all determined methods as array
      */
     public static Method[] getMethods(Object object) {
 
@@ -293,24 +293,24 @@ public class Accession {
     }
     
     /**
-     *  Determines the inherited class hierarchy as array from an object or
-     *  class. If this cannot be determined, the array is empty.
-     *  If {@code null} is passed, {@code null} is returned.
-     *  @param  source class or object to be analyzed
-     *  @return the determined class hierarchy of the inheritance as array
+     * Determines the inherited class hierarchy as array from an object or
+     * class. If this cannot be determined, the array is empty.
+     * If {@code null} is passed, {@code null} is returned.
+     * @param  source class or object to be analyzed
+     * @return the determined class hierarchy of the inheritance as array
      */
     public static Class<?>[] getClassHerachie(Object source) {
         return Accession.getClassHerachie(source, false);
     }
 
     /**
-     *  Determines the inherited class hierarchy as array from an object or
-     *  class. If this cannot be determined, the array is empty.
-     *  If {@code null} is passed, {@code null} is returned.
-     *  @param  source class or object to be analyzed
-     *  @param  reverse {@code true} to revert the class hierarchy, which then
-     *                  starts with the super class
-     *  @return the determined class hierarchy of the inheritance as array
+     * Determines the inherited class hierarchy as array from an object or
+     * class. If this cannot be determined, the array is empty.
+     * If {@code null} is passed, {@code null} is returned.
+     * @param  source class or object to be analyzed
+     * @param  reverse {@code true} to revert the class hierarchy, which then
+     *                 starts with the super class
+     * @return the determined class hierarchy of the inheritance as array
      */    
     public static Class<?>[] getClassHerachie(Object source, boolean reverse) {
 
@@ -335,18 +335,18 @@ public class Accession {
     }
     
     /**
-     *  Creates a new object instance of the class without arguments, even
-     *  those that are not public.
-     *  @param  object object or class
-     *  @return the created instance of the class
-     *  @throws IllegalAccessException
-     *      In case of access violations to the constructor.
-     *  @throws InstantiationException
-     *      If the instance was created incorrectly.
-     *  @throws InvocationTargetException
-     *      If exceptions occur.
-     *  @throws NoSuchMethodException
-     *      If the constructor does not exist.
+     * Creates a new object instance of the class without arguments, even
+     * those that are not public.
+     * @param  object object or class
+     * @return the created instance of the class
+     * @throws IllegalAccessException
+     *     In case of access violations to the constructor.
+     * @throws InstantiationException
+     *     If the instance was created incorrectly.
+     * @throws InvocationTargetException
+     *     If exceptions occur.
+     * @throws NoSuchMethodException
+     *     If the constructor does not exist.
      */
     public static Object construct(Object object)
             throws IllegalAccessException, InstantiationException, InvocationTargetException,
@@ -355,20 +355,20 @@ public class Accession {
     }
 
     /**
-     *  Creates a new object instance of the class with the arguments as an
-     *  array of objects, even those that are not public. For arguments with a
-     *  primitive data type, the appropriate wrapper must be used.
-     *  @param  object    object or class
-     *  @param  arguments arguments as an array of objects
-     *  @return the created instance of the class
-     *  @throws IllegalAccessException
-     *      In case of access violations to the constructor.
-     *  @throws InstantiationException
-     *      If the instance was created incorrectly.
-     *  @throws InvocationTargetException
-     *      If exceptions occur.
-     *  @throws NoSuchMethodException
-     *      If the constructor does not exist.
+     * Creates a new object instance of the class with the arguments as an
+     * array of objects, even those that are not public. For arguments with a
+     * primitive data type, the appropriate wrapper must be used.
+     * @param  object    object or class
+     * @param  arguments arguments as an array of objects
+     * @return the created instance of the class
+     * @throws IllegalAccessException
+     *     In case of access violations to the constructor.
+     * @throws InstantiationException
+     *     If the instance was created incorrectly.
+     * @throws InvocationTargetException
+     *     If exceptions occur.
+     * @throws NoSuchMethodException
+     *     If the constructor does not exist.
      */
     public static Object construct(Object object, Object... arguments)
             throws IllegalAccessException, InstantiationException, InvocationTargetException,
@@ -377,22 +377,22 @@ public class Accession {
     }
     
     /**
-     *  Creates a new object instance of the class with the arguments as an
-     *  array of data types and objects, even those that are not public.
-     *  For arguments with a primitive data type, the appropriate wrapper must
-     *  be used.
-     *  @param  object    object or class
-     *  @param  types     data types as an array
-     *  @param  arguments arguments as an array of objects
-     *  @return the created instance of the class
-     *  @throws IllegalAccessException
-     *      In case of access violations to the constructor.
-     *  @throws InstantiationException
-     *      If the instance was created incorrectly.
-     *  @throws InvocationTargetException
-     *      If exceptions occur.
-     *  @throws NoSuchMethodException
-     *      If the constructor does not exist.
+     * Creates a new object instance of the class with the arguments as an
+     * array of data types and objects, even those that are not public.
+     * For arguments with a primitive data type, the appropriate wrapper must
+     * be used.
+     * @param  object    object or class
+     * @param  types     data types as an array
+     * @param  arguments arguments as an array of objects
+     * @return the created instance of the class
+     * @throws IllegalAccessException
+     *     In case of access violations to the constructor.
+     * @throws InstantiationException
+     *     If the instance was created incorrectly.
+     * @throws InvocationTargetException
+     *     If exceptions occur.
+     * @throws NoSuchMethodException
+     *     If the constructor does not exist.
      */
     public static Object construct(Object object, Class<?>[] types, Object[] arguments)
             throws IllegalAccessException, InstantiationException, InvocationTargetException,
@@ -401,17 +401,17 @@ public class Accession {
     }
     
     /**
-     *  Gets the value of a field from an object, even those that are not
-     *  public or in a superclass. Primitive data types are returned as a
-     *  corresponding wrapper object.
-     *  @param  object object
-     *  @param  field   name of the field
-     *  @return the value of the field, primitive data types are returned as a
-     *          corresponding wrapper object
-     *  @throws IllegalAccessException
-     *      In the case of an access violation.
-     *  @throws NoSuchFieldException
-     *      If the field does not exist.
+     * Gets the value of a field from an object, even those that are not
+     * public or in a superclass. Primitive data types are returned as a
+     * corresponding wrapper object.
+     * @param  object object
+     * @param  field   name of the field
+     * @return the value of the field, primitive data types are returned as a
+     *         corresponding wrapper object
+     * @throws IllegalAccessException
+     *     In the case of an access violation.
+     * @throws NoSuchFieldException
+     *     If the field does not exist.
      */
     public static Object get(Object object, String field)
             throws IllegalAccessException, NoSuchFieldException {
@@ -422,16 +422,16 @@ public class Accession {
     }
     
     /**
-     *  Sets the value of a field from an object, even those that are not
-     *  public or in a superclass. A primitive data type are passed as
-     *  corresponding wrapper object.
-     *  @param  object object
-     *  @param  field name of the field
-     *  @param  value value to be set as object
-     *  @throws IllegalAccessException
-     *      In case of an access violation to the field.
-     *  @throws NoSuchFieldException
-     *      If the field does not exist.
+     * Sets the value of a field from an object, even those that are not
+     * public or in a superclass. A primitive data type are passed as
+     * corresponding wrapper object.
+     * @param  object object
+     * @param  field name of the field
+     * @param  value value to be set as object
+     * @throws IllegalAccessException
+     *     In case of an access violation to the field.
+     * @throws NoSuchFieldException
+     *     If the field does not exist.
      */
     public static void set(Object object, String field, Object value)
             throws IllegalAccessException, NoSuchFieldException {
@@ -446,14 +446,14 @@ public class Accession {
     }
     
     /**
-     *  Sets the value of a field from an object, even those that are not
-     *  public or in a superclass. A primitive data type are passed as
-     *  corresponding wrapper object.
-     *  @param  object object
-     *  @param  field name of the field
-     *  @param  value value to be set as object
-     *  @throws IllegalAccessException
-     *      In case of an access violation to the field.
+     * Sets the value of a field from an object, even those that are not
+     * public or in a superclass. A primitive data type are passed as
+     * corresponding wrapper object.
+     * @param  object object
+     * @param  field name of the field
+     * @param  value value to be set as object
+     * @throws IllegalAccessException
+     *     In case of an access violation to the field.
      */
     private static void set(Object object, Field field, Object value)
             throws IllegalAccessException {
@@ -486,15 +486,15 @@ public class Accession {
     }
     
     /**
-     *  Synchronizes a field in two objects by copying the value from source to
-     *  target, even those that are not public or in a superclass.
-     *  @param  source source object 
-     *  @param  target target object
-     *  @param  field  name of the field
-     *  @throws NoSuchFieldException
-     *      If the field does not exist.
-     *  @throws IllegalAccessException
-     *      If access to the field fails.
+     * Synchronizes a field in two objects by copying the value from source to
+     * target, even those that are not public or in a superclass.
+     * @param  source source object 
+     * @param  target target object
+     * @param  field  name of the field
+     * @throws NoSuchFieldException
+     *     If the field does not exist.
+     * @throws IllegalAccessException
+     *     If access to the field fails.
      */
     public static void synchronize(Object source, Object target, String field)
             throws NoSuchFieldException, IllegalAccessException {
@@ -510,16 +510,16 @@ public class Accession {
     }
     
     /**
-     *  Synchronizes a field in two objects by copying the value from source to
-     *  target, even those that are not public or in a superclass.
-     *  @param  source source object 
-     *  @param  target target object
-     *  @param  field  name of the field
-     *  @param  alias  name of the field in the target object
-     *  @throws NoSuchFieldException
-     *      If the field does not exist.
-     *  @throws IllegalAccessException
-     *      If access to the field fails.
+     * Synchronizes a field in two objects by copying the value from source to
+     * target, even those that are not public or in a superclass.
+     * @param  source source object 
+     * @param  target target object
+     * @param  field  name of the field
+     * @param  alias  name of the field in the target object
+     * @throws NoSuchFieldException
+     *     If the field does not exist.
+     * @throws IllegalAccessException
+     *     If access to the field fails.
      */
     public static void synchronize(Object source, Object target, String field, String alias)
             throws NoSuchFieldException, IllegalAccessException {
@@ -551,14 +551,14 @@ public class Accession {
     }
     
     /**
-     *  Synchronizes two objects at field-level by copying the values from
-     *  source to target, even those that are not public or in a superclass.
-     *  @param  source source object 
-     *  @param  target target object
-     *  @throws NoSuchFieldException
-     *      If the field does not exist.
-     *  @throws IllegalAccessException
-     *      If access to the field fails.
+     * Synchronizes two objects at field-level by copying the values from
+     * source to target, even those that are not public or in a superclass.
+     * @param  source source object 
+     * @param  target target object
+     * @throws NoSuchFieldException
+     *     If the field does not exist.
+     * @throws IllegalAccessException
+     *     If access to the field fails.
      */
     public static void synchronize(Object source, Object target)
             throws NoSuchFieldException, IllegalAccessException {
@@ -570,15 +570,15 @@ public class Accession {
     }
 
     /**
-     *  Synchronizes two objects at field-level by copying the values from
-     *  source to target, even those that are not public or in a superclass.
-     *  @param  source source object 
-     *  @param  target target object
-     *  @param  filter  list of includes/excludes fields
-     *  @throws NoSuchFieldException
-     *      If the field does not exist.
-     *  @throws IllegalAccessException
-     *      If access to the field fails.
+     * Synchronizes two objects at field-level by copying the values from
+     * source to target, even those that are not public or in a superclass.
+     * @param  source source object 
+     * @param  target target object
+     * @param  filter  list of includes/excludes fields
+     * @throws NoSuchFieldException
+     *     If the field does not exist.
+     * @throws IllegalAccessException
+     *     If access to the field fails.
      */
     public static void synchronize(Object source, Object target, Filter filter)
             throws NoSuchFieldException, IllegalAccessException {
@@ -590,16 +590,16 @@ public class Accession {
     }
 
     /**
-     *  Synchronizes two objects at field-level by copying the values from
-     *  source to target, even those that are not public or in a superclass.
-     *  @param  source source object 
-     *  @param  target target object
-     *  @param  filter  list of includes/excludes fields
-     *  @param  mapping mapping table source -&lt; target 
-     *  @throws NoSuchFieldException
-     *      If the field does not exist.
-     *  @throws IllegalAccessException
-     *      If access to the field fails.
+     * Synchronizes two objects at field-level by copying the values from
+     * source to target, even those that are not public or in a superclass.
+     * @param  source source object 
+     * @param  target target object
+     * @param  filter  list of includes/excludes fields
+     * @param  mapping mapping table source -&lt; target 
+     * @throws NoSuchFieldException
+     *     If the field does not exist.
+     * @throws IllegalAccessException
+     *     If access to the field fails.
      */
     public static void synchronize(Object source, Object target, Filter filter, Map<String, String> mapping)
             throws NoSuchFieldException, IllegalAccessException {
@@ -645,19 +645,19 @@ public class Accession {
     }    
     
     /**
-     *  Executes a method from an object or class without further arguments,
-     *  even if the method is not public or in a superclass. Returns the return
-     *  value of the method as an object. Primitive data types are returned as
-     *  a corresponding wrapper object.
-     *  @param  object object or class
-     *  @param  method name of the method
-     *  @return the return value of the method as an object
-     *  @throws NoSuchMethodException
-     *      If the method does not exist.
-     *  @throws IllegalAccessException
-     *      If access to the field fails.
-     *  @throws InvocationTargetException
-     *      If call and/or execution of the method fails.
+     * Executes a method from an object or class without further arguments,
+     * even if the method is not public or in a superclass. Returns the return
+     * value of the method as an object. Primitive data types are returned as
+     * a corresponding wrapper object.
+     * @param  object object or class
+     * @param  method name of the method
+     * @return the return value of the method as an object
+     * @throws NoSuchMethodException
+     *     If the method does not exist.
+     * @throws IllegalAccessException
+     *     If access to the field fails.
+     * @throws InvocationTargetException
+     *     If call and/or execution of the method fails.
      */
     public static Object invoke(Object object, String method)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -665,21 +665,21 @@ public class Accession {
     }
 
     /**
-     *  Executes a method from an object or class with the arguments as an
-     *  array of objects, even those that are not public or in a superclass.
-     *  For arguments with a primitive data type, the appropriate wrapper must
-     *  be used. Returns the return value of the method as an object. Primitive
-     *  data types are returned as a corresponding wrapper object.
-     *  @param  object    object or class
-     *  @param  method    name of the method
-     *  @param  arguments arguments as an array of objects
-     *  @return the return value of the method as an object
-     *  @throws NoSuchMethodException
-     *      If the method does not exist.
-     *  @throws IllegalAccessException
-     *      In case of an access violation to the method.
-     *  @throws InvocationTargetException
-     *      If call and/or execution of the method fails.
+     * Executes a method from an object or class with the arguments as an
+     * array of objects, even those that are not public or in a superclass.
+     * For arguments with a primitive data type, the appropriate wrapper must
+     * be used. Returns the return value of the method as an object. Primitive
+     * data types are returned as a corresponding wrapper object.
+     * @param  object    object or class
+     * @param  method    name of the method
+     * @param  arguments arguments as an array of objects
+     * @return the return value of the method as an object
+     * @throws NoSuchMethodException
+     *     If the method does not exist.
+     * @throws IllegalAccessException
+     *     In case of an access violation to the method.
+     * @throws InvocationTargetException
+     *     If call and/or execution of the method fails.
      */    
     public static Object invoke(Object object, String method, Object... arguments)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -687,23 +687,23 @@ public class Accession {
     }
 
     /**
-     *  Executes a method from an object or class with the arguments as an
-     *  array of data types and objects, even those that are not public or in a
-     *  superclass. For arguments with a primitive data type, the appropriate
-     *  wrapper must be used. Returns the return value of the method as an
-     *  object. Primitive data types are returned as a corresponding wrapper
-     *  object.
-     *  @param  object    object or class
-     *  @param  method    name of the method
-     *  @param  types     data types as an array
-     *  @param  arguments arguments as an array of objects
-     *  @return the return value of the method as an object
-     *  @throws NoSuchMethodException
-     *      If the method does not exist.
-     *  @throws IllegalAccessException
-     *      In case of an access violation to the method.
-     *  @throws InvocationTargetException
-     *      If call and/or execution of the method fails.
+     * Executes a method from an object or class with the arguments as an
+     * array of data types and objects, even those that are not public or in a
+     * superclass. For arguments with a primitive data type, the appropriate
+     * wrapper must be used. Returns the return value of the method as an
+     * object. Primitive data types are returned as a corresponding wrapper
+     * object.
+     * @param  object    object or class
+     * @param  method    name of the method
+     * @param  types     data types as an array
+     * @param  arguments arguments as an array of objects
+     * @return the return value of the method as an object
+     * @throws NoSuchMethodException
+     *     If the method does not exist.
+     * @throws IllegalAccessException
+     *     In case of an access violation to the method.
+     * @throws InvocationTargetException
+     *     If call and/or execution of the method fails.
      */    
     
     public static Object invoke(Object object, String method, Class<?>[] types, Object[] arguments)
@@ -719,27 +719,27 @@ public class Accession {
     }
     
     /**
-     *  Returns a hash code of an object.
-     *  The method is limited to primitive fields (String, Date, Booolean,
-     *  Interger, Long, Double, Double, Short) to protect against recursions.
-     *  If errors occur during low-level access to a field, the value
-     *  {@code null} is used for this field (theoretical case).
-     *  @param  object object
-     *  @return a hash code value for this object.
+     * Returns a hash code of an object.
+     * The method is limited to primitive fields (String, Date, Booolean,
+     * Interger, Long, Double, Double, Short) to protect against recursions.
+     * If errors occur during low-level access to a field, the value
+     * {@code null} is used for this field (theoretical case).
+     * @param  object object
+     * @return a hash code value for this object.
      */
     public static int hashCode(Object object) {
         return Accession.hashCode(object, null);
     }
     
     /**
-     *  Returns a hash code of an object.
-     *  The method is limited to primitive fields (String, Date, Booolean,
-     *  Interger, Long, Double, Double, Short) to protect against recursions.
-     *  If errors occur during low-level access to a field, the value
-     *  {@code null} is used for this field (theoretical case).
-     *  @param  object object
-     *  @param  filter list of includes/excludes fields
-     *  @return a hash code value for this object.
+     * Returns a hash code of an object.
+     * The method is limited to primitive fields (String, Date, Booolean,
+     * Interger, Long, Double, Double, Short) to protect against recursions.
+     * If errors occur during low-level access to a field, the value
+     * {@code null} is used for this field (theoretical case).
+     * @param  object object
+     * @param  filter list of includes/excludes fields
+     * @return a hash code value for this object.
      */
     public static int hashCode(Object object, Filter filter) {
         
@@ -787,35 +787,35 @@ public class Accession {
     }    
     
     /**
-     *  Indicates whether two are equal objects.
-     *  This is only true if both objects are of the same data type and both
-     *  contain the same fields of the same data type with the same values.
-     *  The method is limited to primitive fields (String, Date, Booolean,
-     *  Interger, Long, Double, Double, Short) to protect against recursions.
-     *  If errors occur during low-level access to a field, the value
-     *  {@code null} is used for this field (theoretical case).
-     *  @param  object1 object
-     *  @param  object2 object for comparison
-     *  @return {@code true} if both objects when compared to the primitive
-     *          fields is the same
+     * Indicates whether two are equal objects.
+     * This is only true if both objects are of the same data type and both
+     * contain the same fields of the same data type with the same values.
+     * The method is limited to primitive fields (String, Date, Booolean,
+     * Interger, Long, Double, Double, Short) to protect against recursions.
+     * If errors occur during low-level access to a field, the value
+     * {@code null} is used for this field (theoretical case).
+     * @param  object1 object
+     * @param  object2 object for comparison
+     * @return {@code true} if both objects when compared to the primitive
+     *         fields is the same
      */
     public static boolean equals(Object object1, Object object2) {
         return Accession.equals(object1, object2, null);
     }
     
     /**
-     *  Indicates whether two are equal objects.
-     *  This is only true if both objects are of the same data type and both
-     *  contain the same fields of the same data type with the same values.
-     *  The method is limited to primitive fields (String, Date, Booolean,
-     *  Interger, Long, Double, Double, Short) to protect against recursions.
-     *  If errors occur during low-level access to a field, the value
-     *  {@code null} is used for this field (theoretical case).
-     *  @param  object1 object
-     *  @param  object2 object for comparison
-     *  @param  filter  list of includes/excludes fields
-     *  @return {@code true} if both objects when compared to the primitive
-     *          fields is the same
+     * Indicates whether two are equal objects.
+     * This is only true if both objects are of the same data type and both
+     * contain the same fields of the same data type with the same values.
+     * The method is limited to primitive fields (String, Date, Booolean,
+     * Interger, Long, Double, Double, Short) to protect against recursions.
+     * If errors occur during low-level access to a field, the value
+     * {@code null} is used for this field (theoretical case).
+     * @param  object1 object
+     * @param  object2 object for comparison
+     * @param  filter  list of includes/excludes fields
+     * @return {@code true} if both objects when compared to the primitive
+     *         fields is the same
      */
     public static boolean equals(Object object1, Object object2, Filter filter) {
         
@@ -842,7 +842,7 @@ public class Accession {
 
             Field field2;
             try {field2 = Accession.getField(object2, field1.getName());
-            } catch (NoSuchFieldException exception1) {
+            } catch (NoSuchFieldException exception) {
                 return false;
             }
             
@@ -859,8 +859,10 @@ public class Accession {
                     && !type.isPrimitive())
                 continue;
             
-            if ((object1 instanceof Serializable && ("serialVersionUID").equals(field1.getName()))
-                    || (object2 instanceof Serializable && ("serialVersionUID").equals(field2.getName())))
+            if ((object1 instanceof Serializable
+                            && ("serialVersionUID").equals(field1.getName()))
+                    || (object2 instanceof Serializable
+                            && ("serialVersionUID").equals(field2.getName())))
                 continue;
 
             try {value1 = field1.get(object1);
@@ -886,27 +888,27 @@ public class Accession {
     }
 
     /**
-     *  Creates a representative string for an object.
-     *  The method is limited to primitive fields (String, Date, Booolean,
-     *  Interger, Long, Double, Double, Short) to protect against recursions.
-     *  If errors occur during low-level access to a field, the field is
-     *  ignored (theoretical case).
-     *  @param  object object
-     *  @return textually represents of the object
+     * Creates a representative string for an object.
+     * The method is limited to primitive fields (String, Date, Booolean,
+     * Interger, Long, Double, Double, Short) to protect against recursions.
+     * If errors occur during low-level access to a field, the field is
+     * ignored (theoretical case).
+     * @param  object object
+     * @return textually represents of the object
      */
     public static String toString(Object object) {
         return Accession.toString(object, null);
     }
     
     /**
-     *  Creates a representative string for an object.
-     *  The method is limited to primitive fields (String, Date, Booolean,
-     *  Interger, Long, Double, Double, Short) to protect against recursions.
-     *  If errors occur during low-level access to a field, the field is
-     *  ignored (theoretical case).
-     *  @param  object object
-     *  @param  filter list of includes/excludes fields
-     *  @return textually represents of the object
+     * Creates a representative string for an object.
+     * The method is limited to primitive fields (String, Date, Booolean,
+     * Interger, Long, Double, Double, Short) to protect against recursions.
+     * If errors occur during low-level access to a field, the field is
+     * ignored (theoretical case).
+     * @param  object object
+     * @param  filter list of includes/excludes fields
+     * @return textually represents of the object
      */
     public static String toString(Object object, Filter filter) {
         
@@ -965,8 +967,8 @@ public class Accession {
         private List<Object> entries;
 
         /**
-         *  Constructor, creats a new Filer object.
-         *  @param entries entries
+         * Constructor, creats a new Filer object.
+         * @param entries entries
          */
         private Filter(Object... entries) {
             
@@ -977,18 +979,18 @@ public class Accession {
         }
         
         /**
-         *  Returns {@code true} if this filter contains the entry.
-         *  @param  entry entry
-         *  @return {@code true} if this filter contains the entry
+         * Returns {@code true} if this filter contains the entry.
+         * @param  entry entry
+         * @return {@code true} if this filter contains the entry
          */
         public boolean contains(Object entry) {
             return this.entries.contains(entry);
         }
 
         /**
-         *  Adds one or more filter entries.
-         *  Duplicates and {@code null} are ignored.
-         *  @param entries entries
+         * Adds one or more filter entries.
+         * Duplicates and {@code null} are ignored.
+         * @param entries entries
          */
         public void add(Object... entries) {
 
@@ -1001,9 +1003,9 @@ public class Accession {
         }
 
         /**
-         *  Removes one or more filter entries.
-         *  Duplicates, non-existent entries and {@code null} are ignored.
-         *  @param entries entries
+         * Removes one or more filter entries.
+         * Duplicates, non-existent entries and {@code null} are ignored.
+         * @param entries entries
          */
         public void remove(Object... entries) {
 
@@ -1015,8 +1017,8 @@ public class Accession {
         }
 
         /**
-         *  Lists all contained entries.
-         *  @return all contained entries
+         * Lists all contained entries.
+         * @return all contained entries
          */
         public Object[] list() {
             return this.entries.toArray(new Object[0]);
@@ -1028,8 +1030,8 @@ public class Accession {
         }
         
         /**
-         *  Returns the number of entries.
-         *  @return number of entries
+         * Returns the number of entries.
+         * @return number of entries
          */
         public int size() {
             return this.entries.size();
@@ -1045,8 +1047,8 @@ public class Accession {
     public static class Exclude extends Filter {
 
         /**
-         *  Constructor, creats a new Exclude object.
-         *  @param excludes exclude(s)
+         * Constructor, creats a new Exclude object.
+         * @param excludes exclude(s)
          */
         public Exclude(Object... excludes) {
             super(excludes);
@@ -1057,8 +1059,8 @@ public class Accession {
     public static class AutoExclude extends Exclude {
 
         /**
-         *  Constructor, creats a new AutoExclude object.
-         *  @param excludes exclude(s)
+         * Constructor, creats a new AutoExclude object.
+         * @param excludes exclude(s)
          */
         public AutoExclude(Object... excludes) {
             super(excludes);
@@ -1069,8 +1071,8 @@ public class Accession {
     public static class Include extends Filter {
 
         /**
-         *  Constructor, creats a new Include object.
-         *  @param includes include(s)
+         * Constructor, creats a new Include object.
+         * @param includes include(s)
          */
         public Include(Object... includes) {
             super(includes);
@@ -1081,8 +1083,8 @@ public class Accession {
     public static class AutoInclude extends Include {
 
         /**
-         *  Constructor, creats a new AutoInclude object.
-         *  @param includes include(s)
+         * Constructor, creats a new AutoInclude object.
+         * @param includes include(s)
          */
         public AutoInclude(Object... includes) {
             super(includes);
@@ -1099,9 +1101,9 @@ public class Accession {
         private Filter filter;
         
         /** 
-         *  Constructor, creates a new FieldMatcher object.
-         *  @param object object
-         *  @param filter filter
+         * Constructor, creates a new FieldMatcher object.
+         * @param object object
+         * @param filter filter
          */
         private FieldMatcher(Object object, Filter filter) {
             
@@ -1121,12 +1123,12 @@ public class Accession {
         }
         
         /**
-         *  Checks whether the field is allowed.
-         *  For the {@link Exclude} / {@link AutoExclude} that does not contain
-         *  the field, for the {@link Include} / {@link AutoInclude} the field
-         *  must be included.
-         *  @param  field field
-         *  @return {@code true} if the field is allowed
+         * Checks whether the field is allowed.
+         * For the {@link Exclude} / {@link AutoExclude} that does not contain
+         * the field, for the {@link Include} / {@link AutoInclude} the field
+         * must be included.
+         * @param  field field
+         * @return {@code true} if the field is allowed
          */
         private boolean validate(Field field) {
             
