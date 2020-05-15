@@ -1,6 +1,7 @@
 5.0.0 2020xxxx
   CR: Generator: Optimization of the code
   CR: License: Migration to Apache License, Version 2.0
+  CR: Project: Migration to Maven
   
 4.0.0 2013xxxx
   NT: Not implemented  
