@@ -1,0 +1,142 @@
+5.0.0 2020xxxx
+  CR: Generator: Optimization of the code
+  CR: License: Migration to Apache License, Version 2.0
+  
+4.0.0 2013xxxx
+  NT: Not implemented  
+
+3.4.0 20131010
+  BF: Common Node::GetPath: Korrektur bei der Ermittlung vom Root-Element
+  BF: Module-API Connector CGI/Servlet: Korrektur der initialen Einrichtung
+  BF: Common Resource: Korrektur / Optimierung der Dokumentation
+  CR: Network HTTP-Conntector: Erweiterung um einen anonymen Konstruktor
+  CR: Common Generator: Abgleich mit dem aktuellen Stand aus Seanox Devwex (keine funktionale Änderung)
+  CR: Common Paging: Umstellung auf die innere Klasse Meta
+
+3.3.1 20130707
+  BF: Module-API Response: Korrektur der Methode getHeaderFields bei der Ermittlung der Werte
+  BF: Module-API Response: Korrektur der Method getHeaderField bei der Ermittlung des Werts
+  BF: Module-API Context: Korrektur der Method findLibraries bei der Trennung von Pfaden des Dateisystems
+
+3.3.0 20130701
+  BF: Module-API: Korrektur beim Auflösen von "extends" in der Konfiguration eines Moduls
+  BF: Common Node: Korrektur des nicht übernommenen Namens bei Verwendung des Konstruktors
+  BF: Module-API Response: Korrektur wenn nach Response::SendStatus/Response::SendRedirect Response::Flush aufgerufen wird
+  CR: Dokumentation: Anpassung der Druckansicht
+  CR: Network HTTP-Conntector: Bereinigung der JSSE-Integration (vor Java 1.4)
+  CR: Common Node: Erweiterung um die Angabe der Schreibweise von Pfaden/Namen/Attributen
+      Standard wenn nicht angegeben: Kleinschreibung
+  CR: Common Node: Änderung von Node::GetNodesByPath in Node::GetNodes
+  CR: Common Node: Änderung von Node::GetNodeByPath in Node::GetNode
+  CR: Common Node: Änderung von Node::Reset in Node::Clear        
+  CR: Common Node: Änderung von Node::GetNodesPaths in Node::GetAllNodesPaths
+  CR: Common Node: Aktualisierung der Dokumentation
+  CR: Common Section: Änderung von Section::Reset in Section::Clear
+  CR: Common Initialize: Änderung von Initialize::Reset in Initialize::Clear
+  CR: Module-API (cgi/http/servlet): Änderung von Environment::Reset in Environment::Clear
+  CR: Module-API / Network HTTP Session: Änderung von Session::Reset in Session::Clear
+  CR: Module-API / Network HTTP Cookie: Änderung von Cookie::Reset in Cookie::Clear
+  CR: Module-API Response: Erweiterung um protocol zur Änderung vom Protokoll
+  CR: Module-API: Minimierung von redundantem Code durch die Umstellung auf abstrakte Klassen
+  CR: Module-API Response: Methode SendStatus delegiert nun die Beantwortung an den Server
+  CR: Module-API Response: Erweiterung um getServerIdentity zur Abfrage der Serverkennung bei Seanox Devwex
+      berücksichtig die Server-Option IDENTITY
+  CR: Module-API Modultypen: Wegfall von COMMAND, LOGGING, STATUS, METHOD, LISTING
+  
+3.2.0 20130401
+  CR: Common Pagging: Allgemeine Optimierung
+  CR: Common Pagging: Erweiterung um rangeLeft, rangeRight, viewStart, viewEnd, viewCount
+  CR: Common Pagging: Erweiterung um eine optionale Begrenzung vom Wertebereich
+  CR: Common Codec: Wegfall vom Prefix CODING bei den Konstanten
+  CR: Module-API: Optimierung in der Ermittlung der Parameter zu einem Modul
+  CR: Module-API Response::Encode: Wegfall der Methode da redundant mit Codec::Encode
+  CR: Module-API Request::Decode: Wegfall der Methode da redundant mit Codec::DEcode
+  CR: XML Stream: Änderung von Stream::WriteXMLHeader in Stream::WriteXmlHeader
+  CR: Build: Allgemeine Harmonisierung vom Build-Skript
+
+3.1.0 20120901
+  BF: Module-API HTTP-Context: Anfragen an HTTP-Modul ohne Response werden nun Status 204 (NO_CONTENT) beantwortet    
+      zuvor wurde Status 500 verwendet
+  CR: Module-API Response: Neuer Status STATUS_PRECONDITION_FAILED
+  CR: Module-API Response: Neuer Status STATUS_SWITCHING_PROTOCOLS
+
+3.0.0 20120815
+  CR: Projekt: Anhebung auf Java Version 1.4
+      optionales SSE entfällt (sun-jcert.jar, sun-jnet,jar, sun-jsse,jar)
+  CR: Projekt: Umstellung auf Standard-Exceptions (Wegfall vom Exception Package)
+  CR: Projekt: Umstellung auf die neue Version von Accession
+  CR: Projekt: Umstellung auf Codec (Kodierung/Dekodierung)
+  CR: Dokumentation: Allgemeine Überarbeitung
+  CR: Components Loader: Erweiterung als ClassLoader
+  CR: Components Codec: Erweiterung für Kodierung/Dekodierung BASE65/MIME/UTF8/DOT
+  CR: Components Resource: Erweiterung für den vereinfachten Zugriff auf Ressourcen im ClassPath
+  CR: Components Accession: Umstellung auf rein statische Methoden
+  CR: Server-API: Erweiterung um com.seanox.module.udp
+      zur vereinfachten Implementierung von UDP-basierten Server-Modulen
+  CR: Server-API: Erweiterung um com.seanox.module.tcp
+      zur vereinfachten Implementierung von TCP-basierten Server-Modulen
+  CR: Module-API: Optimierung beim Umgang mit der Konfiguration
+  CR: Module-API: Harmonisierung in der Sichtbarkeit der Konstruktoren auf Paketebene
+  CR: Module-API: Erweiterung von Context um das Laden von Modulen mit zusätzlichem (Application)ClassLoader
+  CR: Module-API: Wegfall von Instanz nach der Erweiterung von Context
+  CR: Network-HTTP: Umstellung von Address auf nur lesbares Objekt
+      Initiierung erfolgt nun über Address::Parse
+  CR: Network-HTTP: Wegfall vom Security-Provider
+      nach Wegfall vom com.sun.net.ssl.internal.ssl.Provider in Java 7
+
+2.0.0 20101010
+  BF: HTTP-Modul-API: Korrektur beim automatische Aufruf von Response::Flush
+  CR: Projekt: Umstellung auf Mercurial
+  CR: Modul-API: Allgemeine Harmonisierung mit Devwex 1.2010.10xx
+  CR: Modul-API: Umstellung von Parameters auf Section
+  CR: HTTP-Modul-API: Umstellung von Modul::Mount auf Modul::Bind
+  CR: HTTP-Modul-API: Umstellung der Modul-Initiierung von "module_core" auf "module_opts"
+  CR: HTTP-Modul-API: Allgemeine Korrektur/Optimierung beim Zugriff auf die Datenströme
+  CR: HTTP-Modul-API: Allgemeine Korrektur/Optimierung bei der Ermittlung vom Host
+  CR: HTTP-Connector: Umbenennung von Content::FIELD_HEADER_FIRSTLINE in Content::FIELD_HEADER_REQUEST
+
+1.3.0 20081220
+  BF: Messenger: Korrektur der Methode print beim Umgang mit dem Context "null"
+  CR: HTTP Connector (com.seanox.network.http): Umstellung eine instanziierbare Version
+  CR: Generator: Komplette Überarbeitung
+      es entfällt: "var"/"adn"/"adf", unterstützt wird noch "val"/"ins"/"add" 
+  CR: Context: Anpassung der Methode useModul
+      Umstellung auf Service::Call
+  CR: Context: Erweiterung um die Methode loadClass
+      zum Laden von Klassen über den servereigenen ClassLoader
+  CR: Content: Anpassung der Methode decode
+      Umstellung auf die Verwendung der Konstanten
+  CR: Content: Anpassung der Methode encode
+      Umstellung auf die Verwendung der Konstanten
+  CR: Parameter: Erweiterung um die Methode export
+      zum Exportieren in eine Hashtable
+  CR: Environment (cgi/http/servlet): Erweiterung um die Methode export
+      zum Exportieren in eine Hashtable
+  CR: Request: Erweiterung um die Methode getContentLength (cgi, http, servlet)
+      zur Ermittlung der mit dem Request übergebenen Datenmenge
+  CR: XML Stream: Erweiterung um eine XML-Stream zum einfachen Schreiben von XML-Daten
+
+1.2.0 20080400
+  CR: DCGI/CGI: Verkürzung des DCGI Headers
+  CR: Context: Anpassung/Umstellung der Methode useModule auf Exception,
+      auftretende Fehler werden als InvocationTargetException zurückgegeben
+  CR: Parameters: Erweiterung um die Wertzuweisung mit +
+      zum Fortsetzen der Wertzuweisung in der Folgezeile
+  CR: Parameters: Anpassung der Methode toString
+      diese Berücksichtig nun die Option [+] in der Ausgabe
+  CR: Environment/Parameters/Initilaize: Anpassung der Methode Join
+      Änderung in Environment/Parameters/Initilaize::Merge
+
+1.1.0 20070000
+  CR: Session (com.seanox.module.session): Erweiterung um eine Sessionverwaltung
+  CR: Response (cgi/http/servlet): Erweiterung um Response::STATUS_NON_AUTHORITATIVE_INFORMATION
+      als Konstante für den entsprechenden Server Status
+  CR: Response (cgi/http/servlet): Erweiterung um Response::STATUS_NO_CONTENT
+      als Konstante für den entsprechenden Server Status
+  CR: Response (cgi/http/servlet): Erweiterung um Response::STATUS_RESET_CONTENT
+      als Konstante für den entsprechenden Server Status
+  CR: Context: Anpassung der Methode UseModul (com.seanox.module)
+      Erweiterung um eine Version ohne die Übergabe von Startparametern
+
+1.0.0
+  NT: Release is available
