@@ -26,6 +26,8 @@ import java.util.Hashtable;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 import com.seanox.test.ResourceUtils;
 import com.seanox.test.Timing;
@@ -40,6 +42,7 @@ import com.seanox.test.Timing;
  * @author  Seanox Software Solutions
  * @version 5.2.0 20200515
  */
+@RunWith(JUnitPlatform.class)
 @SuppressWarnings({"javadoc", "unchecked", "rawtypes", "serial"})
 public class GeneratorTest {
     

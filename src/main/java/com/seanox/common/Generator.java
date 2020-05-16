@@ -126,6 +126,7 @@ import java.util.stream.Collectors;
  * @author  Seanox Software Solutions
  * @version 5.2.1 20200514
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class Generator {
 
     /** Segments of the template */
@@ -338,7 +339,6 @@ public class Generator {
      * @param  clean  {@code true} for final cleanup
      * @return the filled model (fragment)
      */    
-    @SuppressWarnings({"unchecked", "rawtypes"})
     private byte[] assemble(String scope, Map<String, Object> values, boolean clean) {
         
         Object object;
@@ -519,7 +519,6 @@ public class Generator {
      * @return the filled segment, if this cannot be determined, an empty byte
      *         array is returned
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public byte[] extract(String scope, Map<String, Object> values) {
         
         if (scope != null)
