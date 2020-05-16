@@ -281,7 +281,7 @@ public class GeneratorTest {
         values.put("file", buffer.toByteArray());
         generator.set("file", values);
         generator.extract();
-        timing.assertTimeIn(5000);
+        timing.assertTimeIn(5750);
     } 
     
     @Test

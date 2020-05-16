@@ -26,25 +26,25 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 /**
- * Test cases for {@link com.seanox.devwex.Initialize#contains(String)}.<br>
+ * Test cases for {@link com.seanox.common.Initialize#set(String, Section)}.<br>
  * <br>
- * InitializeTest_Contains 5.2.0 20200516<br>
- * Copyright (C) 2020 Seanox Software Solutions<br>
+ * InitializeTest_Set 5.1 20171231<br>
+ * Copyright (C) 2017 Seanox Software Solutions<br>
  * All rights reserved.
  *
  * @author  Seanox Software Solutions
- * @version 5.2.0 20200516
+ * @version 5.1 20171231
  */
 @RunWith(JUnitPlatform.class)
 @SuppressWarnings("javadoc")
-public class InitializeTest_Contains {
+public class InitializeSetTest {
     
     @Test
     public void testKeyInvalid_1() {
         Assertions.assertThrows(Exception.class, () -> {
             Initialize initialize = new Initialize();
             initialize.set("", null);
-        });        
+        });  
     }
     
     @Test
@@ -52,7 +52,7 @@ public class InitializeTest_Contains {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             Initialize initialize = new Initialize();
             initialize.set(" ", null);
-        });        
+        });  
     }
 
     @Test

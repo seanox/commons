@@ -28,18 +28,18 @@ import org.junit.runner.RunWith;
 import com.seanox.test.ResourceUtils;
 
 /**
- * Test cases for {@link com.seanox.devwex.Initialize#parse(String)}.<br>
+ * Test cases for {@link com.seanox.common.Initialize#parse(String)}.<br>
  * <br>
- * InitializeTest_Parse 5.1 20171231<br>
- * Copyright (C) 2017 Seanox Software Solutions<br>
+ * InitializeTest_Parse 5.2.0 20200516<br>
+ * Copyright (C) 2020 Seanox Software Solutions<br>
  * All rights reserved.
  *
  * @author  Seanox Software Solutions
- * @version 5.1 20171231
+ * @version 5.2.0 20200516
  */
 @RunWith(JUnitPlatform.class)
 @SuppressWarnings("javadoc")
-public class InitializeTest_Parse {
+public class InitializeParseTest {
     
     @Test
     public void testAcceptance_1() {

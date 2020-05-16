@@ -26,7 +26,7 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 /**
- * Test cases for {@link com.seanox.devwex.Initialize}.<br>
+ * Test cases for {@link com.seanox.common.Initialize}.<br>
  * <br>
  * InitializeTest_Get 5.2.0 20200516<br>
  * Copyright (C) 2020 Seanox Software Solutions<br>
@@ -37,7 +37,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(JUnitPlatform.class)
 @SuppressWarnings("javadoc")
-public class InitializeTest_Get {
+public class InitializeGetTest {
     
     @Test
     public void testAcceptance_01() {

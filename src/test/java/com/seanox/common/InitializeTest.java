@@ -21,8 +21,8 @@
 package com.seanox.common;
 
 import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectClasses;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
 /**
  * TestSuite for {@link com.seanox.common.Initialize}.<br>
@@ -35,12 +35,12 @@ import org.junit.runners.Suite;
  * @version 5.2.0 20200516
  */
 @RunWith(JUnitPlatform.class)
-@Suite.SuiteClasses({
-    InitializeTest_Contains.class,
-    InitializeTest_Get.class,
-    InitializeTest_Parse.class,
-    InitializeTest_Set.class,
-    InitializeTest_ToString.class
+@SelectClasses({
+    InitializeContainsTest.class,
+    InitializeGetTest.class,
+    InitializeParseTest.class,
+    InitializeSetTest.class,
+    InitializeToStringTest.class
 })
 public class InitializeTest {
 }
