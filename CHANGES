@@ -2,7 +2,8 @@
   CR: Generator: Optimization of the code
   CR: License: Migration to Apache License, Version 2.0
   CR: Project: Migration to Maven
-  
+  CR: Project: Migration to Junit5
+    
 4.0.0 2013xxxx
   NT: Not implemented  
 
