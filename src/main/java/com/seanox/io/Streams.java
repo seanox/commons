@@ -18,7 +18,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.seanox.test;
+package com.seanox.io;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,17 +30,17 @@ import java.util.Arrays;
 /**
  * Utilities for streams.<br>
  * <br>
- * StreamUtils 1.0.0 20171212<br>
+ * Stream 1.0.0 20200517<br>
  * Copyright (C) 2020 Seanox Software Solutions<br>
  * All rights reserved.
  *
  * @author  Seanox Software Solutions
- * @version 1.0.0 20171212
+ * @version 1.0.0 20200517
  */
-public class StreamUtils {
+public class Streams {
     
-    /** Constructor, creates a new StreamUtils object. */
-    private StreamUtils() {
+    /** Constructor, creates a new Stream object. */
+    private Streams() {
     }    
 
     /**
@@ -52,7 +52,7 @@ public class StreamUtils {
      */
     public static byte[] read(InputStream input)
             throws IOException {
-        return StreamUtils.read(input, false);
+        return Streams.read(input, false);
     }
     
     /**
@@ -86,8 +86,8 @@ public class StreamUtils {
      * The methods works like the {@link InputStream#read(byte[])}.
      * @param  input  data stream from
      * @param  output data stream to
-     * @return the total number of read/forward bytes, or -1 if there is no
-     *         more data because the end of the stream has been reached
+     * @return total number of read/forward bytes, or -1 if there is no more
+     *     data because the end of the stream has been reached
      * @throws IOException
      *     If the first byte cannot be read for any reason other than the end
      *     of the stream, if the input stream has been closed, or if some other
@@ -95,7 +95,7 @@ public class StreamUtils {
      */
     public static long transmit(InputStream input, OutputStream output)
             throws IOException {
-        return StreamUtils.transmit(input, output, 0);
+        return Streams.transmit(input, output, 0);
     }
     
     /**
@@ -103,9 +103,9 @@ public class StreamUtils {
      * The methods works like the {@link InputStream#read(byte[])}.
      * @param  input  data stream from
      * @param  output data stream to
-     * @param  offset skips over and discards bytes of data from the input stream
-     * @return the total number of read/forward bytes, or -1 if there is no
-     *         more data because the end of the stream has been reached
+     * @param  offset skips a number of bytes from the input stream
+     * @return total number of read/forward bytes, or -1 if there is no more
+     *     data because the end of the stream has been reached
      * @throws IOException
      *     If the first byte cannot be read for any reason other than the end
      *     of the stream, if the input stream has been closed, or if some other
@@ -134,7 +134,7 @@ public class StreamUtils {
      */    
     public static byte[] tail(InputStream input, int length)
             throws IOException {
-        return StreamUtils.tail(input, length, false);
+        return Streams.tail(input, length, false);
     }
     
     /**
