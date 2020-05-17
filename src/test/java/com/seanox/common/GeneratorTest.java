@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.seanox.test.ResourceUtils;
+import com.seanox.test.Resources;
 import com.seanox.test.Timing;
 
 /**
@@ -49,28 +49,28 @@ public class GeneratorTest {
     @Test
     public void testAcceptance_1() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("1.txt"));
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Generator generator = Generator.parse(Resources.getCurrentTestResource("_1.txt"));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }
     
     @Test
     public void testAcceptance_2() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("1.txt"));
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Generator generator = Generator.parse(Resources.getCurrentTestResource("_1.txt"));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }
     
     @Test
     public void testAcceptance_3() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testAcceptance_0_1.txt"));
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testAcceptance_0_1.txt"));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }
     
     @Test
     public void testAcceptance_4() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testAcceptance_0_1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testAcceptance_0_1.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         String path = new String();
         for (String entry : ("/1/22/333/4444/55555").split("/")) {
@@ -79,14 +79,14 @@ public class GeneratorTest {
             values.put("name", entry);
             generator.set("path", values);
         }
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }
     
     @Test
     public void testAcceptance_5()
             throws Exception {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testAcceptance_0_1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testAcceptance_0_1.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         for (int loop = 1; loop < 7; loop++) {
@@ -101,13 +101,13 @@ public class GeneratorTest {
         }
         values.put("file", buffer.toByteArray());
         generator.set(values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }  
     
     @Test
     public void testAcceptance_8() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testAcceptance_0_2.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testAcceptance_0_2.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         String path = new String();
         for (String entry : ("/1/22/333/4444/55555").split("/")) {
@@ -116,13 +116,13 @@ public class GeneratorTest {
             values.put("name", entry);
             generator.set("path", values);
         }
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }
     
     @Test
     public void testAcceptance_9() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testAcceptance_0_3.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testAcceptance_0_3.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         String path = new String();
         for (String entry : ("/1/22/333/4444/55555").split("/")) {
@@ -131,13 +131,13 @@ public class GeneratorTest {
             values.put("name", entry);
             generator.set("path", values);
         }
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }
     
     @Test
     public void testAcceptance_A() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testAcceptance_0_3.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testAcceptance_0_3.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         String path = new String();
         for (String entry : ("1/22/333/4444/55555").split("/")) {
@@ -146,7 +146,7 @@ public class GeneratorTest {
             values.put("name", entry);
             generator.set("path", values);
         }
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }  
     
     @Test
@@ -157,7 +157,7 @@ public class GeneratorTest {
     @Test
     public void testAcceptance_C() throws Exception {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testAcceptance_0_1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testAcceptance_0_1.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         for (int loop = 1; loop < 7; loop++) {
             String charX = Character.toString((char)('A' -1 + loop));
@@ -169,13 +169,13 @@ public class GeneratorTest {
             values.put("mime", charX + "6");
             generator.set("file", values);
         }
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }    
 
     @Test
     public void testAcceptance_D() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestResource("_1.txt"));
         Hashtable<String, Object> values = new Hashtable() {{
             put("a", new Hashtable() {{
                 put("a1", "xa1");
@@ -194,13 +194,13 @@ public class GeneratorTest {
             }});
         }};
         generator.set(values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()).replaceAll("\\s+", ""));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()).replaceAll("\\s+", ""));
     }
     
     @Test
     public void testAcceptance_E() {
 
-        Generator generator = Generator.parse(ResourceUtils.getContent("1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestResource("_1.txt"));
         Hashtable<String, Object> values = new Hashtable() {{
             put("row", new ArrayList() {{
                 add(new Hashtable() {{
@@ -235,7 +235,7 @@ public class GeneratorTest {
             }});
         }};
         generator.set("table", values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }  
     
     @Test
@@ -265,7 +265,7 @@ public class GeneratorTest {
     @Test
     public void testPerformance_1() throws Exception {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testAcceptance_0_1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testAcceptance_0_1.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("name", "A");
         values.put("date", "B");
@@ -287,7 +287,7 @@ public class GeneratorTest {
     @Test
     public void testPerformance_2() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testAcceptance_0_1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testAcceptance_0_1.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("name", "A");
         values.put("date", "B");
@@ -306,29 +306,29 @@ public class GeneratorTest {
     @Test
     public void testRecursion_1() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testRecursion_0_1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testRecursion_0_1.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("teST", "xx1");
         generator.set("path", values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }   
     
     @Test
     public void testRecursion_2() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testRecursion_0_1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testRecursion_0_1.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("teST", "xx1");
         generator.set("path", values);
         values.put("teST", "xx2");
         generator.set("path", values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }   
     
     @Test
     public void testRecursion_3() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testRecursion_0_1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testRecursion_0_1.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("teST", "xx1");
         generator.set("path", values);
@@ -340,13 +340,13 @@ public class GeneratorTest {
         generator.set("path", values);
         values.put("teST", "xx5");
         generator.set("path", values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }    
     
     @Test
     public void testRecursion_4() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testRecursion_0_2.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testRecursion_0_2.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("teST", "xx1");
         generator.set("path", values);
@@ -358,26 +358,26 @@ public class GeneratorTest {
         generator.set("path", values);
         values.put("teST", "xx5");
         generator.set("path", values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }    
 
     @Test
     public void testRecursion_5() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testRecursion_0_3.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testRecursion_0_3.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("bv", "bv-ok");
         values.put("cv", "cv-ok");
         values.put("dv", "dv-ok");
         values.put("b1v", "b1v-ok");
         generator.set("a", values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     } 
     
     @Test
     public void testRecursion_6() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testRecursion_0_3.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testRecursion_0_3.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("bv", "bv-ok");
         values.put("cv", "cv-ok");
@@ -385,13 +385,13 @@ public class GeneratorTest {
         values.put("b1v", "b1v-ok");
         generator.set("a", values);
         generator.set("b", values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     } 
     
     @Test
     public void testRecursion_7() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testRecursion_0_3.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testRecursion_0_3.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("bv", "bv-ok");
         values.put("cv", "cv-ok");
@@ -400,13 +400,13 @@ public class GeneratorTest {
         generator.set("a", values);
         generator.set("b", values);
         generator.set("c", values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }
     
     @Test
     public void testRecursion_8() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testRecursion_0_3.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testRecursion_0_3.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("bv", "bv-ok");
         values.put("cv", "cv-ok");
@@ -416,13 +416,13 @@ public class GeneratorTest {
         generator.set("b", values);
         generator.set("c", values);
         generator.set("d", values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }     
 
     @Test
     public void testRecursion_9() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testRecursion_0_3.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testRecursion_0_3.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("bv", "bv-ok");
         values.put("cv", "cv-ok");
@@ -432,13 +432,13 @@ public class GeneratorTest {
         generator.set("c", values);
         generator.set("b", values);
         generator.set("a", values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }
     
     @Test
     public void testRecursion_A() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("testRecursion_0_3.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testRecursion_0_3.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("bv", "bv-ok");
         values.put("cv", "cv-ok");
@@ -449,19 +449,19 @@ public class GeneratorTest {
         values.put("c", values);
         values.put("d", values);
         generator.set(values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     } 
 
     @Test
     public void testRecursion_B() {
         
-        Generator generator = Generator.parse(ResourceUtils.getContent("1.txt"));
+        Generator generator = Generator.parse(Resources.getCurrentTestResource("_1.txt"));
         Hashtable<String, Object> values = new Hashtable<>();
         values.put("a", "xa");
         values.put("b", "xb");
         values.put("c", "xc");
         generator.set(values);
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), new String(generator.extract()));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     } 
     
     @Test

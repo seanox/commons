@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.seanox.test.ResourceUtils;
+import com.seanox.test.Resources;
 
 /**
  * Test cases for {@link com.seanox.common.Initialize}.<br>
@@ -44,28 +44,28 @@ public class InitializeToStringTest {
     @Test
     public void testAcceptance_1() {
         
-        Initialize initialize = Initialize.parse(ResourceUtils.getContentPlain("1.txt"));
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), initialize.toString());
+        Initialize initialize = Initialize.parse(Resources.getCurrentTestResourcePlain("_1.txt"));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), initialize.toString());
     }
     
     @Test
     public void testAcceptance_2() {
         
-        Initialize initialize = Initialize.parse(ResourceUtils.getContentPlain("1.txt"));
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), initialize.toString());
+        Initialize initialize = Initialize.parse(Resources.getCurrentTestResourcePlain("_1.txt"));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), initialize.toString());
     }
     
     @Test
     public void testAcceptance_3() {
         
-        Initialize initialize = Initialize.parse(ResourceUtils.getContentPlain("1.txt"));
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), initialize.toString());
+        Initialize initialize = Initialize.parse(Resources.getCurrentTestResourcePlain("_1.txt"));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), initialize.toString());
     }
     
     @Test
     public void testAcceptance_4() {
         
-        Initialize initialize = Initialize.parse(ResourceUtils.getContentPlain("1.txt"));
-        Assertions.assertEquals(ResourceUtils.getContentPlain("2.txt"), initialize.toString());
+        Initialize initialize = Initialize.parse(Resources.getCurrentTestResourcePlain("_1.txt"));
+        Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), initialize.toString());
     }
 }
