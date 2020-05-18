@@ -30,7 +30,7 @@ import com.seanox.test.Resources;
 /**
  * Test cases for {@link com.seanox.common.Initialize#parse(String)}.<br>
  * <br>
- * InitializeTest_Parse 5.2.0 20200516<br>
+ * InitializeParseTest 5.2.0 20200516<br>
  * Copyright (C) 2020 Seanox Software Solutions<br>
  * All rights reserved.
  *

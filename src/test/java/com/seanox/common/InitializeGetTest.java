@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 /**
  * Test cases for {@link com.seanox.common.Initialize}.<br>
  * <br>
- * InitializeTest_Get 5.2.0 20200516<br>
+ * InitializeGetTest 5.2.0 20200516<br>
  * Copyright (C) 2020 Seanox Software Solutions<br>
  * All rights reserved.
  *

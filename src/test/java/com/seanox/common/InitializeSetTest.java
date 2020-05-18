@@ -28,12 +28,12 @@ import org.junit.runner.RunWith;
 /**
  * Test cases for {@link com.seanox.common.Initialize#set(String, Section)}.<br>
  * <br>
- * InitializeTest_Set 5.1 20171231<br>
- * Copyright (C) 2017 Seanox Software Solutions<br>
+ * InitializeSetTest 5.2.0 20200516<br>
+ * Copyright (C) 2020 Seanox Software Solutions<br>
  * All rights reserved.
  *
  * @author  Seanox Software Solutions
- * @version 5.1 20171231
+ * @version 5.2.0 20200516
  */
 @RunWith(JUnitPlatform.class)
 @SuppressWarnings("javadoc")
