@@ -22,8 +22,12 @@ package com.seanox.common;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
+import java.util.TreeMap;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
@@ -97,9 +101,9 @@ public class GeneratorTest {
             values.put("size", charX + "4");
             values.put("type", charX + "5");
             values.put("mime", charX + "6");
-            buffer.write(generator.extract("file", values));
+            buffer.write(generator.extract("files", values));
         }
-        values.put("file", buffer.toByteArray());
+        values.put("files", buffer.toByteArray());
         generator.set(values);
         Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }  
@@ -167,7 +171,7 @@ public class GeneratorTest {
             values.put("size", charX + "4");
             values.put("type", charX + "5");
             values.put("mime", charX + "6");
-            generator.set("file", values);
+            generator.set("files", values);
         }
         Assertions.assertEquals(Resources.getCurrentTestResourcePlain("_2.txt"), new String(generator.extract()));
     }    
@@ -263,6 +267,18 @@ public class GeneratorTest {
     }    
     
     @Test
+    public void testAcceptance_I() {
+
+        String template = "#[x]#[X]";
+        Generator generator = Generator.parse(template.getBytes());
+        Map<String, Object> values = new TreeMap<>();
+        values.put("X", "1");
+        values.put("x", "2");
+        generator.set(values);
+        Assert.assertEquals("22", new String(generator.extract()));
+    }
+    
+    @Test
     public void testPerformance_1() throws Exception {
         
         Generator generator = Generator.parse(Resources.getCurrentTestClassResource("testAcceptance_0_1.txt"));
@@ -276,10 +292,10 @@ public class GeneratorTest {
         Timing timing = Timing.create(true);
         for (long loop = 1; loop < 25000; loop++) {
             values.put("case", "X" + loop);
-            buffer.write(generator.extract("file", values));
+            buffer.write(generator.extract("files", values));
         }
-        values.put("file", buffer.toByteArray());
-        generator.set("file", values);
+        values.put("files", buffer.toByteArray());
+        generator.set("files", values);
         generator.extract();
         timing.assertTimeIn(5750);
     } 
@@ -297,7 +313,7 @@ public class GeneratorTest {
         Timing timing = Timing.create(true);
         for (long loop = 1; loop < 2500; loop++) {
             values.put("case", "X" + loop);
-            generator.set("file", values);
+            generator.set("files", values);
         }
         generator.extract();
         timing.assertTimeIn(2500);

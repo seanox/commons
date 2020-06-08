@@ -1,4 +1,5 @@
 5.0.0 2020xxxx
+  BF: Generator: Correction of errors due to duplicate map entries
   CR: Generator: Optimization of the code
   CR: License: Migration to Apache License, Version 2.0
   CR: Project: Migration to Maven

@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
 /**
  * Generator, generates data by filling placeholders (tags) in a template/model.
  * A value list with keys is passed to the template. If the keys correspond to
- * the placeholders (upper/lower case is ignored), the placeholders are replaced
- * by the values.<br>
+ * the placeholders (case insensitive), the placeholders are replaced by the
+ * values.<br>
  * <br>
  * The generator worked at byte level.<br>
  * Values are therefore expected to be prim&auml;r as byte arrays. All other
@@ -54,8 +54,8 @@ import java.util.stream.Collectors;
  * repetitive and recursive structures.
  *
  * <h3>Description of the syntax</h3>
- * The syntax of the placeholders ignores upper and lower case and is limited to
- * the following characters:
+ * The syntax of the placeholders is case-insensitive, must begin with a letter
+ * and is limited to the following characters:
  *     <dir>{@code a-z A-Z 0-9 _-}</dir>
  *      
  * <h3>Structure and description of the placeholders</h3>
@@ -355,7 +355,10 @@ public class Generator {
         if (values == null)
             values = new HashMap<>();
         values = values.entrySet().stream().collect(
-                Collectors.toMap(entry -> entry.getKey().toLowerCase().trim(), entry -> entry.getValue()));
+                Collectors.toMap(
+                        (entry) -> entry.getKey().toLowerCase().trim(),
+                        (entry) -> entry.getValue(),
+                        (existing, value) -> value));
         
         //Optionally the scope is determined.
         if (scope != null) {
